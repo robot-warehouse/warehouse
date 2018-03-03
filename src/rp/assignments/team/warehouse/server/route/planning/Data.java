@@ -1,3 +1,5 @@
+package rp.assignments.team.warehouse.server.route.planning;
+
 import java.util.ArrayList;
 
 public class Data {

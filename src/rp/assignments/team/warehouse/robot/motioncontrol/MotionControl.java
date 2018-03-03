@@ -1,6 +1,5 @@
-package RobotMotionControl;
+package rp.assignments.team.warehouse.robot.motioncontrol;
 
-import RobotMotionControl.LineFollow;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;

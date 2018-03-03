@@ -1,4 +1,4 @@
-package RobotMotionControl;
+package rp.assignments.team.warehouse.robot.motioncontrol;
 
 import java.util.List;
 import java.util.ListIterator;

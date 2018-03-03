@@ -1,3 +1,5 @@
+package rp.assignments.team.warehouse.server.managementinterface;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

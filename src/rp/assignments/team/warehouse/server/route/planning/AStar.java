@@ -1,3 +1,5 @@
+package rp.assignments.team.warehouse.server.route.planning;
+
 import java.util.ArrayList;
 
 public class AStar {
@@ -106,7 +108,7 @@ public class AStar {
 		// System.out.println("heyy");
 		AStar demo = new AStar(start, goal);
 		demo.findPath();
-		// System.out.println(contains(Data.obstacle, goal));
+		// System.out.println(contains(rp.assignments.team.warehouse.server.route.planning.Data.obstacle, goal));
 
 	}
 

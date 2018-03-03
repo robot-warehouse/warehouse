@@ -1,3 +1,5 @@
+package rp.assignments.team.warehouse.server.route.planning;
+
 import java.util.ArrayList;
 
 public class State {
@@ -74,7 +76,7 @@ public class State {
 			neighbours.add(n2);
 		}
 
-//		State n3 = new State(getX(current) - 1, getY(current) - 1);
+//		rp.assignments.team.warehouse.server.route.planning.State n3 = new rp.assignments.team.warehouse.server.route.planning.State(getX(current) - 1, getY(current) - 1);
 //		if (getX(n3) >= xMin && getX(n3) <= xMax && getY(n3) >= yMin && getY(n3) <= yMax) {
 //			n3.calculateG(current, start);
 //			n3.calculateH(current, goal);
@@ -83,7 +85,7 @@ public class State {
 //			neighbours.add(n3);
 //		}
 
-//		State n4 = new State(getX(current) - 1, getY(current) + 1);
+//		rp.assignments.team.warehouse.server.route.planning.State n4 = new rp.assignments.team.warehouse.server.route.planning.State(getX(current) - 1, getY(current) + 1);
 //		if (getX(n4) >= xMin && getX(n4) <= xMax && getY(n4) >= yMin && getY(n4) <= yMax) {
 //			n4.calculateG(current, start);
 //			n4.calculateH(current, goal);
@@ -110,7 +112,7 @@ public class State {
 			neighbours.add(n6);
 		}
 
-//		State n7 = new State(getX(current) + 1, getY(current) - 1);
+//		rp.assignments.team.warehouse.server.route.planning.State n7 = new rp.assignments.team.warehouse.server.route.planning.State(getX(current) + 1, getY(current) - 1);
 //		if (getX(n7) >= xMin && getX(n7) <= xMax && getY(n7) >= yMin && getY(n7) <= yMax) {
 //			n7.calculateG(current, start);
 //			n7.calculateH(current, goal);
@@ -119,7 +121,7 @@ public class State {
 //			neighbours.add(n7);
 //		}
 //
-//		State n8 = new State(getX(current) + 1, getY(current) + 1);
+//		rp.assignments.team.warehouse.server.route.planning.State n8 = new rp.assignments.team.warehouse.server.route.planning.State(getX(current) + 1, getY(current) + 1);
 //		if (getX(n8) >= xMin && getX(n8) <= xMax && getY(n8) >= yMin && getY(n8) <= yMax) {
 //			n8.calculateG(current, start);
 //			n8.calculateH(current, goal);
