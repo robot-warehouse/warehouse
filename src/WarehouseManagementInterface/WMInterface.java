@@ -69,7 +69,7 @@ public class WMInterface {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNewButton_1.setBounds(346, 401, 141, 25);
+		btnNewButton_1.setBounds(346, 401, 148, 25);
 		frame.getContentPane().add(btnNewButton_1);
 		
 		JButton exitButton = new JButton("Exit");
