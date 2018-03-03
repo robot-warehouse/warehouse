@@ -1,5 +1,6 @@
 package rp.assignments.team.warehouse.robot.motioncontrol;
 
+import rp.assignments.team.warehouse.robot.motioncontrol.LineFollow;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;

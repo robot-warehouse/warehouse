@@ -1,8 +1,8 @@
 package rp.assignments.team.warehouse.robot.motioncontrol;
 
+import rp.assignments.team.warehouse.robot.motioncontrol.Path;
 import java.util.List;
 import java.util.ListIterator;
-
 import rp.systems.RobotProgrammingDemo;
 import rp.util.Rate;
 import lejos.nxt.*;
@@ -19,6 +19,9 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	private final int Kd = 0;
 	private int offset = 34;
 	private int targetPower = 50;
+	private int integral = 0;
+	private int derivative = 0;
+	private int lastError = 0;
 	private int lightValue;
 	private int errorSignal;
 	private int turnValue;
@@ -30,7 +33,6 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 	private ListIterator<Integer> listIterate;
 	private Rate rate;
 
-	
 	public LineFollow(DifferentialPilot DP, SensorPort port1, SensorPort port2, SensorPort port3) {
 		this.DP = DP;
 		light1 = new LightSensor(port1);
@@ -123,15 +125,20 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 			
 				lightValue = light2.readValue();
 				System.out.println("VALUE: " + lightValue);
-				errorSignal = lightValue - offset;
 				
-				turnValue = Kp * errorSignal;
+				errorSignal = lightValue - offset;
+				integral =+ errorSignal;
+				derivative = errorSignal - lastError;
+				
+				turnValue = (Kp * errorSignal) + (Ki * integral) + (Kd * derivative);
 				
 				powerA = targetPower - turnValue;
 				powerB = targetPower + turnValue;
 				
 				setPowerA(powerA);
 				setPowerB(powerB);
+				
+				lastError = errorSignal;
 				
 				Boolean check = junctionReached();
 				
@@ -147,11 +154,12 @@ public class LineFollow extends RobotProgrammingDemo implements SensorPortListen
 					
 					else {
 						currentAction = 3;
+						getAction(currentAction);
 					}
 				}
 				
 				else {
-					errorSignal = 0;
+					
 				}
 			}
 		}
