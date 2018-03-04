@@ -1,0 +1,1 @@
+rm -rf docs && javadoc -subpackages rp.assignments.team.warehouse -sourcepath src -classpath bin -d docs $1
