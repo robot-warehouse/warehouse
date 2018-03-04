@@ -69,6 +69,7 @@ public class WMInterface {
 		JButton btnNewButton_1 = new JButton("Cancel Current Job");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// TODO
 			}
 		});
 		btnNewButton_1.setBounds(346, 401, 148, 25);
@@ -105,6 +106,7 @@ public class WMInterface {
 		JButton btnNewButton_3 = new JButton("Disconnect a Robot");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			    // TODO
 			}
 		});
 		btnNewButton_3.setBounds(69, 401, 157, 25);
