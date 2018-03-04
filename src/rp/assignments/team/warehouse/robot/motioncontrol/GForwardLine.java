@@ -1,3 +1,5 @@
+package rp.assignments.team.warehouse.robot.motioncontrol;
+
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.robotics.navigation.DifferentialPilot;

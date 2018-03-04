@@ -1,3 +1,5 @@
+package rp.assignments.team.warehouse.robot.motioncontrol;
+
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.robotics.navigation.DifferentialPilot;
@@ -22,6 +24,7 @@ public class GUserConjunct implements Behavior {
 
 	protected LightSensor lightSensor1;
 	protected LightSensor lightSensor2;
+	protected LightSensor lightSensor3;
 
 	protected final double MAXSPEED;
 
@@ -33,6 +36,7 @@ public class GUserConjunct implements Behavior {
 		pilot.setTravelSpeed(MAXSPEED * 0.5);
 		lightSensor1 = new LightSensor(SensorPort.S1);
 		lightSensor2 = new LightSensor(SensorPort.S4);
+		lightSensor3 = new LightSensor(SensorPort.S2);
 		this.average = average;
 		this.path = q;
 	}
@@ -40,7 +44,7 @@ public class GUserConjunct implements Behavior {
 	@Override
 	public boolean takeControl() {
 
-		if (lightSensor1.getNormalizedLightValue() <= average && lightSensor2.getNormalizedLightValue() <= average || (lightSensor1.getNormalizedLightValue() <= average&& lightSensor2.getNormalizedLightValue() >= average +29) || (lightSensor2.getNormalizedLightValue() <= average&& lightSensor1.getNormalizedLightValue() >= average +29) ) {
+		if ((lightSensor1.getNormalizedLightValue() <= average && lightSensor2.getNormalizedLightValue() <= average && lightSensor3.getNormalizedLightValue() <= average)){
 			return true;
 		}
 
