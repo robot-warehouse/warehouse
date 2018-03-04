@@ -29,10 +29,16 @@ public class Importer {
 	private boolean doneParsing;
 
 	/**
-	 * @param jobs
-	 * @param cancellations
-	 * @param locations
-	 * @param items
+	 * @param jobsFile
+	 *            The file to import the jobs from.
+	 * @param cancellationsFile
+	 *            The file to import the cancellation history from.
+	 * @param locationsFile
+	 *            The file to import the item locations from.
+	 * @param itemsFile
+	 *            The file to import the items from.
+	 * @param dropsFile
+	 *            The file to import the drop locations from.
 	 */
 	public Importer(File jobsFile, File cancellationsFile, File locationsFile, File itemsFile, File dropsFile) {
 		assert jobsFile.exists() : "jobs file must exist";

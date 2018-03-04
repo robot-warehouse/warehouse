@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Item implements IIDed, IRewardable {
 
-	/** The number of places {@link #stringToId(String)} should output */
+	/** The number of places {@link #numericIdToString(int)} should output */
 	public static final int PAD_TO = 2;
 
 	private final int id;
@@ -52,8 +52,8 @@ public class Item implements IIDed, IRewardable {
 
 	/**
 	 * Convert a string id into a numeric.
-	 * 
-	 * @param string
+	 *
+	 * @param id
 	 *            The string id.
 	 * @return The numeric equivalent.
 	 */
@@ -82,9 +82,9 @@ public class Item implements IIDed, IRewardable {
 
 	/**
 	 * Convert a numeric id to a string.
-	 * 
+	 *
 	 * @see #PAD_TO
-	 * @param numeric
+	 * @param id
 	 *            The numeric id.
 	 * @return The string equivalent.
 	 */
@@ -94,7 +94,7 @@ public class Item implements IIDed, IRewardable {
 
 	/**
 	 * Convert a numeric id to a string.
-	 * 
+	 *
 	 * @param id
 	 *            The numeric id
 	 * @param padTo
@@ -129,7 +129,7 @@ public class Item implements IIDed, IRewardable {
 
 	/**
 	 * Get the reward for dropping of one of this item.
-	 * 
+	 *
 	 * @return the reward
 	 */
 	public float getReward() {
@@ -138,7 +138,7 @@ public class Item implements IIDed, IRewardable {
 
 	/**
 	 * Get the weight of this item.
-	 * 
+	 *
 	 * @return the weight
 	 */
 	public float getWeight() {
@@ -147,7 +147,7 @@ public class Item implements IIDed, IRewardable {
 
 	/**
 	 * Get the location of where this item is picked from.
-	 * 
+	 *
 	 * @return the location
 	 */
 	public Location getLocation() {
@@ -156,7 +156,7 @@ public class Item implements IIDed, IRewardable {
 
 	/**
 	 * Indicates if another item is equal to this one.
-	 * 
+	 *
 	 * @param other
 	 *            The item to compare with.
 	 * @return true if the other is the same item.

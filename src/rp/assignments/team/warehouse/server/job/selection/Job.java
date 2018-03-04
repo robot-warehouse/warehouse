@@ -16,7 +16,9 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 
 	/**
 	 * @param id
+	 *            The job id.
 	 * @param jobItems
+	 *            List of job items.
 	 */
 	public Job(int id, List<JobItem> jobItems) {
 		this.id = id;
@@ -29,21 +31,21 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	}
 
 	/**
-	 * @return the id
+	 * @return The job id.
 	 */
 	public int getId() {
 		return this.id;
 	}
 
 	/**
-	 * @return the job items
+	 * @return The job items.
 	 */
 	public List<JobItem> getJobItems() {
 		return this.jobItems;
 	}
 
 	/**
-	 * @return whether the job been previously cancelled
+	 * @return True if the job has been previously cancelled.
 	 */
 	public boolean isPreviouslyCancelled() {
 		return this.previouslyCancelled;
@@ -58,40 +60,49 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	}
 
 	/**
-	 * @return the number of picks to complete the job
+	 * Get the number of individual picks to complete the job. This sums the count
+	 * for each job item.
+	 *
+	 * @return The number of picks.
 	 */
 	public int getPickCount() {
 		return this.pickCount;
 	}
 
-	public static int calcPickCount(Job j) {
+	private static int calcPickCount(Job j) {
 		return j.jobItems.stream().mapToInt(x -> x.getCount()).sum();
 	}
 
 	/**
-	 * @return the total reward of all the job items
+	 * Get the total reward earned by fully completing the job.
+	 *
+	 * @return The total reward
 	 */
 	public float getReward() {
 		return this.reward;
 	}
 
-	public static float calcReward(Job j) {
+	private static float calcReward(Job j) {
 		return (float) j.jobItems.stream().mapToDouble(x -> (double) x.getReward()).sum();
 	}
 
 	/**
-	 * @return the priority of the job
+	 * Get the job priority.
+	 *
+	 * @return The job priority.
 	 */
 	public float getPriority() {
 		return this.priority;
 	}
 
-	public static float calcPriority(Job j) {
+	private static float calcPriority(Job j) {
 		return j.getReward();
 	}
 
 	/**
-	 * @return the total reward of all the items
+	 * Get the average reward per item.
+	 *
+	 * @return The average reward per item.
 	 */
 	private float getAverageReward() {
 		return this.averageReward;

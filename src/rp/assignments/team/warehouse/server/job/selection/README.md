@@ -10,7 +10,9 @@ File jobsFile = new File(path + "/jobs.csv");
 Importer importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
 importer.parse();
 
-List<Jobs> jobs = importer.getJobs();
+List<Job> jobs = importer.getJobs();
+Set<Location> drops = importer.getDrops();
+List<Item> items = importer.getItems();
 ```
 
 ### `ISelector<E>`
@@ -24,6 +26,18 @@ ISelector<Job> selector = new JobSelector(jobs);
 // ...
 Job nextJob = selector.next();
 ```
+
+### `Location`
+Stores an (x, y) coordinate of the warehouse.
+
+### `Item`
+Stores an item id, reward, weight and references a pickup location.
+
+### `JobItem`
+References an item and stores how many of the item are required to complete the job
+
+### `Job`
+Stores a job id, a list of job items and whether the job has been previously cancelled.
 
 ## Input CSV Files
 
