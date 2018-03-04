@@ -50,11 +50,11 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	}
 
 	/**
-	 * @param cancelled
-	 *            True if the job has been previously cancelled.
+	 * Mark the job as having been previously cancelled. Note that once called this
+	 * action cannot be undone.
 	 */
-	public void setPreviouslyCancelled(boolean previouslyCancelled) {
-		this.previouslyCancelled = previouslyCancelled;
+	public void setPreviouslyCancelled() {
+		this.previouslyCancelled = true;
 	}
 
 	/**

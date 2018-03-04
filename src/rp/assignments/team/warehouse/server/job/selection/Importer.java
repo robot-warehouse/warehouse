@@ -180,7 +180,9 @@ public class Importer {
 			Job job = this.jobs.get(id);
 
 			if (job != null) {
-				job.setPreviouslyCancelled(cancelled);
+				if (cancelled) {
+					job.setPreviouslyCancelled();
+				}
 			} else {
 				trace(String.format("cancellations file referenced unknown job id %d", id));
 			}
