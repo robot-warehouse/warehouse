@@ -1,5 +1,6 @@
 package rp.assignments.team.warehouse.server.job;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,9 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	private final float reward;
 	private final float averageReward;
 	private final float priority;
+
+	private List<Pick> availablePicks;
+	private int completedPickCount;
 
 	/**
 	 * @param id
@@ -28,6 +32,8 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 		this.reward = calcReward(this);
 		this.averageReward = calcAverageReward(this);
 		this.priority = calcPriority(this);
+		this.availablePicks = generatePicks();
+		this.completedPickCount = 0;
 	}
 
 	/**
@@ -57,6 +63,35 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	 */
 	public void setPreviouslyCancelled() {
 		this.previouslyCancelled = true;
+	}
+
+	/**
+	 * Notify that a pick was completed. Should only be called by the pick.
+	 * 
+	 * @param pick
+	 *            The pick calling this method.
+	 */
+	public void pickCompleted(Pick pick) {
+		assert pick != null;
+		assert pick.isCompleted();
+		
+		if (!this.availablePicks.contains(pick)) {
+			throw new IllegalArgumentException("Completed pick must belong to the job and not already be completed.");
+		}
+
+		this.completedPickCount++;
+	}
+
+	/**
+	 * Check if the job has been completed.
+	 *
+	 * @return True if all picks for the job have been completed.
+	 */
+	public boolean isComplete() {
+		assert this.completedPickCount >= 0;
+		assert this.completedPickCount <= this.pickCount;
+
+		return this.completedPickCount == this.pickCount;
 	}
 
 	/**
@@ -110,6 +145,23 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 
 	private static float calcAverageReward(Job j) {
 		return j.reward / j.pickCount;
+	}
+
+	/**
+	 * Generate a list of picks for this job.
+	 * 
+	 * @return The list of picks.
+	 */
+	private List<Pick> generatePicks() {
+		List<Pick> picks = new ArrayList<Pick>(this.pickCount);
+
+		for (JobItem ji : this.jobItems) {
+			for (int i = 0; i < ji.getCount(); i++) {
+				picks.add(new Pick(this, ji.getItem()));
+			}
+		}
+
+		return picks;
 	}
 
 	@Override

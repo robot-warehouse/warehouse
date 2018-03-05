@@ -1,5 +1,8 @@
 package rp.assignments.team.warehouse.server.job;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JobItem {
 
 	private final Item item;
