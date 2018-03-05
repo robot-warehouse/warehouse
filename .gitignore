@@ -169,11 +169,13 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/macos,windows,eclipse,intellij+iml
 
+## VS Code ##
+.vscode/
+
 ## LEJOS ##
 
 *.nxd
 *.nxj
-
 
 ## Javadoc ##
 docs/
