@@ -1,5 +1,7 @@
 package rp.assignments.team.warehouse.server.job;
 
+import rp.assignments.team.warehouse.server.Location;
+
 public class Pick {
 
 	private final Job job;

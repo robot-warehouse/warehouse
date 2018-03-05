@@ -1,6 +1,12 @@
-package rp.assignments.team.warehouse.server.job;
+package rp.assignments.team.warehouse.server;
 
 public class Location {
+
+    public final static int xMin = 0;
+    public final static int xMax = 11;
+    public final static int yMin = 0;
+    public final static int yMax = 7;
+
 	private final int x;
 	private final int y;
 
@@ -37,6 +43,15 @@ public class Location {
 	public boolean equals(Location other) {
 		return other != null && other.getX() == this.x && other.getY() == this.y;
 	}
+
+    /**
+     * Checks if the location is a valid one in the warehouse
+     *
+     * @return
+     */
+	public boolean isValidLocation() {
+        return getX() >= xMin && getX() <= xMax && getY() >= yMin && getY() <= yMax;
+    }
 
 	@Override
 	public String toString() {
