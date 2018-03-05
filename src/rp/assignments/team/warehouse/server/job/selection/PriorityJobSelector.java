@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class JobSelector implements ISelector<Job> {
+public class PriorityJobSelector implements ISelector<Job> {
 
 	private Queue<Job> jobs;
 
@@ -12,7 +12,7 @@ public class JobSelector implements ISelector<Job> {
 	 * @param jobs
 	 *            A list of the jobs to be available for selection.
 	 */
-	public JobSelector(List<Job> jobs) {
+	public PriorityJobSelector(List<Job> jobs) {
 		jobs.sort(new CompareByPriorityComparator(false));
 		Queue<Job> queue = new LinkedList<Job>(jobs);
 		this.jobs = queue;

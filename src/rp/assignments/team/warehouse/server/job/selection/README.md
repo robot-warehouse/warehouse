@@ -19,10 +19,11 @@ List<Item> items = importer.getItems();
 
 Used for selelecting the next highest priority item from a list.
 
-`JobSelector` implements `ISelector<Job>`.
+All job selectors implement `ISelector<Job>`.
+* `PriorityJobSelector` uses a queue to assign the next highest priority job
 
 ```java
-ISelector<Job> selector = new JobSelector(jobs);
+ISelector<Job> selector = new PriorityJobSelector(jobs);
 // ...
 Job nextJob = selector.next();
 ```

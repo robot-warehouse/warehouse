@@ -35,7 +35,7 @@ public class SelectorTest {
 			List<Job> jobs = importer.getJobs();
 			List<Item> items = importer.getItems();
 
-			ISelector<Job> selector = new JobSelector(jobs);
+			ISelector<Job> selector = new PriorityJobSelector(jobs);
 
 			Collections.sort(jobs, new CompareByPriorityComparator(false));
 		} catch (Exception e) {
