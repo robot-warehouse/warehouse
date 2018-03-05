@@ -25,6 +25,8 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	 *            List of job items.
 	 */
 	public Job(int id, List<JobItem> jobItems) {
+		assert id >= 0;
+
 		this.id = id;
 		this.jobItems = jobItems;
 		this.previouslyCancelled = false;
@@ -74,7 +76,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	public void pickCompleted(Pick pick) {
 		assert pick != null;
 		assert pick.isCompleted();
-		
+
 		if (!this.availablePicks.contains(pick)) {
 			throw new IllegalArgumentException("Completed pick must belong to the job and not already be completed.");
 		}
