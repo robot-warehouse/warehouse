@@ -1,13 +1,14 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AStar {
 
 	private State start;
 	private State goal;
 	private State current;
-	private ArrayList<State> result = new ArrayList<>();
+	public static ArrayList<State> result = new ArrayList<>();
 
 	public AStar(State start, State goal) {
 		this.start = start;
@@ -46,11 +47,11 @@ public class AStar {
 			closed.add(current);
 
 			if (current.check(current, goal)) {
-				System.out.println(current.toString());
+			//	System.out.println(current.toString());
 				// System.out.println(current.getParent().toString());
-				path = getPath(current, start);
-				for (State each : result)
-					System.out.println(each.toString());
+				result = getPath(current, start);
+//				for (State each : result)
+//					System.out.println(each.toString());
 				return;
 			}
 
@@ -80,6 +81,7 @@ public class AStar {
 			// System.out.println(node.getParent().toString());
 			node = node.getParent();
 		}
+		Collections.reverse(result);
 		return result;
 	}
 
@@ -102,14 +104,13 @@ public class AStar {
 	}
 
 	public static void main(String[] args) {
-		Data.addObstacle();
-		State start = new State(0, 0);
-		State goal = new State(9, 7);
-		// System.out.println("heyy");
-		AStar demo = new AStar(start, goal);
-		demo.findPath();
+//		Data.addObstacle();
+//		State start = new State(0, 0);
+//		State goal = new State(9, 7);
+//		// System.out.println("heyy");
+//		AStar demo = new AStar(start, goal);
+//		demo.findPath();
 		// System.out.println(contains(rp.assignments.team.warehouse.server.route.planning.Data.obstacle, goal));
-
 	}
 
 }
