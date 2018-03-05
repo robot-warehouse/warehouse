@@ -1,12 +1,14 @@
 package rp.assignments.team.warehouse.server;
 
 import rp.assignments.team.warehouse.server.job.Job;
-import rp.assignments.team.warehouse.server.job.Location;
 import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.assignment.Bidder;
 import rp.assignments.team.warehouse.server.job.assignment.Picker;
+import rp.assignments.team.warehouse.server.route.planning.AStar;
 
-public class Robot implements Picker, Bidder {
+import java.util.ArrayList;
+
+public class Robot extends Thread implements Picker, Bidder {
 
 	private String name;
 	private Location location;
@@ -34,7 +36,7 @@ public class Robot implements Picker, Bidder {
 		return currentPick.getJob();
 	}
 
-	public String getName() {
+	public String getRobotName() {
 		return name;
 	}
 
@@ -56,4 +58,9 @@ public class Robot implements Picker, Bidder {
 		return 0;
 	}
 
+	public void run() {
+
+		// TODO what are we running here
+		ArrayList<rp.assignments.team.warehouse.server.route.planning.State> instructions = AStar.findPath(location, currentPick.getPickLocation());
+	}
 }

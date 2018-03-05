@@ -19,12 +19,12 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	private int completedPickCount;
 
 	/**
-	 * @param id
-	 *            The job id.
-	 * @param jobItems
-	 *            List of job items.
+	 * @param id The job id.
+	 * @param jobItems List of job items.
 	 */
 	public Job(int id, List<JobItem> jobItems) {
+		assert id >= 0;
+
 		this.id = id;
 		this.jobItems = jobItems;
 		this.previouslyCancelled = false;
@@ -68,13 +68,12 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	/**
 	 * Notify that a pick was completed. Should only be called by the pick.
 	 * 
-	 * @param pick
-	 *            The pick calling this method.
+	 * @param pick The pick calling this method.
 	 */
 	public void pickCompleted(Pick pick) {
 		assert pick != null;
 		assert pick.isCompleted();
-		
+
 		if (!this.availablePicks.contains(pick)) {
 			throw new IllegalArgumentException("Completed pick must belong to the job and not already be completed.");
 		}

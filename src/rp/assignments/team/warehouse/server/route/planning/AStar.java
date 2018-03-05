@@ -93,7 +93,9 @@ public class AStar {
 		
 		for (int i = 0; i < list.size(); i++) {
 			State each = list.get(i);
+			// System.out.println(each.getX() + "+" + each.getY());
 			if (s.check(each, s)) {
+				// System.out.println(s.check(each, s));
 				return true;
 			}
 		}

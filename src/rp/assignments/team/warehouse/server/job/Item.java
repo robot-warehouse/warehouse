@@ -1,5 +1,7 @@
 package rp.assignments.team.warehouse.server.job;
 
+import rp.assignments.team.warehouse.server.Location;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,14 +17,10 @@ public class Item implements IIDed, IRewardable {
 	private final Location location;
 
 	/**
-	 * @param id
-	 *            The id of the item.
-	 * @param reward
-	 *            The reward for dropping off one of the item.
-	 * @param weight
-	 *            The weight of the item.
-	 * @param location
-	 *            The location the item is picked from.
+	 * @param id The id of the item.
+	 * @param reward The reward for dropping off one of the item.
+	 * @param weight The weight of the item.
+	 * @param location The location the item is picked from.
 	 */
 	public Item(int id, float reward, float weight, Location location) {
 		assert id >= 0;
@@ -37,14 +35,10 @@ public class Item implements IIDed, IRewardable {
 	}
 
 	/**
-	 * @param id
-	 *            The id of the item.
-	 * @param reward
-	 *            The reward for dropping off one of the item.
-	 * @param weight
-	 *            The weight of the item.
-	 * @param location
-	 *            The location the item is picked from.
+	 * @param id The id of the item.
+	 * @param reward The reward for dropping off one of the item.
+	 * @param weight The weight of the item.
+	 * @param location The location the item is picked from.
 	 */
 	public Item(String id, float reward, float weight, Location location) {
 		this(parseId(id), reward, weight, location);
@@ -53,8 +47,7 @@ public class Item implements IIDed, IRewardable {
 	/**
 	 * Convert a string id into a numeric.
 	 *
-	 * @param id
-	 *            The string id.
+	 * @param id The string id.
 	 * @return The numeric equivalent.
 	 */
 	public static int parseId(String id) {
@@ -84,8 +77,7 @@ public class Item implements IIDed, IRewardable {
 	 * Convert a numeric id to a string.
 	 *
 	 * @see #PAD_TO
-	 * @param id
-	 *            The numeric id.
+	 * @param id The numeric id.
 	 * @return The string equivalent.
 	 */
 	public static String numericIdToString(int id) {
@@ -95,11 +87,9 @@ public class Item implements IIDed, IRewardable {
 	/**
 	 * Convert a numeric id to a string.
 	 *
-	 * @param id
-	 *            The numeric id
-	 * @param padTo
-	 *            The minimum length of the output string (will be front-padded with
-	 *            "a"s)
+	 * @param id The numeric id
+	 * @param padTo The minimum length of the output string (will be front-padded
+	 *        with "a"s)
 	 * @return The string equivalent.
 	 */
 	public static String numericIdToString(int id, int padTo) {
@@ -157,8 +147,7 @@ public class Item implements IIDed, IRewardable {
 	/**
 	 * Indicates if another item is equal to this one.
 	 *
-	 * @param other
-	 *            The item to compare with.
+	 * @param other The item to compare with.
 	 * @return true if the other is the same item.
 	 */
 	public boolean equals(Item other) {

@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.job.*;
 
 public class Importer {
@@ -94,6 +96,11 @@ public class Importer {
 			int x = Integer.parseInt(m.group(1));
 			int y = Integer.parseInt(m.group(2));
 			int id = Item.parseId(m.group(3));
+
+			if (!Location.isValidLocation(x, y)) {
+				trace(String.format("Invalid coordinates in locations file (%d, %d)", x, y));
+				continue;
+			}
 
 			Location l = new Location(x, y);
 
