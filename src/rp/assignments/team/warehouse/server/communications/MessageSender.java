@@ -23,10 +23,15 @@ public class MessageSender {
 		//send a command to give new information
 		toRobot.writeUTF(Command.SEND_ORDERS.toString());
 		//send each command one by one
-		for(Integer order : orders) {
-			toRobot.writeInt(order);
-		}
 		
+		for(Integer order : orders) {
+			toRobot.writeUTF(order.toString());
+			System.out.println(order.toString());
+			toRobot.flush();
+		}
+		toRobot.writeUTF("-1");
+		toRobot.flush();
+				
 	}
 	
 	public void sendCancellation() throws IOException {

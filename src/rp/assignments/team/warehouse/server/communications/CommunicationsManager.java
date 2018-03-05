@@ -1,6 +1,7 @@
 package rp.assignments.team.warehouse.server.communications;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class CommunicationsManager {
 			sender.sendOrders(orders);
 		}
 		catch(IOException e) {
-			//send message to interface that sending failed?
+			e.printStackTrace();
 		}
 		
 	}

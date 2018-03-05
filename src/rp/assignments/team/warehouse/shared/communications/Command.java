@@ -25,4 +25,14 @@ public enum Command {
 	 * End of current sequence of messages
 	 */
 	END;
+	
+	public static Command strToCommand(String s) throws NullPointerException, IllegalArgumentException {
+		for(Command c : Command.values()) {
+			if(c.toString().equals(s)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException("Not a value of this enum");
+		
+	}
 }
