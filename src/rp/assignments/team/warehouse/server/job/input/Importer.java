@@ -97,6 +97,11 @@ public class Importer {
 			int y = Integer.parseInt(m.group(2));
 			int id = Item.parseId(m.group(3));
 
+			if (!Location.isValidLocation(x, y)) {
+				trace(String.format("Invalid coordinates in locations file (%d, %d)", x, y));
+				continue;
+			}
+
 			Location l = new Location(x, y);
 
 			if (!this.locations.containsKey(id)) {

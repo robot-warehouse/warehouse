@@ -2,15 +2,21 @@ package rp.assignments.team.warehouse.server;
 
 public class Location {
 
-    public final static int xMin = 0;
-    public final static int xMax = 11;
-    public final static int yMin = 0;
-    public final static int yMax = 7;
+	public static final int MIN_X = 0;
+	public static final int MAX_X = 11;
+	public static final int MIN_Y = 0;
+	public static final int MAX_Y = 7;
 
 	private final int x;
 	private final int y;
 
+	/**
+	 * @param x The x coordinate.
+	 * @param y The y coordinate.
+	 */
 	public Location(int x, int y) {
+		assert isValidLocation(x, y);
+
 		this.x = x;
 		this.y = y;
 	}
@@ -18,40 +24,41 @@ public class Location {
 	/**
 	 * Get the x coordinate.
 	 *
-	 * @return the x
+	 * @return The x coordinate.
 	 */
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	/**
 	 * Get the y coordinate.
 	 *
-	 * @return the y
+	 * @return The y coordinate.
 	 */
 	public int getY() {
-		return y;
+		return this.y;
 	}
 
 	/**
 	 * Indicates if another location is equal to this one.
 	 *
-	 * @param other
-	 *            The location to compare with
-	 * @return true if other is the same location
+	 * @param other The location to compare with.
+	 * @return True if other is the same location.
 	 */
 	public boolean equals(Location other) {
 		return other != null && other.getX() == this.x && other.getY() == this.y;
 	}
 
-    /**
-     * Checks if the location is a valid one in the warehouse
-     *
-     * @return
-     */
-	public boolean isValidLocation() {
-        return getX() >= xMin && getX() <= xMax && getY() >= yMin && getY() <= yMax;
-    }
+	/**
+	 * Checks if the given x and y coordinates are valid in the warehouse.
+	 *
+	 * @param x The x coordinate to check.
+	 * @param y The y coordinate to check.
+	 * @return True if the coordinates are valid.
+	 */
+	public static boolean isValidLocation(int x, int y) {
+		return x >= MIN_X && x <= MAX_X && y >= MIN_X && y <= MAX_Y;
+	}
 
 	@Override
 	public String toString() {
