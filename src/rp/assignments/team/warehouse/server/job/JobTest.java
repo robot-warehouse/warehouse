@@ -1,10 +1,18 @@
-package rp.assignments.team.warehouse.server.job.selection;
+package rp.assignments.team.warehouse.server.job;
 
 import java.io.File;
-import java.util.Collections;
+import java.util.Set;
 import java.util.List;
+import java.util.Collections;
+import rp.assignments.team.warehouse.server.job.Job;
+import rp.assignments.team.warehouse.server.job.Item;
+import rp.assignments.team.warehouse.server.job.Location;
+import rp.assignments.team.warehouse.server.job.input.Importer;
+import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
+import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
+import rp.assignments.team.warehouse.server.job.selection.CompareByPriorityComparator;
 
-public class SelectorTest {
+public class JobTest {
 
 	public static void main(String[] args) {
 		String set = "sample";
@@ -34,8 +42,9 @@ public class SelectorTest {
 
 			List<Job> jobs = importer.getJobs();
 			List<Item> items = importer.getItems();
+			Set<Location> drops = importer.getDrops();
 
-			ISelector<Job> selector = new PriorityJobSelector(jobs);
+			IJobSelector selector = new PriorityJobSelector(jobs);
 
 			Collections.sort(jobs, new CompareByPriorityComparator(false));
 		} catch (Exception e) {

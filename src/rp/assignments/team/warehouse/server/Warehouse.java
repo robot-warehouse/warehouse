@@ -1,6 +1,6 @@
 package rp.assignments.team.warehouse.server;
 
-import rp.assignments.team.warehouse.server.job.selection.Location;
+import rp.assignments.team.warehouse.server.job.Location;
 
 import java.util.ArrayList;
 import java.util.Map;

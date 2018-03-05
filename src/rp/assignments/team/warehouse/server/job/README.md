@@ -15,15 +15,15 @@ Set<Location> drops = importer.getDrops();
 List<Item> items = importer.getItems();
 ```
 
-### `ISelector<E>`
+### `IJobSelector`
 
 Used for selelecting the next highest priority item from a list.
 
-All job selectors implement `ISelector<Job>`.
-* `PriorityJobSelector` uses a queue to assign the next highest priority job
+All job selectors implement `IJobSelector`.
+* `PriorityJobSelector` uses a queue to select the next highest priority job
 
 ```java
-ISelector<Job> selector = new PriorityJobSelector(jobs);
+IJobSelector selector = new PriorityJobSelector(jobs);
 // ...
 Job nextJob = selector.next();
 ```

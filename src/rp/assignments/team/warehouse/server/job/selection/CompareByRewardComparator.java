@@ -1,8 +1,9 @@
 package rp.assignments.team.warehouse.server.job.selection;
 
 import java.util.Comparator;
+import rp.assignments.team.warehouse.server.job.IRewardable;
 
-class CompareByRewardComparator implements Comparator<IRewardable> {
+public class CompareByRewardComparator implements Comparator<IRewardable> {
 	private boolean ascending;
 
 	public CompareByRewardComparator() {

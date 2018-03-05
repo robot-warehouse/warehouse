@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.server.job.selection;
+package rp.assignments.team.warehouse.server.job.input;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import rp.assignments.team.warehouse.server.job.*;
 
 public class Importer {
 	private File jobsFile;

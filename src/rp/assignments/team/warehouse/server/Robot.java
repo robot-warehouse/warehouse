@@ -1,7 +1,7 @@
 package rp.assignments.team.warehouse.server;
 
-import rp.assignments.team.warehouse.server.job.selection.Job;
-import rp.assignments.team.warehouse.server.job.selection.Location;
+import rp.assignments.team.warehouse.server.job.Job;
+import rp.assignments.team.warehouse.server.job.Location;
 
 public class Robot {
 

@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.server.job.selection;
+package rp.assignments.team.warehouse.server.job;
 
 import java.util.ArrayList;
 import java.util.Collections;

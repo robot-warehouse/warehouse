@@ -3,8 +3,9 @@ package rp.assignments.team.warehouse.server.job.selection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import rp.assignments.team.warehouse.server.job.Job;
 
-public class PriorityJobSelector implements ISelector<Job> {
+public class PriorityJobSelector implements IJobSelector {
 
 	private Queue<Job> jobs;
 
