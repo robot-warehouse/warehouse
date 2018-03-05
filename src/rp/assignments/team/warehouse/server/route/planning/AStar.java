@@ -8,13 +8,13 @@ public class AStar {
 	private State start;
 	private State goal;
 	private State current;
-	public static ArrayList<State> result = new ArrayList<>();
+	public static ArrayList<State> result = new ArrayList<>(); //stores the path
 
 	public AStar(State start, State goal) {
 		this.start = start;
 		this.goal = goal;
 	}
-
+	//Finds the node with the smallest f value ( f=g+h )
 	public State findSmallestF(ArrayList<State> nodes) {
 		State result = nodes.get(0);
 		for (int i = 0; i < nodes.size() - 1; i++) {
@@ -26,16 +26,19 @@ public class AStar {
 	}
 
 	public void findPath() {
-		ArrayList<State> open = new ArrayList<>();
-		ArrayList<State> closed = new ArrayList<>();
-		ArrayList<State> neighbours;
-		ArrayList<State> path;
-		boolean check = validate(start, goal);
-		// System.out.println(check);
-		if (!check) {
-			//System.out.println("I work");
-			return;
-		}
+		//Stores nodes available for visiting.
+				ArrayList<State> open = new ArrayList<>();
+				//Stores already visited nodes
+				ArrayList<State> closed = new ArrayList<>();
+				//Stores the neighbouring nodes of the current node.
+				ArrayList<State> neighbours;
+				
+				//Ensures that both the start node and goal node are in the grid.
+				boolean check = validate(start, goal);
+				//Return if either the start node or the goal node are invalid.
+				if (!check) {
+					return;
+				}
 
 		while (true) {
 			if (open.size() == 0) {
@@ -45,26 +48,27 @@ public class AStar {
 
 			open.remove(current);
 			closed.add(current);
-
+			//If the current node is the goal node we need to stop.
 			if (current.check(current, goal)) {
-			//	System.out.println(current.toString());
-				// System.out.println(current.getParent().toString());
+			
 				result = getPath(current, start);
-//				for (State each : result)
-//					System.out.println(each.toString());
+				for (State each : result)
+					System.out.println(each.toString());
 				return;
 			}
-
+			//Get all (at most four) neighbours of the current node. 
 			neighbours = current.getNeighbour(current, start, goal);
 
 			for (State node1 : neighbours) {
+				//If any neighbour is an obstacle or if it has already been visited, move to the next node. 
 				if (contains(Data.obstacle, node1) || contains(closed, node1))
 					continue;
+				//If the node is not in the open list or if the g value is lesser than the current g value
 				if (!contains(open, node1) || start.getDistance(node1) < node1.getG()) {
-					node1.setF();
-					node1.setParent(current);
+					node1.setF();//set the f value
+					node1.setParent(current);//set the current node as it's parent
 					if (!contains(open, node1))
-						open.add(node1);
+						open.add(node1);//add the node to the open list
 				}
 
 			}
@@ -72,7 +76,7 @@ public class AStar {
 		}
 
 	}
-
+	//after we reach the goal node, we get the path to that node by traveling back to the starting node by traversing to each parent.
 	public ArrayList<State> getPath(State current, State start) {
 		State node = current;
 		result.add(current);
@@ -84,14 +88,12 @@ public class AStar {
 		Collections.reverse(result);
 		return result;
 	}
-
+	//checks if a node is in the arraylist only by considering its x-y coordinates and not f, g, h values
 	public static boolean contains(ArrayList<State> list, State s) {
-		// System.out.println(list.size());
+		
 		for (int i = 0; i < list.size(); i++) {
 			State each = list.get(i);
-			// System.out.println(each.getX() + "+" + each.getY());
 			if (s.check(each, s)) {
-				// System.out.println(s.check(each, s));
 				return true;
 			}
 		}
@@ -104,13 +106,13 @@ public class AStar {
 	}
 
 	public static void main(String[] args) {
-//		Data.addObstacle();
-//		State start = new State(0, 0);
-//		State goal = new State(9, 7);
-//		// System.out.println("heyy");
-//		AStar demo = new AStar(start, goal);
-//		demo.findPath();
-		// System.out.println(contains(rp.assignments.team.warehouse.server.route.planning.Data.obstacle, goal));
+		Data.addObstacle();
+		State start = new State(0, 0);
+		State goal = new State(9, 7);
+		//check if the start and goal nodes are within the grid and are not an obstacle.
+		AStar demo = new AStar(start, goal);
+		demo.findPath();
+		
 	}
 
 }
