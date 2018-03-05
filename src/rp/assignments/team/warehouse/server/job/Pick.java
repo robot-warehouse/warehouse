@@ -9,10 +9,8 @@ public class Pick {
 	private boolean completed;
 
 	/**
-	 * @param job
-	 *            The job the pick is for.
-	 * @param item
-	 *            The item to pick.
+	 * @param job The job the pick is for.
+	 * @param item The item to pick.
 	 */
 	public Pick(Job job, Item item) {
 		assert job != null;
@@ -31,7 +29,7 @@ public class Pick {
 	public Job getJob() {
 		return this.job;
 	}
-	
+
 	/**
 	 * Get the item to pick.
 	 * 

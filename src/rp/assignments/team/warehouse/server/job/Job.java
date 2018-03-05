@@ -19,10 +19,8 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	private int completedPickCount;
 
 	/**
-	 * @param id
-	 *            The job id.
-	 * @param jobItems
-	 *            List of job items.
+	 * @param id The job id.
+	 * @param jobItems List of job items.
 	 */
 	public Job(int id, List<JobItem> jobItems) {
 		assert id >= 0;
@@ -70,8 +68,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 	/**
 	 * Notify that a pick was completed. Should only be called by the pick.
 	 * 
-	 * @param pick
-	 *            The pick calling this method.
+	 * @param pick The pick calling this method.
 	 */
 	public void pickCompleted(Pick pick) {
 		assert pick != null;
