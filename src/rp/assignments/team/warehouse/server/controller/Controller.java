@@ -1,12 +1,12 @@
 package rp.assignments.team.warehouse.server.controller;
 
+import java.io.File;
+import java.util.Map;
+
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.Warehouse;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
-
-import java.io.File;
-import java.util.Map;
 
 // TODO
 public class Controller {

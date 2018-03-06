@@ -1,11 +1,11 @@
 package rp.assignments.team.warehouse.server.job.assignment;
 
-import rp.assignments.team.warehouse.server.job.Pick;
-
 import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import rp.assignments.team.warehouse.server.job.Pick;
 
 public class AuctionPickAssigner implements IPickAssigner {
 
@@ -21,8 +21,8 @@ public class AuctionPickAssigner implements IPickAssigner {
     @Override
     public void next() {
         if (hasNext()) {
-            Set<Bidder> availableBidders = this.bidders.stream().filter(x -> x.isAvailable()).collect(Collectors
-                    .toCollection(HashSet::new));
+            Set<Bidder> availableBidders = this.bidders.stream().filter(x -> x.isAvailable())
+                    .collect(Collectors.toCollection(HashSet::new));
 
             if (availableBidders.size() > 0) {
                 Pick pick = this.picks.peek();

@@ -1,18 +1,23 @@
 package rp.assignments.team.warehouse.server.job.input;
 
-import rp.assignments.team.warehouse.server.Location;
-import rp.assignments.team.warehouse.server.job.Item;
-import rp.assignments.team.warehouse.server.job.Job;
-import rp.assignments.team.warehouse.server.job.JobItem;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.job.Item;
+import rp.assignments.team.warehouse.server.job.Job;
+import rp.assignments.team.warehouse.server.job.JobItem;
 
 public class Importer {
 
@@ -30,11 +35,11 @@ public class Importer {
     private boolean doneParsing;
 
     /**
-     * @param jobsFile          The file to import the jobs from.
+     * @param jobsFile The file to import the jobs from.
      * @param cancellationsFile The file to import the cancellation history from.
-     * @param locationsFile     The file to import the item locations from.
-     * @param itemsFile         The file to import the items from.
-     * @param dropsFile         The file to import the drop locations from.
+     * @param locationsFile The file to import the item locations from.
+     * @param itemsFile The file to import the items from.
+     * @param dropsFile The file to import the drop locations from.
      */
     public Importer(File jobsFile, File cancellationsFile, File locationsFile, File itemsFile, File dropsFile) {
         assert jobsFile.exists() : "jobs file must exist";
@@ -59,10 +64,10 @@ public class Importer {
      */
     public void parse() throws IOException {
         try (BufferedReader jobsReader = new BufferedReader(new FileReader(jobsFile));
-             BufferedReader cancellationsReader = new BufferedReader(new FileReader(cancellationsFile));
-             BufferedReader locationsReader = new BufferedReader(new FileReader(locationsFile));
-             BufferedReader itemsReader = new BufferedReader(new FileReader(itemsFile));
-             BufferedReader dropsReader = new BufferedReader(new FileReader(dropsFile))) {
+                BufferedReader cancellationsReader = new BufferedReader(new FileReader(cancellationsFile));
+                BufferedReader locationsReader = new BufferedReader(new FileReader(locationsFile));
+                BufferedReader itemsReader = new BufferedReader(new FileReader(itemsFile));
+                BufferedReader dropsReader = new BufferedReader(new FileReader(dropsFile))) {
             this.parseLocations(locationsReader);
             this.parseItems(itemsReader);
             this.parseJobs(jobsReader);
@@ -83,7 +88,9 @@ public class Importer {
         String line;
         while ((line = locationsReader.readLine()) != null) {
             Matcher m = locationPattern.matcher(line);
-            if (isInvalidLine("locations", line, m)) { continue; }
+            if (isInvalidLine("locations", line, m)) {
+                continue;
+            }
 
             int x = Integer.parseInt(m.group(1));
             int y = Integer.parseInt(m.group(2));
@@ -113,7 +120,9 @@ public class Importer {
         String line;
         while ((line = itemsReader.readLine()) != null) {
             Matcher m = itemPattern.matcher(line);
-            if (isInvalidLine("items", line, m)) { continue; }
+            if (isInvalidLine("items", line, m)) {
+                continue;
+            }
 
             String idString = m.group(1);
             int id = Item.parseId(idString);
@@ -144,7 +153,9 @@ public class Importer {
         while ((line = jobsReader.readLine()) != null) {
             Matcher m = jobPattern.matcher(line);
 
-            if (isInvalidLine("jobs", line, m)) { continue; }
+            if (isInvalidLine("jobs", line, m)) {
+                continue;
+            }
 
             int id = Integer.parseInt(m.group(1));
             String[] parts = line.split(",");
@@ -176,7 +187,9 @@ public class Importer {
         String line;
         while ((line = cancellationsReader.readLine()) != null) {
             Matcher m = cancellationsPattern.matcher(line);
-            if (isInvalidLine("cancellations", line, m)) { continue; }
+            if (isInvalidLine("cancellations", line, m)) {
+                continue;
+            }
 
             int id = Integer.parseInt(m.group(1));
             boolean cancelled = Integer.parseInt(m.group(1)) == 1;
@@ -200,7 +213,9 @@ public class Importer {
         String line;
         while ((line = dropsReader.readLine()) != null) {
             Matcher m = dropPattern.matcher(line);
-            if (isInvalidLine("drops", line, m)) { continue; }
+            if (isInvalidLine("drops", line, m)) {
+                continue;
+            }
 
             int x = Integer.parseInt(m.group(1));
             int y = Integer.parseInt(m.group(2));
@@ -253,6 +268,7 @@ public class Importer {
         // System.out.println("trace: " + x);
     }
 
+    @Override
     public String toString() {
         return String.format("jobs: %s\nlocations: %s\nitems: %s",
                 this.jobs.values().stream().map(Job::toString).collect(Collectors.joining(", ")),

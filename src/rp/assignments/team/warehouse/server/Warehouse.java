@@ -1,12 +1,11 @@
 package rp.assignments.team.warehouse.server;
 
-import rp.assignments.team.warehouse.server.job.Job;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+
+import rp.assignments.team.warehouse.server.job.Job;
 
 // TODO what else is warehouse class going to hold?
 public class Warehouse {

@@ -1,15 +1,15 @@
 package rp.assignments.team.warehouse.test.route;
 
-import org.junit.Assert;
-import org.junit.Test;
-import rp.assignments.team.warehouse.server.Location;
-import rp.assignments.team.warehouse.server.route.planning.AStar;
-import rp.assignments.team.warehouse.server.route.planning.State;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.Test;
+
+import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.route.planning.AStar;
+import rp.assignments.team.warehouse.server.route.planning.State;
 
 public class RoutePlanningTest {
 
@@ -75,7 +75,7 @@ public class RoutePlanningTest {
 
     @Test
     public void startPosIsObstacleTest() {
-        //check if an obstacle is rejected as starting position
+        // check if an obstacle is rejected as starting position
         ArrayList<Location> result5;
         Location start5 = new Location(1, 2);
         Location goal5 = new Location(0, 5);
@@ -85,7 +85,7 @@ public class RoutePlanningTest {
 
     @Test
     public void goalPosIsObstacleTest() {
-        //check if an obstacle is rejected as goal position
+        // check if an obstacle is rejected as goal position
         ArrayList<Location> result6;
         Location start6 = new Location(0, 0);
         Location goal6 = new Location(1, 2);

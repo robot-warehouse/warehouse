@@ -1,9 +1,9 @@
 package rp.assignments.team.warehouse.server.route.execution;
 
+import java.util.ArrayList;
+
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
-
-import java.util.ArrayList;
 
 public class RouteExecution {
 
@@ -35,7 +35,9 @@ public class RouteExecution {
         Location goal = new Location(3, 2);
         pathForReading = AStar.findPath(start, goal);
 
-        for (Location x : pathForReading) { System.out.println(x.toString()); }
+        for (Location x : pathForReading) {
+            System.out.println(x.toString());
+        }
         for (int i : movementCommands) {
             System.out.println(i);
         }
@@ -72,7 +74,7 @@ public class RouteExecution {
                     }
                 }
 
-            } else if (direction == 6) { //NorthToSouth
+            } else if (direction == 6) { // NorthToSouth
                 if (now.getX() == next.getX()) {
                     if (now.getY() == next.getY() - 1) {
                         // backward
@@ -101,7 +103,7 @@ public class RouteExecution {
                     }
                 }
 
-            } else if (direction == 4) { //EasttoWest
+            } else if (direction == 4) { // EasttoWest
                 if (now.getX() == next.getX()) {
                     if (now.getY() == next.getY() - 1) {
                         // right
@@ -127,7 +129,7 @@ public class RouteExecution {
                     }
                 }
 
-            } else if (direction == 7) { //SouthToNorth
+            } else if (direction == 7) { // SouthToNorth
                 if (now.getX() == next.getX()) {
                     if (now.getY() == next.getY() - 1) {
                         // forward

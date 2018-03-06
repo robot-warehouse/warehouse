@@ -1,10 +1,11 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
-import org.apache.log4j.Logger;
-import rp.assignments.team.warehouse.server.Location;
-
 import java.util.ArrayList;
 import java.util.Collections;
+
+import org.apache.log4j.Logger;
+
+import rp.assignments.team.warehouse.server.Location;
 
 public class AStar {
 
@@ -19,8 +20,7 @@ public class AStar {
         State goalState = new State(goal);
 
         // Return if either the start node or the goal node are invalid.
-        if (Data.obstacles.contains(startState) || Data.obstacles.contains(goalState)
-                || !startState.isValidLocation()
+        if (Data.obstacles.contains(startState) || Data.obstacles.contains(goalState) || !startState.isValidLocation()
                 || !goalState.isValidLocation()) {
             logger.fatal("Terminating because of an invalid node");
             return null;
@@ -85,8 +85,8 @@ public class AStar {
     }
 
     /**
-     * After we reach the goal node, we get the path to that node by traveling back to the starting node by traversing
-     * to each parent.
+     * After we reach the goal node, we get the path to that node by traveling back
+     * to the starting node by traversing to each parent.
      *
      * @param current
      * @param start
