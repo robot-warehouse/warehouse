@@ -28,18 +28,18 @@ public class MessageReceiver extends Thread {
             try {
                 Command command = Command.strToCommand((fromRobot.readUTF()));
                 switch (command) {
-                case SEND_POSITION:
-                    int x = Integer.valueOf(fromRobot.readUTF()); // get x
-                    int y = Integer.valueOf(fromRobot.readUTF()); // get y
-                    rp.assignments.team.warehouse.server.route.planning.State currState = new rp.assignments.team.warehouse.server.route.planning.State(
-                            x, y);
-                    logger.info("Received " + currState + " from robot.");
-                    locations.add(currState);
-                    break;
-                // add more commands to switch on if neccessary
-                default:
-                    logger.warn("Robot set unrecognised command");
-                    break;
+                    case SEND_POSITION:
+                        int x = Integer.valueOf(fromRobot.readUTF()); // get x
+                        int y = Integer.valueOf(fromRobot.readUTF()); // get y
+                        rp.assignments.team.warehouse.server.route.planning.State currState = new rp.assignments.team.warehouse.server.route.planning.State(
+                                x, y);
+                        logger.info("Received " + currState + " from robot.");
+                        locations.add(currState);
+                        break;
+                    // add more commands to switch on if neccessary
+                    default:
+                        logger.warn("Robot set unrecognised command");
+                        break;
                 }
 
             } catch (IOException e) {

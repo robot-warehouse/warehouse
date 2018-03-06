@@ -52,16 +52,16 @@ public class MessageSender extends Thread {
                 Command command = commands.take();
                 logger.info("Received command " + command.toString());
                 switch (command) {
-                case SEND_ORDERS:
-                    this.sendOrders();
-                    break;
-                case CANCEL:
-                    this.sendCancellation();
+                    case SEND_ORDERS:
+                        this.sendOrders();
+                        break;
+                    case CANCEL:
+                        this.sendCancellation();
 
-                    break;
-                default:
-                    logger.warn("Unrecognised command send to MessageSender");
-                    break;
+                        break;
+                    default:
+                        logger.warn("Unrecognised command send to MessageSender");
+                        break;
                 }
             } catch (IOException e) {
                 logger.fatal("Robot connection unexpectedly terminated.");

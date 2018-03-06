@@ -17,15 +17,15 @@ public class JobTest {
         String set = "sample";
         if (args.length > 0) {
             switch (args[0]) {
-            case "example":
-                set = "sample";
-                break;
-            case "mock":
-                set = "mock";
-                break;
-            case "sample":
-                set = "sample";
-                break;
+                case "example":
+                    set = "sample";
+                    break;
+                case "mock":
+                    set = "mock";
+                    break;
+                case "sample":
+                    set = "sample";
+                    break;
             }
         }
 
