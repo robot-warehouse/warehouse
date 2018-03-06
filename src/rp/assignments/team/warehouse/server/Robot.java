@@ -62,6 +62,6 @@ public class Robot extends Thread implements Picker, Bidder {
 	public void run() {
 
 		// TODO what are we running here
-		ArrayList<rp.assignments.team.warehouse.server.route.planning.State> instructions = AStar.findPath(location, currentPick.getPickLocation());
+		ArrayList<Location> instructions = AStar.findPath(location, currentPick.getPickLocation());
 	}
 }

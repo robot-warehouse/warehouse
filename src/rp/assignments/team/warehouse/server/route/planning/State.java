@@ -4,56 +4,51 @@ import rp.assignments.team.warehouse.server.Location;
 
 import java.util.ArrayList;
 
-public class State extends Location{
+public class State extends Location {
 
     private float totalWeight;
     private float distanceFromStart;
-	private float heuristic;
+    private float heuristic;
 
-	private State parent;
+    private State parent;
 
     /**
-     *
      * @param x
      * @param y
      */
-	public State(int x, int y) {
-		super(x, y);
-	}
+    public State(int x, int y) {
+        super(x, y);
+    }
 
     /**
-     *
      * @param location
      */
-	State(Location location) {
-	    super(location.getX(), location.getY());
+    State(Location location) {
+        super(location.getX(), location.getY());
+    }
+
+    /**
+     * @return
+     */
+    public float getDistanceFromStart() {
+        return this.distanceFromStart;
+    }
+
+    /**
+     * @return
+     */
+    public float getTotalWeight() {
+        return this.totalWeight;
     }
 
     /**
      *
-     * @return
      */
-	public float getDistanceFromStart() {
-		return this.distanceFromStart;
-	}
-
-    /**
-     *
-     * @return
-     */
-	public float getTotalWeight() {
-	    return this.totalWeight;
+    public void setTotalWeight() {
+        this.totalWeight = this.getDistanceFromStart() + this.getHeuristic();
     }
 
     /**
-     *
-     */
-	public void setTotalWeight() {
-		this.totalWeight = this.getDistanceFromStart() + this.getHeuristic();
-	}
-
-    /**
-     *
      * @return
      */
     public State getParent() {
@@ -61,7 +56,6 @@ public class State extends Location{
     }
 
     /**
-     *
      * @param parent
      */
     public void setParent(State parent) {
@@ -69,30 +63,29 @@ public class State extends Location{
     }
 
     /**
-     *
-     *
      * @param start
      * @param goal
      * @return
      */
-	public ArrayList<State> getNeighbours(State start, State goal) {
-		ArrayList<State> neighbours = new ArrayList<>();
+    public ArrayList<State> getNeighbours(State start, State goal) {
+        ArrayList<State> neighbours = new ArrayList<>();
 
-		
-		if (isValidLocation(getX() + 1, getY())) {
-			State neighbourEast = new State(getX() + 1, getY());
-		    neighbourEast.calculateTotalWeight(start, goal);
+
+        if (isValidLocation(getX() + 1, getY())) {
+            State neighbourEast = new State(getX() + 1, getY());
+            neighbourEast.calculateTotalWeight(start, goal);
             neighbours.add(neighbourEast);
-		}
+        }
 
-		
-		if (isValidLocation(getX() - 1, getY())) {
-			State neighbourWest = new State(getX() - 1, getY());
-			neighbourWest.calculateTotalWeight(start, goal);
-			neighbours.add(neighbourWest);
-		}
 
-//		rp.assignments.team.warehouse.server.route.planning.State n3 = new rp.assignments.team.warehouse.server.route.planning.State(getX(current) - 1, getY(current) - 1);
+        if (isValidLocation(getX() - 1, getY())) {
+            State neighbourWest = new State(getX() - 1, getY());
+            neighbourWest.calculateTotalWeight(start, goal);
+            neighbours.add(neighbourWest);
+        }
+
+//		rp.assignments.team.warehouse.server.route.planning.State n3 = new rp.assignments.team.warehouse.server.route
+// .planning.State(getX(current) - 1, getY(current) - 1);
 //		if (getX(n3) >= xMin && getX(n3) <= xMax && getY(n3) >= yMin && getY(n3) <= yMax) {
 //			n3.calculateG(current, start);
 //			n3.calculateH(current, goal);
@@ -101,7 +94,8 @@ public class State extends Location{
 //			neighbours.add(n3);
 //		}
 
-//		rp.assignments.team.warehouse.server.route.planning.State n4 = new rp.assignments.team.warehouse.server.route.planning.State(getX(current) - 1, getY(current) + 1);
+//		rp.assignments.team.warehouse.server.route.planning.State n4 = new rp.assignments.team.warehouse.server.route
+// .planning.State(getX(current) - 1, getY(current) + 1);
 //		if (getX(n4) >= xMin && getX(n4) <= xMax && getY(n4) >= yMin && getY(n4) <= yMax) {
 //			n4.calculateG(current, start);
 //			n4.calculateH(current, goal);
@@ -110,21 +104,22 @@ public class State extends Location{
 //			neighbours.add(n4);
 //		}
 
-		
-		if (isValidLocation(getX(), getY() - 1)) {
-			State neighbourSouth = new State(getX(), getY() - 1);
-			neighbourSouth.calculateTotalWeight(start, goal);
-			neighbours.add(neighbourSouth);
-		}
 
-		
-		if (isValidLocation(getX(), getY() + 1)) {
-			State neighbourNorth = new State(getX(), getY() + 1);
+        if (isValidLocation(getX(), getY() - 1)) {
+            State neighbourSouth = new State(getX(), getY() - 1);
+            neighbourSouth.calculateTotalWeight(start, goal);
+            neighbours.add(neighbourSouth);
+        }
+
+
+        if (isValidLocation(getX(), getY() + 1)) {
+            State neighbourNorth = new State(getX(), getY() + 1);
             neighbourNorth.calculateTotalWeight(start, goal);
-			neighbours.add(neighbourNorth);
-		}
+            neighbours.add(neighbourNorth);
+        }
 
-//		rp.assignments.team.warehouse.server.route.planning.State n7 = new rp.assignments.team.warehouse.server.route.planning.State(getX(current) + 1, getY(current) - 1);
+//		rp.assignments.team.warehouse.server.route.planning.State n7 = new rp.assignments.team.warehouse.server.route
+// .planning.State(getX(current) + 1, getY(current) - 1);
 //		if (getX(n7) >= xMin && getX(n7) <= xMax && getY(n7) >= yMin && getY(n7) <= yMax) {
 //			n7.calculateG(current, start);
 //			n7.calculateH(current, goal);
@@ -133,7 +128,8 @@ public class State extends Location{
 //			neighbours.add(n7);
 //		}
 //
-//		rp.assignments.team.warehouse.server.route.planning.State n8 = new rp.assignments.team.warehouse.server.route.planning.State(getX(current) + 1, getY(current) + 1);
+//		rp.assignments.team.warehouse.server.route.planning.State n8 = new rp.assignments.team.warehouse.server.route
+// .planning.State(getX(current) + 1, getY(current) + 1);
 //		if (getX(n8) >= xMin && getX(n8) <= xMax && getY(n8) >= yMin && getY(n8) <= yMax) {
 //			n8.calculateG(current, start);
 //			n8.calculateH(current, goal);
@@ -142,22 +138,18 @@ public class State extends Location{
 //			neighbours.add(n8);
 //		}
 
-		return neighbours;
-	}
+        return neighbours;
+    }
 
     /**
-     *
-     *
      * @param next
      * @return
      */
-	public float getDistance(State next) {
-		return (float) Math.sqrt((getX() - next.getX() ^ 2) + (getY() - next.getY() ^ 2));
-	}
+    public float getDistance(State next) {
+        return (float) Math.sqrt((getX() - next.getX() ^ 2) + (getY() - next.getY() ^ 2));
+    }
 
     /**
-     *
-     *
      * @param object
      * @return
      */
@@ -165,15 +157,13 @@ public class State extends Location{
     public boolean equals(Object object) {
         if (object instanceof State) {
             State state = (State) object;
-            return (getX() == state.getX() && getY()== state.getY());
+            return (getX() == state.getX() && getY() == state.getY());
         }
 
         return false;
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -184,8 +174,6 @@ public class State extends Location{
     }
 
     /**
-     *
-     *
      * @return
      */
     boolean isValidLocation() {
@@ -193,8 +181,6 @@ public class State extends Location{
     }
 
     /**
-     *
-     *
      * @return
      */
     private float getHeuristic() {
@@ -202,8 +188,6 @@ public class State extends Location{
     }
 
     /**
-     *
-     *
      * @param start
      */
     private void calculateG(State start) {
@@ -211,8 +195,6 @@ public class State extends Location{
     }
 
     /**
-     *
-     *
      * @param goal
      */
     private void calculateH(State goal) {
@@ -220,8 +202,6 @@ public class State extends Location{
     }
 
     /**
-     *
-     *
      * @param start
      * @param goal
      */
