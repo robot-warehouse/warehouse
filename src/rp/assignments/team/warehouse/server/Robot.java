@@ -14,6 +14,7 @@ public class Robot extends Thread implements Picker, Bidder {
 	private Location location;
 	private Pick currentPick;
 
+	// TODO have hotswappable search algorithm
 	public Robot(String name, Location location) {
 		this.name = name;
 		this.location = location;

@@ -7,6 +7,7 @@ import rp.assignments.team.warehouse.server.route.planning.AStar;
 
 public class RouteExecution {
 
+    // TODO Change directions into Enum
 	// 0 for left, 1 for right, 2 for forward, 3 for back Works only if we assume
 	// that robot starts from certain position. Will explain then meet
 
