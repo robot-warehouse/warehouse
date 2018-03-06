@@ -4,11 +4,15 @@ import rp.assignments.team.warehouse.server.Location;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import org.apache.log4j.Logger;
+
 
 public class AStar {
+	
+	final static Logger logger = Logger.getLogger(AStar.class);
 
 	public static ArrayList<Location> findPath(Location start, Location goal) {
-
+		logger.info("Entering the findPath method");
 		ArrayList<State> open = new ArrayList<>(); // Stores nodes available for visiting.
 		ArrayList<State> closed = new ArrayList<>(); // Stores already visited nodes
 
@@ -19,6 +23,7 @@ public class AStar {
 		if (Data.obstacles.contains(startState) || Data.obstacles.contains(goalState)
 				|| !startState.isValidLocation()
 				|| !goalState.isValidLocation()) {
+		logger.fatal("Terminating because of an invalid node");
 			return null;
 		}
 
@@ -36,6 +41,7 @@ public class AStar {
 
 			// If the current node is the goal node we need to stop.
 			if (current.equals(goalState)) {
+				logger.info("Route found, returning from the method.");
 				return getPath(current, startState);
 			}
 
@@ -70,15 +76,12 @@ public class AStar {
 	 * @return
 	 */
 	private static State findSmallestF(ArrayList<State> nodes) {
-
 		State result = nodes.get(0);
-
 		for (int i = 0; i < nodes.size() - 1; i++) {
 			if (nodes.get(i).getTotalWeight() < nodes.get(i + 1).getTotalWeight()) {
 				result = nodes.get(i);
 			}
 		}
-
 		return result;
 	}
 
@@ -91,21 +94,16 @@ public class AStar {
 	 * @return
 	 */
 	private static ArrayList<Location> getPath(State current, State start) {
-
 		ArrayList<Location> path = new ArrayList<>();
-
 		State node = current;
-
 		path.add(current);
-
 		while (!node.equals(start)) {
 			path.add(node.getParent());
 
 			node = node.getParent();
 		}
-
 		Collections.reverse(path);
-
+		logger.info("Route found and reversed successfully");
 		return path;
 	}
 }
