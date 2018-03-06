@@ -4,12 +4,17 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import org.apache.log4j.Logger;
 
 import lejos.pc.comm.NXTComm;
 import lejos.pc.comm.NXTCommException;
 import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 import rp.assignments.team.warehouse.server.route.planning.State;
+import rp.assignments.team.warehouse.shared.communications.Command;
 import rp.util.test.Assert;
 
 /**
@@ -17,11 +22,14 @@ import rp.util.test.Assert;
  *
  */
 public class CommunicationsManager {
-	// default robot name/address
-	public static final String NXT_NAME = "John Cena";
-	public static final String NXT_ADDRESS = "00165308E5A7";
+	final static Logger logger = Logger.getLogger(CommunicationsManager.class);
+	public static final String ROBOT_1_NAME = "John Cena";
+	public static final String ROBOT_1_ADDRESS = "00165308E5A7";
+	public static final String ROBOT_2_NAME = "TriHard";
+	public static final String ROBOT_2_ADDRESS = "0016530A631F";
 	private NXTInfo nxtInf;
 	private NXTComm communicator;
+	private BlockingQueue<Command> commands;
 	private MessageSender sender;
 	private MessageReceiver receiver;
 	private boolean connected;
@@ -30,18 +38,20 @@ public class CommunicationsManager {
 	 * Constructs a new instance of CommunicationsManager with the given robot name/address.
 	 */
 	public CommunicationsManager(String name, String address) {
+		logger.info("Initialising communications with " + name + " address " + address + ".");
 		this.nxtInf = new NXTInfo(NXTCommFactory.BLUETOOTH, name, address);
 		try {
 			connected = false;
 			this.communicator = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
 			if (communicator.open(nxtInf)) {
-				sender = new MessageSender(communicator.getOutputStream());
+				logger.info("Connected to robot " + nxtInf.name);
+				commands = new LinkedBlockingQueue<>();
+				sender = new MessageSender(communicator.getOutputStream(),commands);
 				receiver = new MessageReceiver(communicator.getInputStream());
 				connected = true;
 			}
-
 		} catch (NXTCommException e) {
-			System.err.println("Could not connect to robot"); // use log4j later
+			logger.fatal("Could not connect to robot");
 			e.printStackTrace();
 		}
 
@@ -63,35 +73,43 @@ public class CommunicationsManager {
 	}
 
 	/*
-	 * Start the receiving thread.
+	 * Start the server threads
 	 */
 	public void startServer() {
 		receiver.start();
-		//should sender be a thread as well?
+		sender.start();
 	}
 	
 	/**
 	 * Send orders of where the robot should go
-	 * @param orders What operations the robot should perform to reach goal.
+	 * @param orders What operations the robot should perform to reach goal. See route execution
 	 */
 	public void sendOrders(List<Integer> orders) {
 		//integers for now, not sure how they'll be implement by job execution
-		try {
-			sender.sendOrders(orders);
-		}
-		catch(IOException e) {
-			e.printStackTrace();
-		}
+		sender.setOrders(orders);
+		commands.offer(Command.SEND_ORDERS);
 		
 	}
+	
+	/**
+	 * Tell the robot to cancel the current set of orders
+	 */
+	public void sendCancellation() {
+		commands.offer(Command.CANCEL);
+	}
 
+	
+	/**
+	 * Stop all communicator threads and close the communicator
+	 */
 	public void close() {
 		connected = false;
 		try {
 			communicator.close();
 			receiver.interrupt();
+			sender.interrupt();
 		} catch (IOException e) {
-			System.err.println("Something went wrong with server");
+			logger.error("Something went wrong with server");
 		}
 
 	}
