@@ -6,16 +6,19 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import rp.assignments.team.warehouse.server.route.planning.State;
+import org.apache.log4j.Logger;
+
 import rp.assignments.team.warehouse.shared.communications.Command;
 
 public class MessageReceiver extends Thread {
+	final static Logger logger = Logger.getLogger(MessageReceiver.class);
 	private DataInputStream fromRobot;
 	private List<rp.assignments.team.warehouse.server.route.planning.State> locations;
 
 	public MessageReceiver(InputStream inpStream) {
 		this.fromRobot = new DataInputStream(inpStream);
 		this.locations = new ArrayList<>();
+		logger.info("Constructing Receiver.");
 
 	}
 
@@ -24,35 +27,34 @@ public class MessageReceiver extends Thread {
 		while(true) {
 			try {
 				Command command = Command.strToCommand((fromRobot.readUTF()));
-				System.out.println(command);
 				switch (command) {
 				case SEND_POSITION:
 					int x = Integer.valueOf(fromRobot.readUTF()); //get x
 					int y = Integer.valueOf(fromRobot.readUTF()); //get y
 					rp.assignments.team.warehouse.server.route.planning.State 
 					currState = new rp.assignments.team.warehouse.server.route.planning.State(x, y);
-					System.out.println("Got " + currState);
+					logger.info("Received " + currState + " from robot.");
 					locations.add(currState);
 					break;
 				//add more commands to switch on if neccessary
 				default:
-					System.out.println("Robot set unrecognised command");
+					logger.warn("Robot set unrecognised command");
 					break;
 				}
 								
 			} catch (IOException e) {
-				System.err.println("Something went wrong with the robot's communications ");
+				logger.fatal("Failed to communicate with robot, stopping thread...");
 				e.printStackTrace();
 				break;
 			}
 			catch (IllegalArgumentException e) {
-				System.err.println("Robot sent invalid command.");
+				logger.error("Invalid/unrecgonised command sent from robot, waiting for next command.");
 			}
 		}
 	}
 
 	/**
-	 * Last position of robot as a State : see {@link State}
+	 * Last position of robot as a State : see the State class.
 	 * 
 	 * @return The last state of the robot.
 	 */
