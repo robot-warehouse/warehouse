@@ -1,7 +1,6 @@
 package rp.assignments.team.warehouse.server.managementinterface;
 
 import rp.assignments.team.warehouse.server.controller.Controller;
-import rp.assignments.team.warehouse.server.controller.IController;
 
 import java.awt.EventQueue;
 
@@ -11,7 +10,7 @@ import java.awt.SystemColor;
 
 public class WMInterface {
 
-	private IController controller;
+	private Controller controller;
 	private JFrame frame;
 
 	private final int WINDOW_HEIGHT = 550;
@@ -31,7 +30,7 @@ public class WMInterface {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
             try {
-                IController controller = new Controller(); // we might not want to be testing from here anymore check Server class
+                Controller controller = new Controller(); // we might not want to be testing from here anymore check Server class
                 WMInterface window = new WMInterface(controller);
                 window.frame.setVisible(true);
             } catch (Exception e) {
@@ -43,7 +42,7 @@ public class WMInterface {
 	/**
 	 * Create the application.
 	 */
-	public WMInterface(IController controller) {
+	public WMInterface(Controller controller) {
 	    this.controller = controller;
 		initialize();
 	}
