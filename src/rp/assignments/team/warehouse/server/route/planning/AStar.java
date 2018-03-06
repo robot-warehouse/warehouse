@@ -11,13 +11,12 @@ public class AStar {
 
         ArrayList<State> open = new ArrayList<>();      //Stores nodes available for visiting.
         ArrayList<State> closed = new ArrayList<>();    //Stores already visited nodes
-        ArrayList<State> neighbours;                    //Stores the neighbouring nodes of the current node.
 
         State startState = new State(start);
         State goalState = new State(goal);
 
         //Return if either the start node or the goal node are invalid.
-        if (!contains(Data.obstacle, startState) && !contains(Data.obstacle, goalState)) {
+        if (Data.obstacles.contains(startState) || Data.obstacles.contains(goalState)) {
             return null;
         }
 
@@ -34,25 +33,25 @@ public class AStar {
 			closed.add(current);
 
 			//If the current node is the goal node we need to stop.
-			if (current.check(current, goalState)) {
+			if (current.equals(goalState)) {
 				 return getPath(current, startState);
 			}
 
 			//Get all (at most four) neighbours of the current node. 
-			neighbours = current.getNeighbours(current, startState, goalState);
+			ArrayList<State> neighbours = current.getNeighbours(startState, goalState);
 
 			for (State neighbour : neighbours) {
 				//If any neighbour is an obstacle or if it has already been visited, move to the next node. 
-				if (contains(Data.obstacle, neighbour) || contains(closed, neighbour)) {
+				if (Data.obstacles.contains(neighbour) || closed.contains(neighbour)) {
                     continue;
                 }
 
 				//If the node is not in the open list or if the g value is lesser than the current g value
-				if (!contains(open, neighbour) || startState.getDistance(neighbour) < neighbour.getG()) {
-					neighbour.setF();               //set the f value
+				if (!open.contains(neighbour) || startState.getDistance(neighbour) < neighbour.getDistanceFromStart()) {
+					neighbour.setTotalWeight();     //set the f value
 					neighbour.setParent(current);   //set the current node as it's parent
 
-					if (!contains(open, neighbour)) {
+					if (!open.contains(neighbour)) {
                         open.add(neighbour);        //add the node to the open list
                     }
 				}
@@ -71,7 +70,7 @@ public class AStar {
         State result = nodes.get(0);
 
         for (int i = 0; i < nodes.size() - 1; i++) {
-            if (nodes.get(i).f < nodes.get(i + 1).f) {
+            if (nodes.get(i).getTotalWeight() < nodes.get(i + 1).getTotalWeight()) {
                 result = nodes.get(i);
             }
         }
@@ -94,34 +93,14 @@ public class AStar {
 
 		path.add(current);
 
-		while (!node.check(node, start)) {
+		while (!node.equals(start)) {
 			path.add(node.getParent());
 
 			node = node.getParent();
 		}
+
 		Collections.reverse(path);
 
 		return path;
-	}
-
-    /**
-     * Checks if a node is in the array list only by considering its x-y coordinates and not f, g, h values
-     *
-     * @param list
-     * @param s
-     * @return
-     */
-	private static boolean contains(ArrayList<State> list, State s) {
-		
-		for (int i = 0; i < list.size(); i++) {
-			State each = list.get(i);
-			// System.out.println(each.getX() + "+" + each.getY());
-			if (s.check(each, s)) {
-				// System.out.println(s.check(each, s));
-				return true;
-			}
-		}
-
-		return false;
 	}
 }

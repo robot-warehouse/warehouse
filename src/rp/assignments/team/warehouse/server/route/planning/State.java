@@ -6,45 +6,87 @@ import java.util.ArrayList;
 
 public class State extends Location{
 
-    public float f;
-
-    private float g;
+    private float totalWeight;
+    private float distanceFromStart;
 	private float heuristic;
 
 	private State parent;
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
 	public State(int x, int y) {
 		super(x, y);
 	}
 
+    /**
+     *
+     * @param location
+     */
 	State(Location location) {
 	    super(location.getX(), location.getY());
     }
 
-	public float getG() {
-		return this.g;
+    /**
+     *
+     * @return
+     */
+	public float getDistanceFromStart() {
+		return this.distanceFromStart;
 	}
 
-	private float getH() {
-		return this.heuristic;
+    /**
+     *
+     * @return
+     */
+	public float getTotalWeight() {
+	    return this.totalWeight;
+    }
+
+    /**
+     *
+     */
+	public void setTotalWeight() {
+		this.totalWeight = this.getDistanceFromStart() + this.getHeuristic();
 	}
 
-	public void setF() {
-		this.f = this.getG() + this.getH();
-	}
+    /**
+     *
+     * @return
+     */
+    public State getParent() {
+        return parent;
+    }
 
-	public ArrayList<State> getNeighbours(State current, State start, State goal) {
+    /**
+     *
+     * @param parent
+     */
+    public void setParent(State parent) {
+        this.parent = parent;
+    }
+
+    /**
+     *
+     *
+     * @param start
+     * @param goal
+     * @return
+     */
+	public ArrayList<State> getNeighbours(State start, State goal) {
 		ArrayList<State> neighbours = new ArrayList<>();
 
-		State neighbourEast = new State(current.getX() + 1, current.getY());
+		State neighbourEast = new State(getX() + 1, getY());
 		if (neighbourEast.isValidLocation()) {
-		    neighbourEast.addAsChild(current, start, goal);
+		    neighbourEast.calculateTotalWeight(start, goal);
             neighbours.add(neighbourEast);
 		}
 
-		State neighbourWest = new State(current.getX() - 1, current.getY());
+		State neighbourWest = new State(getX() - 1, getY());
 		if (neighbourWest.isValidLocation()) {
-			neighbourWest.addAsChild(current, start, goal);
+			neighbourWest.calculateTotalWeight(start, goal);
 			neighbours.add(neighbourWest);
 		}
 
@@ -66,15 +108,15 @@ public class State extends Location{
 //			neighbours.add(n4);
 //		}
 
-		State neighbourSouth = new State(current.getX(), current.getY() - 1);
+		State neighbourSouth = new State(getX(), getY() - 1);
 		if (neighbourSouth.isValidLocation()) {
-			neighbourSouth.addAsChild(current, start, goal);
+			neighbourSouth.calculateTotalWeight(start, goal);
 			neighbours.add(neighbourSouth);
 		}
 
-		State neighbourNorth = new State(current.getX(), current.getY() + 1);
+		State neighbourNorth = new State(getX(), getY() + 1);
 		if (neighbourNorth.isValidLocation()) {
-            neighbourNorth.addAsChild(current, start, goal);
+            neighbourNorth.calculateTotalWeight(start, goal);
 			neighbours.add(neighbourNorth);
 		}
 
@@ -99,41 +141,89 @@ public class State extends Location{
 		return neighbours;
 	}
 
-	public void setParent(State parent) {
-		this.parent = parent;
-	}
-
-	public boolean check(State s1, State s2) {
-		return (s1.getX() == s2.getX() && s1.getY()==s2.getY());
-	}
-
+    /**
+     *
+     *
+     * @param next
+     * @return
+     */
 	public float getDistance(State next) {
-		return (float) Math.sqrt((this.getX() - next.getX() ^ 2) + (this.getY() - next.getY() ^ 2));
+		return (float) Math.sqrt((getX() - next.getX() ^ 2) + (getY() - next.getY() ^ 2));
 	}
 
-	public State getParent() {
-		return parent;
-	}
+    /**
+     *
+     *
+     * @param object
+     * @return
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof State) {
+            State state = (State) object;
+            return (getX() == state.getX() && getY()== state.getY());
+        }
 
-	@Override
-	public String toString() {
-		String result = "";
-		result = result + this.getX() + "," + this.getY();
-		return result;
-	}
+        return false;
+    }
 
-	private void calculateG(State current, State start) {
-		this.g = (float) Math.sqrt((current.getX() - start.getX() ^ 2) + (current.getY() - start.getY() ^ 2));
-	}
+    /**
+     *
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        String result = "";
+        result = result + getX() + "," + getY();
+        return result;
+    }
 
-	private void calculateH(State current, State goal) {
-		this.heuristic = (float) Math.sqrt((current.getX() - goal.getX() ^ 2) + (current.getY() - goal.getY() ^ 2));
-	}
+    /**
+     *
+     *
+     * @return
+     */
+    private boolean isValidLocation() {
+        return Location.isValidLocation(getX(), getY());
+    }
 
-    private void addAsChild(State current, State start, State goal) {
-        calculateG(current, start);
-        calculateH(current, goal);
-        setF();
-        setParent(current);
+    /**
+     *
+     *
+     * @return
+     */
+    private float getHeuristic() {
+        return this.heuristic;
+    }
+
+    /**
+     *
+     *
+     * @param start
+     */
+    private void calculateG(State start) {
+        this.distanceFromStart = (float) Math.sqrt((getX() - start.getX() ^ 2) + (getY() - start.getY() ^ 2));
+    }
+
+    /**
+     *
+     *
+     * @param goal
+     */
+    private void calculateH(State goal) {
+        this.heuristic = (float) Math.sqrt((getX() - goal.getX() ^ 2) + (getY() - goal.getY() ^ 2));
+    }
+
+    /**
+     *
+     *
+     * @param start
+     * @param goal
+     */
+    private void calculateTotalWeight(State start, State goal) {
+        calculateG(start);
+        calculateH(goal);
+        setTotalWeight();
     }
 }

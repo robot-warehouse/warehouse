@@ -3,9 +3,10 @@ package rp.assignments.team.warehouse.server.route.execution;
 import java.time.Year;
 import java.util.ArrayList;
 
+import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
 import rp.assignments.team.warehouse.server.route.planning.Data;
-import rp.assignments.team.warehouse.server.route.planning.State;
+import rp.assignments.team.warehouse.server.route.planning.Location;
 
 public class RouteExecution {
 
@@ -21,7 +22,7 @@ public class RouteExecution {
 
 	public static int comparisonY = 1;
 	public static int comparisonX = 1;
-	public static ArrayList<State> pathForReading;
+	public static ArrayList<Location> pathForReading;
 
 	public static ArrayList<Integer> xyCoordinates = new ArrayList<Integer>();
 
@@ -38,8 +39,8 @@ public class RouteExecution {
 		
 		
 		for (int i = 0; i < pathForReading.size() - 1; i++) {
-			State now = pathForReading.get(i);
-			State next = pathForReading.get(i + 1);
+			Location now = pathForReading.get(i);
+			Location next = pathForReading.get(i + 1);
 			if (direction == 5) {
 				if (now.getX() == next.getX()) {
 					if (now.getY() == next.getY() - 1) {
@@ -161,14 +162,13 @@ public class RouteExecution {
 
 	public static void main(String[] args) {
 
-		Data.addObstacle();
-		State start = new State(2, 2);
-		State goal = new State(3,2);
-		AStar demo = new AStar(start, goal);
-		demo.findPath();
+		Location start = new Location(2, 2);
+		Location goal = new Location(3,2);
+		pathForReading = AStar.findPath(start, goal);
 		RouteExecution routeExecution = new RouteExecution();
 
-		for (State x : pathForReading)
+
+		for (Location x : pathForReading)
 			System.out.println(x.toString());
 		for (int i : movementCommands) {
 			System.out.println(i);
