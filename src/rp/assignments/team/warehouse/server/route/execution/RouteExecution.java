@@ -1,12 +1,9 @@
 package rp.assignments.team.warehouse.server.route.execution;
 
-import java.time.Year;
 import java.util.ArrayList;
 
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
-import rp.assignments.team.warehouse.server.route.planning.Data;
-import rp.assignments.team.warehouse.server.route.planning.Location;
 
 public class RouteExecution {
 
@@ -30,8 +27,6 @@ public class RouteExecution {
 
 	public static ArrayList<Integer> movementCommands = new ArrayList<Integer>(); // James should read this
 	public RouteExecution() {
-		// TODO Auto-generated constructor stub
-		pathForReading = AStar.result;
 		reading();
 	}
 
@@ -165,8 +160,6 @@ public class RouteExecution {
 		Location start = new Location(2, 2);
 		Location goal = new Location(3,2);
 		pathForReading = AStar.findPath(start, goal);
-		RouteExecution routeExecution = new RouteExecution();
-
 
 		for (Location x : pathForReading)
 			System.out.println(x.toString());
