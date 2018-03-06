@@ -8,7 +8,7 @@ Not yet Implemented:
 The robots are also able to localize themselves if they get lost using Monte-Carlo localization algorithm by particle filtering.
 
 
-# Jobs/Responsibilites
+# Jobs/Responsibilities
 
 * Team manager and Secondary Integrator = Augustas
 * Primary integrator = Adam
