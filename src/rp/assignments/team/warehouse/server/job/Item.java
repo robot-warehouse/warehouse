@@ -1,10 +1,10 @@
 package rp.assignments.team.warehouse.server.job;
 
-import rp.assignments.team.warehouse.server.Location;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import rp.assignments.team.warehouse.server.Location;
 
 public class Item implements IIDed, IRewardable {
 
@@ -17,9 +17,9 @@ public class Item implements IIDed, IRewardable {
     private final Location location;
 
     /**
-     * @param id       The id of the item.
-     * @param reward   The reward for dropping off one of the item.
-     * @param weight   The weight of the item.
+     * @param id The id of the item.
+     * @param reward The reward for dropping off one of the item.
+     * @param weight The weight of the item.
      * @param location The location the item is picked from.
      */
     public Item(int id, float reward, float weight, Location location) {
@@ -35,9 +35,9 @@ public class Item implements IIDed, IRewardable {
     }
 
     /**
-     * @param id       The id of the item.
-     * @param reward   The reward for dropping off one of the item.
-     * @param weight   The weight of the item.
+     * @param id The id of the item.
+     * @param reward The reward for dropping off one of the item.
+     * @param weight The weight of the item.
      * @param location The location the item is picked from.
      */
     public Item(String id, float reward, float weight, Location location) {
@@ -66,7 +66,7 @@ public class Item implements IIDed, IRewardable {
         int numeric = 0;
 
         for (char c : chars) {
-            numeric += (int) Math.pow(26, i) * ((int) c - 0x61);
+            numeric += (int) Math.pow(26, i) * (c - 0x61);
             i++;
         }
 
@@ -87,8 +87,9 @@ public class Item implements IIDed, IRewardable {
     /**
      * Convert a numeric id to a string.
      *
-     * @param id    The numeric id
-     * @param padTo The minimum length of the output string (will be front-padded with "a"s)
+     * @param id The numeric id
+     * @param padTo The minimum length of the output string (will be front-padded
+     *            with "a"s)
      * @return The string equivalent.
      */
     public static String numericIdToString(int id, int padTo) {
@@ -112,6 +113,7 @@ public class Item implements IIDed, IRewardable {
     /**
      * @return the id
      */
+    @Override
     public int getId() {
         return this.id;
     }
@@ -121,6 +123,7 @@ public class Item implements IIDed, IRewardable {
      *
      * @return the reward
      */
+    @Override
     public float getReward() {
         return this.reward;
     }

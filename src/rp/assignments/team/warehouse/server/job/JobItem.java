@@ -6,7 +6,7 @@ public class JobItem {
     private final int count;
 
     /**
-     * @param item  The item.
+     * @param item The item.
      * @param count How many of the required item need to be dropped off.
      */
     public JobItem(Item item, int count) {

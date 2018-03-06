@@ -1,8 +1,8 @@
 package rp.assignments.team.warehouse.server.job.assignment;
 
-import rp.assignments.team.warehouse.server.job.Pick;
-
 import java.util.Set;
+
+import rp.assignments.team.warehouse.server.job.Pick;
 
 public class PickAuctioner {
 
@@ -10,7 +10,7 @@ public class PickAuctioner {
     private final Set<Bidder> bidders;
 
     /**
-     * @param pick    The pick to assign
+     * @param pick The pick to assign
      * @param bidders The available bidders
      */
     public PickAuctioner(Pick pick, Set<Bidder> bidders) {

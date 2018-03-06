@@ -1,8 +1,8 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
-import rp.assignments.team.warehouse.server.Location;
-
 import java.util.ArrayList;
+
+import rp.assignments.team.warehouse.server.Location;
 
 public class State extends Location {
 
@@ -70,13 +70,11 @@ public class State extends Location {
     public ArrayList<State> getNeighbours(State start, State goal) {
         ArrayList<State> neighbours = new ArrayList<>();
 
-
         if (isValidLocation(getX() + 1, getY())) {
             State neighbourEast = new State(getX() + 1, getY());
             neighbourEast.calculateTotalWeight(start, goal);
             neighbours.add(neighbourEast);
         }
-
 
         if (isValidLocation(getX() - 1, getY())) {
             State neighbourWest = new State(getX() - 1, getY());
@@ -104,13 +102,11 @@ public class State extends Location {
 //			neighbours.add(n4);
 //		}
 
-
         if (isValidLocation(getX(), getY() - 1)) {
             State neighbourSouth = new State(getX(), getY() - 1);
             neighbourSouth.calculateTotalWeight(start, goal);
             neighbours.add(neighbourSouth);
         }
-
 
         if (isValidLocation(getX(), getY() + 1)) {
             State neighbourNorth = new State(getX(), getY() + 1);

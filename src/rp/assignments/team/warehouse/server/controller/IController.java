@@ -1,9 +1,9 @@
 package rp.assignments.team.warehouse.server.controller;
 
-import rp.assignments.team.warehouse.server.Location;
-
 import java.io.File;
 import java.util.Map;
+
+import rp.assignments.team.warehouse.server.Location;
 
 public interface IController {
 

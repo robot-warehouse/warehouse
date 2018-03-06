@@ -9,7 +9,7 @@ public class Pick {
     private boolean completed;
 
     /**
-     * @param job  The job the pick is for.
+     * @param job The job the pick is for.
      * @param item The item to pick.
      */
     public Pick(Job job, Item item) {

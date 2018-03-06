@@ -1,8 +1,8 @@
 package rp.assignments.team.warehouse.server.job.selection;
 
-import rp.assignments.team.warehouse.server.job.IRewardable;
-
 import java.util.Comparator;
+
+import rp.assignments.team.warehouse.server.job.IRewardable;
 
 public class CompareByRewardComparator implements Comparator<IRewardable> {
 
@@ -17,6 +17,7 @@ public class CompareByRewardComparator implements Comparator<IRewardable> {
         this.ascending = ascending;
     }
 
+    @Override
     public int compare(IRewardable a, IRewardable b) {
         return (int) (a.getReward() - b.getReward()) * (this.ascending ? 1 : -1);
     }

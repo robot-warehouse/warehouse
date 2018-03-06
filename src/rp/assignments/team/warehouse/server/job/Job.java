@@ -17,7 +17,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     private int completedPickCount;
 
     /**
-     * @param id       The job id.
+     * @param id The job id.
      * @param jobItems List of job items.
      */
     public Job(int id, List<JobItem> jobItems) {
@@ -53,6 +53,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     /**
      * @return The job id.
      */
+    @Override
     public int getId() {
         return this.id;
     }
@@ -72,7 +73,8 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     }
 
     /**
-     * Mark the job as having been previously cancelled. Note that once called this action cannot be undone.
+     * Mark the job as having been previously cancelled. Note that once called this
+     * action cannot be undone.
      */
     public void setPreviouslyCancelled() {
         this.previouslyCancelled = true;
@@ -107,7 +109,8 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     }
 
     /**
-     * Get the number of individual picks to complete the job. This sums the count for each job item.
+     * Get the number of individual picks to complete the job. This sums the count
+     * for each job item.
      *
      * @return The number of picks.
      */
@@ -120,6 +123,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
      *
      * @return The total reward
      */
+    @Override
     public float getReward() {
         return this.reward;
     }
@@ -129,6 +133,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
      *
      * @return The job priority.
      */
+    @Override
     public float getPriority() {
         return this.priority;
     }
