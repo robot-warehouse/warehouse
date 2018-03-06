@@ -78,14 +78,16 @@ public class State extends Location{
 	public ArrayList<State> getNeighbours(State start, State goal) {
 		ArrayList<State> neighbours = new ArrayList<>();
 
-		State neighbourEast = new State(getX() + 1, getY());
-		if (neighbourEast.isValidLocation()) {
+		
+		if (isValidLocation(getX() + 1, getY())) {
+			State neighbourEast = new State(getX() + 1, getY());
 		    neighbourEast.calculateTotalWeight(start, goal);
             neighbours.add(neighbourEast);
 		}
 
-		State neighbourWest = new State(getX() - 1, getY());
-		if (neighbourWest.isValidLocation()) {
+		
+		if (isValidLocation(getX() - 1, getY())) {
+			State neighbourWest = new State(getX() - 1, getY());
 			neighbourWest.calculateTotalWeight(start, goal);
 			neighbours.add(neighbourWest);
 		}
@@ -108,14 +110,16 @@ public class State extends Location{
 //			neighbours.add(n4);
 //		}
 
-		State neighbourSouth = new State(getX(), getY() - 1);
-		if (neighbourSouth.isValidLocation()) {
+		
+		if (isValidLocation(getX(), getY() - 1)) {
+			State neighbourSouth = new State(getX(), getY() - 1);
 			neighbourSouth.calculateTotalWeight(start, goal);
 			neighbours.add(neighbourSouth);
 		}
 
-		State neighbourNorth = new State(getX(), getY() + 1);
-		if (neighbourNorth.isValidLocation()) {
+		
+		if (isValidLocation(getX(), getY() + 1)) {
+			State neighbourNorth = new State(getX(), getY() + 1);
             neighbourNorth.calculateTotalWeight(start, goal);
 			neighbours.add(neighbourNorth);
 		}
@@ -184,7 +188,7 @@ public class State extends Location{
      *
      * @return
      */
-    private boolean isValidLocation() {
+    boolean isValidLocation() {
         return Location.isValidLocation(getX(), getY());
     }
 
