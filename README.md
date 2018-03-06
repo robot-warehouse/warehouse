@@ -14,7 +14,7 @@ The robots are also able to localize themselves if they get lost using Monte-Car
 * Primary integrator = Adam
 * Job Assignment & Job Selection = Jordan
 * W.M & Robot Interface(if Thomas does not show up) = Obaid
-* Primary Netoworking = James
+* Primary Networking = James
 * Secondary Networking = Obaid
 * Route Planning/ Search = Apporva
 * Robot Motion-Control = Qasim
