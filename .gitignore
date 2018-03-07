@@ -181,3 +181,5 @@ docs/
 ## Libraries ##
 /lib
 
+## Logs ##
+/log
