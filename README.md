@@ -13,12 +13,10 @@ The robots are also able to localize themselves if they get lost using Monte-Car
 * Team manager and Secondary Integrator = Augustas
 * Primary integrator = Adam
 * Job Assignment & Job Selection = Jordan
-* W.M & Robot Interface(if Thomas does not show up) = Obaid
+* W.M & Robot Interface = Obaid
 * Primary Networking = James
 * Secondary Networking = Obaid
 * Route Planning/ Search = Apporva
 * Robot Motion-Control = Qasim
-* Route Execution = Yiran Dai
-* Localisation = Lican Zhao
-* Route planning helper = Zhenghao Yan (if shows up)
-* Robot Interface = Thomas Chan (if shows up)
+* Route Execution = Augustas
+* Localisation = Lican Zhao, Zhenghao Yan, Thomas Chan,Yiran Dai
