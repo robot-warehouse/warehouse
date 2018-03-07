@@ -1,0 +1,286 @@
+[INFO] 03-06-2018 23:22:01 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-06-2018 23:22:01 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-06-2018 23:22:01 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-06-2018 23:22:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-06-2018 23:22:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-06-2018 23:22:51 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-06-2018 23:24:00 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-06-2018 23:24:00 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-06-2018 23:24:00 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-06-2018 23:24:00 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:24:00 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-06-2018 23:45:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-06-2018 23:45:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-06-2018 23:45:06 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-06-2018 23:45:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:45:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-06-2018 23:47:15 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:47:15 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:47:15 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:49:20 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:49:20 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:49:20 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:49:39 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:49:39 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:49:39 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:51:19 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:51:19 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:51:19 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:51:49 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:51:49 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:52:39 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:52:39 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:52:39 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:53:03 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:53:03 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:53:03 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:53:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:53:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:53:56 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:54:11 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:54:11 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:54:11 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:55:41 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:55:41 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:55:41 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:55:50 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-06-2018 23:55:50 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-06-2018 23:55:50 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-06-2018 23:55:50 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:55:50 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-06-2018 23:56:00 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:56:00 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:56:00 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:56:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:56:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:56:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:56:33 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:56:33 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:56:33 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:56:39 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:56:39 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:56:39 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:56:47 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:56:47 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:56:47 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:56:52 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:56:52 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:56:52 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:56:58 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:56:58 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:56:58 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:57:03 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:57:03 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:57:03 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:57:38 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:57:38 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:57:38 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:57:46 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:57:46 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:57:46 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:57:57 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:57:57 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:57:57 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:58:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:58:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:58:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:58:19 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:58:19 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:58:19 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:58:25 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:58:25 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:58:25 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:58:31 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-06-2018 23:58:31 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-06-2018 23:58:31 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-06-2018 23:58:31 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:58:31 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-06-2018 23:58:38 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-06-2018 23:58:38 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-06-2018 23:58:38 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-06-2018 23:58:38 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:58:38 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-06-2018 23:58:44 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-06-2018 23:58:44 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-06-2018 23:58:44 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:59:20 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-06-2018 23:59:20 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-06-2018 23:59:20 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-06-2018 23:59:20 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-06-2018 23:59:20 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:14:31 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:14:31 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[FATAL] 03-07-2018 00:14:31 rp.assignments.team.warehouse.server.route.execution.RouteExecution main - No path, no conversion is available
+[INFO] 03-07-2018 00:14:31 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:14:31 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:15:45 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:18:51 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:20:23 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:22:05 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:24:06 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:27:56 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:28:37 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:29:04 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Route found, returning from the method.
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar getPath - Route found and reversed successfully
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - Finished converting
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Entering the findPath method
+[FATAL] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.planning.AStar findPath - Terminating because of an invalid node
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading -  Start Convert coordinates into numerated actions
+[INFO] 03-07-2018 00:29:14 rp.assignments.team.warehouse.server.route.execution.RouteExecution reading - no path is available
