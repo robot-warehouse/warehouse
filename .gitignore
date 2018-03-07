@@ -74,11 +74,9 @@ local.properties
 .idea/**/dataSources.local.xml
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
 
 # Gradle:
 .idea/**/gradle.xml
-.idea/**/libraries
 
 # CMake
 cmake-build-debug/
@@ -179,3 +177,7 @@ $RECYCLE.BIN/
 
 ## Javadoc ##
 docs/
+
+## Libraries ##
+/lib
+
