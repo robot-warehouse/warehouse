@@ -14,6 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.job.Item;
 import rp.assignments.team.warehouse.server.job.Job;
@@ -33,6 +36,9 @@ public class Importer {
     private Set<Location> drops;
 
     private boolean doneParsing;
+    
+    private static final Logger logger = LogManager.getLogger(Importer.class);
+
 
     /**
      * @param jobsFile The file to import the jobs from.
@@ -97,7 +103,7 @@ public class Importer {
             int id = Item.parseId(m.group(3));
 
             if (!Location.isValidLocation(x, y)) {
-                trace(String.format("Invalid coordinates in locations file (%d, %d)", x, y));
+                logger.info("Invalid coordinates in locations file (%d, %d)", x, y);
                 continue;
             }
 
@@ -106,7 +112,7 @@ public class Importer {
             if (!this.locations.containsKey(id)) {
                 this.locations.put(id, l);
             } else {
-                trace(String.format("locations file referenced item id %c in a new location (%d, %d)", id, x, y));
+               logger.info("locations file referenced item id %c in a new location (%d, %d)", id, x, y);
             }
         }
     }
@@ -134,10 +140,10 @@ public class Importer {
                 if (!items.containsKey(id)) {
                     items.put(id, new Item(id, reward, weight, location));
                 } else {
-                    trace(String.format("items file referenced item id %s multiple times", idString));
+                    logger.info("items file referenced item id %s multiple times", idString);
                 }
             } else {
-                log(String.format("items file referenced item id %s with unmapped location", idString));
+                logger.info("items file referenced item id %s with unmapped location", idString);
             }
         }
     }
@@ -171,7 +177,7 @@ public class Importer {
                 if (items.containsKey(itemId)) {
                     jobItems.add(new JobItem(items.get(itemId), count));
                 } else {
-                    log(String.format("jobs file referenced unknown item id %s in job %d", itemIdString, id));
+                    logger.info("jobs file referenced unknown item id %s in job %d", itemIdString, id);
                 }
 
                 i += 2;
@@ -200,7 +206,7 @@ public class Importer {
                     job.setPreviouslyCancelled();
                 }
             } else {
-                trace(String.format("cancellations file referenced unknown job id %d", id));
+                logger.info("cancellations file referenced unknown job id %d", id);
             }
         }
     }
@@ -223,14 +229,14 @@ public class Importer {
             Location l = new Location(x, y);
 
             if (!drops.add(l)) {
-                trace(String.format("drops file referenced location %s multiple times", l));
+                logger.info("drops file referenced location %s multiple times", l);
             }
         }
     }
 
     private boolean isInvalidLine(String file, String line, Matcher m) {
         if (!m.matches()) {
-            trace(String.format("Invalid line in %s file. Saw: %s", file, line));
+            logger.warn("Invalid line in %s file. Saw: %s", file, line);
             return true;
         }
         return false;
@@ -258,14 +264,6 @@ public class Importer {
         }
 
         return this.drops;
-    }
-
-    private void log(String x) {
-        System.out.println("log: " + x);
-    }
-
-    private void trace(String x) {
-        // System.out.println("trace: " + x);
     }
 
     @Override
