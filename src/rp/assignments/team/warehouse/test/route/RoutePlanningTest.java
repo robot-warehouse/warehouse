@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import rp.assignments.team.warehouse.server.Location;
@@ -12,6 +14,19 @@ import rp.assignments.team.warehouse.server.route.planning.AStar;
 import rp.assignments.team.warehouse.server.route.planning.State;
 
 public class RoutePlanningTest {
+    
+    private static boolean assertionStatus;
+    
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        assertionStatus = Location.class.desiredAssertionStatus();
+        Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), false);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), assertionStatus);
+    }
 
     @Test
     public void simpleHorizontalTest() {
@@ -67,8 +82,8 @@ public class RoutePlanningTest {
     public void goalPosValidationTest() {
         // check validation of goal position
         ArrayList<Location> result4;
-        Location start4 = new Location(-1, 0);
-        Location goal4 = new Location(0, 5);
+        Location start4 = new Location(0, 5);
+        Location goal4 = new Location(-1, 0);
         result4 = AStar.findPath(start4, goal4);
         assertNull(result4);
     }

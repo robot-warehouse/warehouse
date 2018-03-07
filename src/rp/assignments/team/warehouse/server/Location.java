@@ -15,7 +15,7 @@ public class Location {
      * @param y The y coordinate.
      */
     public Location(int x, int y) {
-        // assert isValidLocation(x, y);
+        assert isValidLocation(x, y);
 
         this.x = x;
         this.y = y;
