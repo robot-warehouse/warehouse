@@ -1,17 +1,19 @@
 package rp.assignments.team.warehouse.server.communications;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import rp.assignments.team.warehouse.shared.communications.Command;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import rp.assignments.team.warehouse.shared.communications.Command;
-
 public class MessageReceiver extends Thread {
-    final static Logger logger = Logger.getLogger(MessageReceiver.class);
+
+    private final static Logger logger = LogManager.getLogger(MessageReceiver.class);
+
     private DataInputStream fromRobot;
     private List<rp.assignments.team.warehouse.server.route.planning.State> locations;
 
@@ -31,8 +33,8 @@ public class MessageReceiver extends Thread {
                     case SEND_POSITION:
                         int x = Integer.valueOf(fromRobot.readUTF()); // get x
                         int y = Integer.valueOf(fromRobot.readUTF()); // get y
-                        rp.assignments.team.warehouse.server.route.planning.State currState = new rp.assignments.team.warehouse.server.route.planning.State(
-                                x, y);
+                        rp.assignments.team.warehouse.server.route.planning.State currState = new rp.assignments.team
+                                .warehouse.server.route.planning.State(x, y);
                         logger.info("Received " + currState + " from robot.");
                         locations.add(currState);
                         break;

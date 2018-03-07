@@ -3,13 +3,13 @@ package rp.assignments.team.warehouse.server.route.planning;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rp.assignments.team.warehouse.server.Location;
 
 public class AStar {
 
-    final static Logger logger = Logger.getLogger(AStar.class);
+    private final static Logger logger = LogManager.getLogger(AStar.class);
 
     public static ArrayList<Location> findPath(Location start, Location goal) {
         logger.info("Entering the findPath method");
