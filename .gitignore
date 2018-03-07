@@ -178,9 +178,6 @@ $RECYCLE.BIN/
 ## Javadoc ##
 docs/
 
-## Libraries ##
-/lib
-
 ## Logs ##
 /log
 *.log
