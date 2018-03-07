@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.test.route;
+package rp.assignments.team.warehouse.test;
 
 import org.junit.Test;
 import rp.assignments.team.warehouse.server.Location;
