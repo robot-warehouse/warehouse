@@ -6,6 +6,7 @@ import java.awt.SystemColor;
 
 import javax.swing.*;
 
+import rp.assignments.team.warehouse.server.Warehouse;
 import rp.assignments.team.warehouse.server.controller.Controller;
 
 public class WMInterface {
@@ -30,7 +31,8 @@ public class WMInterface {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                Controller controller = new Controller(); // we might not want to be testing from here anymore check
+                Warehouse warehouse = new Warehouse();
+                Controller controller = new Controller(warehouse); // we might not want to be testing from here anymore check
                                                            // Server class
                 WMInterface window = new WMInterface(controller);
                 window.frame.setVisible(true);
