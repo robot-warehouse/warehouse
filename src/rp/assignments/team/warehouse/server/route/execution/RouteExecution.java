@@ -20,14 +20,13 @@ public class RouteExecution {
 
 	private final static Logger logger = LogManager.getLogger(RouteExecution.class);
 
-	public static int comparisonY = 1;
-	public static int comparisonX = 1;
 	public static ArrayList<Location> pathForReading;
 	public static ArrayList<Integer> xyCoordinates = new ArrayList<Integer>();
 
-	
+	//Robot motion planner needs to read this arraylist and instruct the robot accordingly. 
+	// 0 for left, 1 for right, 2 for forward, 3 for back
 	public ArrayList<Integer> movementCommands = new ArrayList<Integer>();
-
+	//at the beginning the robot faces a particular direction(west to east) so we initialize this variable here 
 	public int direction = 5;
 
 	public RouteExecution() {
@@ -42,23 +41,27 @@ public class RouteExecution {
 	public void reading() {
 
 		logger.info(" Start Convert coordinates into numerated actions");
-
+		
 		if (pathForReading != null) {
-
+			//loop through the arraylist containing the route. 
 			for (int i = 0; i < pathForReading.size() - 1; i++) {
+				//since the robot's motion is relative to the previous coordinate at any time two coordinates need to be considered.
 				Location now = pathForReading.get(i);
 				Location next = pathForReading.get(i + 1);
+				//left and right is relative to the direction in which the robot is facing so every time we need to check in which direction the robot is facing.
 				if (direction == 5) {
+					//if the x coordinate is same, the robot needs to move along the Y axis
 					if (now.getX() == next.getX()) {
+						//this condition implies that the robot needs to move along the positive Y axis
 						if (now.getY() == next.getY() - 1) {
+							//considering the current direction of the robot this means it needs to turn left.
 							// left
-							movementCommands.add(0);
-
+							movementCommands.add(0);//0 = left
+							//update the direction towards which the robot is facing.
 							direction = 7;
 						} else if (now.getY() == next.getY() + 1) {
 							// right
 							movementCommands.add(1);
-
 							direction = 6;
 						}
 					} else if (now.getY() == next.getY()) {
