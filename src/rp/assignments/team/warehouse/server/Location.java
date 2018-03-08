@@ -57,7 +57,7 @@ public class Location {
      * @return True if the coordinates are valid.
      */
     public static boolean isValidLocation(int x, int y) {
-        return x >= MIN_X && x <= MAX_X && y >= MIN_X && y <= MAX_Y;
+        return x >= MIN_X && x <= MAX_X && y >= MIN_Y && y <= MAX_Y;
     }
 
     @Override
