@@ -1,11 +1,11 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rp.assignments.team.warehouse.server.Location;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class AStar {
 
@@ -85,8 +85,8 @@ public class AStar {
     }
 
     /**
-     * After we reach the goal node, we get the path to that node by traveling back
-     * to the starting node by traversing to each parent.
+     * After we reach the goal node, we get the path to that node by traveling back to the starting node by traversing
+     * to each parent.
      *
      * @param current
      * @param start
