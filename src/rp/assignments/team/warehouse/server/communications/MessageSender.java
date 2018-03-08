@@ -39,11 +39,6 @@ public class MessageSender extends Thread {
 
     public void setOrders(List<Integer> orders) {
         this.orders = new ArrayList<Integer>(orders);
-//		System.out.println("Orders are: ");
-//		for(Integer in : this.orders) {
-//			System.out.print(in + ", ");
-//		}
-//		System.out.println();
         logger.info("Received orders: " + orderString());
     }
 
