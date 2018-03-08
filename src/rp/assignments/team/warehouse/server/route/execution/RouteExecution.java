@@ -8,18 +8,12 @@ import java.util.ArrayList;
 
 public class RouteExecution {
 
-    // TODO Change directions into Enum
-    // 0 for left, 1 for right, 2 for forward, 3 for back Works only if we assume
-    // that robot starts from certain position. Will explain then meet
-
     private final static Logger logger = LogManager.getLogger(RouteExecution.class);
 
     public static ArrayList<Location> pathForReading;
-    public static ArrayList<Integer> xyCoordinates = new ArrayList<Integer>();
 
     //Robot motion planner needs to read this array list and instruct the robot accordingly.
-    // 0 for left, 1 for right, 2 for forward, 3 for back
-    public ArrayList<Integer> movementCommands = new ArrayList<Integer>();
+    public ArrayList<Integer> movementCommands = new ArrayList<>();
 
     //at the beginning the robot faces a particular direction(west to east) so we initialize this variable here
     private Facing facingDirection = Facing.East;
@@ -33,7 +27,7 @@ public class RouteExecution {
         return movementCommands;
     }
 
-    public void reading() {
+    private void reading() {
 
         logger.info(" Start Convert coordinates into numerated actions");
 
