@@ -36,9 +36,8 @@ public class Importer {
     private Set<Location> drops;
 
     private boolean doneParsing;
-    
-    private static final Logger logger = LogManager.getLogger(Importer.class);
 
+    private static final Logger logger = LogManager.getLogger(Importer.class);
 
     /**
      * @param jobsFile The file to import the jobs from.
