@@ -29,7 +29,7 @@ public class AuctionPickAssigner implements IPickAssigner {
 
                 assert pick != null;
 
-                PickAuctioner auctioner = new PickAuctioner(pick, bidders);
+                PickAuctioner auctioner = new PickAuctioner(pick, availableBidders);
 
                 Picker picker = auctioner.auction();
 
