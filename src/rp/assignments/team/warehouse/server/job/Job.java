@@ -109,6 +109,19 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     }
 
     /**
+     * Check if the job has been completed.
+     *
+     * @return True if all picks for the job have been completed.
+     */
+    public boolean hasAvailablePicks() {
+        return this.availablePicks.size() > 0;
+    }
+
+    public List<Pick> getAvailablePicks() {
+        return this.availablePicks;
+    }
+
+    /**
      * Get the number of individual picks to complete the job. This sums the count
      * for each job item.
      *
