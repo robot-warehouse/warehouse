@@ -70,6 +70,6 @@ public class Controller {
     }
 
     public void shutdown() {
-
+        this.warehouse.shutdown();
     }
 }

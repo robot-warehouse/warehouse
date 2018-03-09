@@ -117,7 +117,7 @@ public class WMInterface {
             JFrame fromInterface = new JFrame("Exit");
             if (JOptionPane.showConfirmDialog(fromInterface, "Are you sure you want to exit?", "Confirm Exit",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
-                System.exit(0);
+                controller.shutdown();
             }
         });
         btnExit.setBounds(244, 451, BUTTON_NARROW_WIDTH, BUTTON_HEIGHT);
