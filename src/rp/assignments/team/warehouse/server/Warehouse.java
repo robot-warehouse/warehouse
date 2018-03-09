@@ -27,6 +27,10 @@ public class Warehouse {
     public boolean isRunning() {
         return this.running;
     }
+    
+    public void addWorkingOnJob(Job job) {
+    	this.workingOnJobs.add(job);
+    }
 
     public List<Job> getWorkingOnJobs() {
         return this.workingOnJobs;
