@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.server.route.execution;
+package rp.assignments.team.warehouse.server;
 
 public enum Facing {
     /**

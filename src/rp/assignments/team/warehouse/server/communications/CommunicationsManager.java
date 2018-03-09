@@ -4,6 +4,7 @@ import lejos.pc.comm.NXTComm;
 import lejos.pc.comm.NXTCommException;
 import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rp.assignments.team.warehouse.server.route.planning.State;
@@ -17,12 +18,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Manages communications between a robot and the pc
  */
-public class CommunicationsManager {
+public class CommunicationsManager { 
 
     public static final String ROBOT_1_NAME = "John Cena";
     public static final String ROBOT_1_ADDRESS = "00165308E5A7";
     public static final String ROBOT_2_NAME = "TriHard";
     public static final String ROBOT_2_ADDRESS = "0016530A631F";
+    public static final String ROBOT_3_NAME = "Nameless";
+    public static final String ROBOT_3_ADDRESS = "0016530A9AD1";
 
     private final static Logger logger = LogManager.getLogger(CommunicationsManager.class);
 

@@ -2,31 +2,64 @@ package rp.assignments.team.warehouse.server;
 
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import rp.assignments.team.warehouse.server.communications.CommunicationsManager;
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.assignment.Bidder;
+import rp.assignments.team.warehouse.server.job.assignment.IPickAssigner;
 import rp.assignments.team.warehouse.server.job.assignment.Picker;
+import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
 
 public class Robot extends Thread implements Picker, Bidder {
 
     private String name;
-    private Location location;
+    private String address;
+    private Location currentLocation;
+    private Facing currentFacingDirection;
     private Pick currentPick;
+    private boolean isAwaitingInstructions;
+    
+    private CommunicationsManager communicationsManager;
+    
+    private static Logger logger = LogManager.getLogger(Robot.class);
 
-    // TODO have hotswappable search algorithm
-    public Robot(String name, Location location) {
+    public Robot(String name, String address, Location currentLocation) {
         this.name = name;
-        this.location = location;
+        this.address = address;
+        this.currentLocation = currentLocation;
         this.currentPick = null;
     }
 
-    public Location getLocation() {
-        return location;
+    public String getRobotName() {
+        return name;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(Location currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+    
+    public Facing getCurrentFacingDirection() {
+    	return currentFacingDirection;
+    }
+    
+    public void setCurrentFacingDirection(Facing currentFacingDirection) {
+    	this.currentFacingDirection = currentFacingDirection;
+    }
+    
+    public void isAwaitingInstructions() {
+    	this.isAwaitingInstructions = true;
+    }
+    
+    public void isNoLongerAwaitingInstructions() {
+    	this.isAwaitingInstructions = false;
     }
 
     public Job getCurrentJob() {
@@ -35,10 +68,6 @@ public class Robot extends Thread implements Picker, Bidder {
         }
 
         return currentPick.getJob();
-    }
-
-    public String getRobotName() {
-        return name;
     }
 
     @Override
@@ -61,8 +90,20 @@ public class Robot extends Thread implements Picker, Bidder {
 
     @Override
     public void run() {
-
-        // TODO what are we running here
-        ArrayList<Location> instructions = AStar.findPath(location, currentPick.getPickLocation());
+    	communicationsManager = new CommunicationsManager(name, address);
+		communicationsManager.startServer();
+		
+    	while (communicationsManager.isConnected()) {
+    		if (isAwaitingInstructions) {
+    			ArrayList<Location> path = AStar.findPath(currentLocation, currentPick.getPickLocation());
+    			ArrayList<Integer> instructions = RouteExecution.convertCoordinatesToInstructions(currentFacingDirection, path);
+    			
+    			communicationsManager.sendOrders(instructions);
+    			
+    			isNoLongerAwaitingInstructions();
+    		}
+    	}
+    	
+    	
     }
 }
