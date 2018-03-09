@@ -48,6 +48,8 @@ public class Controller {
     public void importFiles() {
         importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
 
+        importer.parse();
+
         warehouse.addJobsToQueue(importer.getJobs());
     }
 
