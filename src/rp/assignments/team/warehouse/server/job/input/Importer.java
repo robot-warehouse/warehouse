@@ -243,6 +243,10 @@ public class Importer {
         return false;
     }
 
+    public boolean isDoneParsing() {
+		return this.doneParsing;
+	}
+
     public List<Job> getJobs() throws ImportNotFinishedException {
         if (!this.doneParsing) {
             throw new ImportNotFinishedException();
