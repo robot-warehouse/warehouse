@@ -17,13 +17,13 @@ public class RoutePlanningTest {
     private static boolean assertionStatus;
     
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void setUpBeforeClass() {
         assertionStatus = Location.class.desiredAssertionStatus();
         Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), false);
     }
 
     @AfterClass
-    public static void tearDownAfterClass() throws Exception {
+    public static void tearDownAfterClass() {
         Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), assertionStatus);
     }
 
