@@ -26,7 +26,7 @@ public class WMInterface {
     private final int SEPARATOR_WIDTH = 130;
 
     /**
-     * Launch the application.
+     * Launch the Warehouse GUI.
      */
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -43,7 +43,7 @@ public class WMInterface {
     }
 
     /**
-     * Create the application.
+     * Create the Warehouse GUI.
      */
     public WMInterface(Controller controller) {
         this.controller = controller;
@@ -51,7 +51,7 @@ public class WMInterface {
     }
 
     /**
-     * Initialize the contents of the frame.
+     * Initialise the contents of the frame.
      */
     private void initialize() {
         frame = new JFrame();

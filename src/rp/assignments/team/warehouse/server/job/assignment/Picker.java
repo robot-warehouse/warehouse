@@ -13,6 +13,8 @@ public interface Picker {
 
     /**
      * Assign a new pick to the picker.
+     * 
+     * @param pick The pick to assign.
      */
     public void assignPick(Pick pick);
 

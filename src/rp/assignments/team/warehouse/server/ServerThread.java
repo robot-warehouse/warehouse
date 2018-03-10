@@ -21,10 +21,20 @@ public class ServerThread extends Thread {
         this.pickAssigner = new AuctionPickAssigner(warehouse.getRobots());
     }
 
+    /**
+     * Get the jobs currently being worked on.
+     * 
+     * @return List of jobs being worked on.
+     */
     public List<Job> getWorkingOnJobs() {
         return this.warehouse.getWorkingOnJobs();
     }
 
+    /**
+     * Check if the jobs being worked on have any picks available.
+     * 
+     * @return True if any job has picks available.
+     */
     public boolean jobsHaveAvailablePicks() {
         return this.pickAssigner.hasNext();
         // return getWorkingOnJobs().stream()
