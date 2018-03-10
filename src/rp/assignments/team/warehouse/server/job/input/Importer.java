@@ -65,9 +65,9 @@ public class Importer {
     /**
      * Parse the job input CSVs
      *
-     * @throws IOException
+     * @return True if successful.
      */
-    public void parse() throws IOException {
+    public boolean parse() {
         try (BufferedReader jobsReader = new BufferedReader(new FileReader(jobsFile));
                 BufferedReader cancellationsReader = new BufferedReader(new FileReader(cancellationsFile));
                 BufferedReader locationsReader = new BufferedReader(new FileReader(locationsFile));
@@ -78,11 +78,13 @@ public class Importer {
             this.parseJobs(jobsReader);
             this.parseCancellations(cancellationsReader);
             this.parseDrops(dropsReader);
+
+            this.doneParsing = true;
         } catch (IOException e) {
-            throw e;
+            logger.fatal(e.getMessage());
         }
 
-        this.doneParsing = true;
+        return this.doneParsing;
     }
 
     private void parseLocations(BufferedReader locationsReader) throws IOException {
