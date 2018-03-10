@@ -104,7 +104,7 @@ public class Importer {
             int id = Item.parseId(m.group(3));
 
             if (!Location.isValidLocation(x, y)) {
-                logger.info("Invalid coordinates in locations file (%d, %d)", x, y);
+                logger.info("Invalid coordinates in locations file ({}, {})", x, y);
                 continue;
             }
 
@@ -113,7 +113,7 @@ public class Importer {
             if (!this.locations.containsKey(id)) {
                 this.locations.put(id, l);
             } else {
-               logger.info("locations file referenced item id %c in a new location (%d, %d)", id, x, y);
+               logger.info("locations file referenced item id {} in a new location ({}, {})", id, x, y);
             }
         }
     }
@@ -141,10 +141,10 @@ public class Importer {
                 if (!items.containsKey(id)) {
                     items.put(id, new Item(id, reward, weight, location));
                 } else {
-                    logger.info("items file referenced item id %s multiple times", idString);
+                    logger.info("items file referenced item id {} multiple times", idString);
                 }
             } else {
-                logger.info("items file referenced item id %s with unmapped location", idString);
+                logger.info("items file referenced item id {} with unmapped location", idString);
             }
         }
     }
@@ -178,7 +178,7 @@ public class Importer {
                 if (items.containsKey(itemId)) {
                     jobItems.add(new JobItem(items.get(itemId), count));
                 } else {
-                    logger.info("jobs file referenced unknown item id %s in job %d", itemIdString, id);
+                    logger.info("jobs file referenced unknown item id {} in job {}", itemIdString, id);
                 }
 
                 i += 2;
@@ -207,7 +207,7 @@ public class Importer {
                     job.setPreviouslyCancelled();
                 }
             } else {
-                logger.info("cancellations file referenced unknown job id %d", id);
+                logger.info("cancellations file referenced unknown job id {}", id);
             }
         }
     }
@@ -230,14 +230,14 @@ public class Importer {
             Location l = new Location(x, y);
 
             if (!drops.add(l)) {
-                logger.info("drops file referenced location %s multiple times", l);
+                logger.info("drops file referenced location {} multiple times", l);
             }
         }
     }
 
     private boolean isInvalidLine(String file, String line, Matcher m) {
         if (!m.matches()) {
-            logger.warn("Invalid line in %s file. Saw: %s", file, line);
+            logger.warn("Invalid line in {} file. Saw: {}", file, line);
             return true;
         }
         return false;
