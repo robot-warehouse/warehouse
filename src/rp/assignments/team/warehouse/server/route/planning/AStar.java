@@ -12,6 +12,13 @@ public class AStar {
 
     private final static Logger logger = LogManager.getLogger(AStar.class);
 
+    /**
+     * Get the path between the start and goal locations.
+     * 
+     * @param start The start location.
+     * @param goal The finish location.
+     * @return List of the locations along the computed path.
+     */
     public static ArrayList<Location> findPath(Location start, Location goal) {
         logger.info("Entering the findPath method");
         ArrayList<State> open = new ArrayList<>(); // Stores nodes available for visiting.
@@ -97,7 +104,7 @@ public class AStar {
     }
 
     /**
-     * After we reach the goal node, we get the path to that node by traveling back to the starting node by traversing
+     * After we reach the goal node, we get the path to that node by travelling back to the starting node by traversing
      * to each parent.
      *
      * @param current

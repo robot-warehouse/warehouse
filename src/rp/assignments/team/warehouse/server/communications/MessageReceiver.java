@@ -18,6 +18,9 @@ public class MessageReceiver extends Thread {
     private DataInputStream fromRobot;
     private List<rp.assignments.team.warehouse.server.route.planning.State> locations;
 
+    /**
+     * @param inpStream A stream of communications from the robot.
+     */
     public MessageReceiver(InputStream inpStream) {
         this.fromRobot = new DataInputStream(inpStream);
         this.locations = new ArrayList<>();
