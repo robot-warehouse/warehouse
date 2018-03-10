@@ -14,13 +14,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import rp.assignments.team.warehouse.server.RobotInfo;
+import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.planning.State;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
 /**
  * Manages communications between a robot and the pc
  */
-public class CommunicationsManager { 
+public class CommunicationsManager {
 
     private final static Logger logger = LogManager.getLogger(CommunicationsManager.class);
 
@@ -33,15 +34,15 @@ public class CommunicationsManager {
 
     /**
      * Constructs a new instance of CommunicationsManager with the given robot name/address.
-     * 
+     *
      * @param robotInfo The robot's information.
      */
     public CommunicationsManager(RobotInfo robotInfo) {
         assert robotInfo != null;
-        
+
         String name = robotInfo.getName();
         String address = robotInfo.getAddress();
-        
+
         logger.info("Initialising communications with " + name + " address " + address + ".");
         this.nxtInf = new NXTInfo(NXTCommFactory.BLUETOOTH, name, address);
         try {
@@ -89,8 +90,7 @@ public class CommunicationsManager {
      *
      * @param orders What operations the robot should perform to reach goal. See route execution
      */
-    public void sendOrders(List<Integer> orders) {
-        // integers for now, not sure how they'll be implement by job execution
+    public void sendOrders(List<Instruction> orders) {
         sender.setOrders(orders);
         commands.offer(Command.SEND_ORDERS);
 

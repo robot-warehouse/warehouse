@@ -27,11 +27,11 @@ public class RouteExecutionTest {
         };
 
         // act
-        ArrayList<Integer> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
+        ArrayList<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
                 testLocations);
 
         // assert
-        ArrayList<Integer> expected = new ArrayList<Integer>() {
+        ArrayList<Instruction> expected = new ArrayList<Instruction>() {
             {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
@@ -57,11 +57,11 @@ public class RouteExecutionTest {
         };
 
         // act
-        ArrayList<Integer> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
+        ArrayList<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
                 testLocations);
 
         // assert
-        ArrayList<Integer> expected = new ArrayList<Integer>() {
+        ArrayList<Instruction> expected = new ArrayList<Instruction>() {
             {
                 add(Instruction.LEFT);
                 add(Instruction.FORWARDS);
@@ -99,11 +99,11 @@ public class RouteExecutionTest {
         };
 
         // act
-        ArrayList<Integer> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
+        ArrayList<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
                 testLocations);
 
         // assert
-        ArrayList<Integer> expected = new ArrayList<Integer>() {
+        ArrayList<Instruction> expected = new ArrayList<Instruction>() {
             {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);

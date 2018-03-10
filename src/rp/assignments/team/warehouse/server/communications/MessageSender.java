@@ -10,6 +10,7 @@ import java.util.concurrent.BlockingQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
 /**
@@ -21,7 +22,7 @@ public class MessageSender extends Thread {
 
     private DataOutputStream toRobot;
     private BlockingQueue<Command> commands;
-    private List<Integer> orders;
+    private List<Instruction> orders;
 
     /**
      * @param toRobot The stream for communications to the robot.
@@ -36,14 +37,14 @@ public class MessageSender extends Thread {
 
     private String orderString() {
         String strOrders = "";
-        for (Integer in : this.orders) {
+        for (Instruction in : this.orders) {
             strOrders += in.toString() + ", ";
         }
         return strOrders;
     }
 
-    public void setOrders(List<Integer> orders) {
-        this.orders = new ArrayList<Integer>(orders);
+    public void setOrders(List<Instruction> orders) {
+        this.orders = new ArrayList<Instruction>(orders);
         logger.info("Received orders: " + orderString());
     }
 
@@ -85,7 +86,7 @@ public class MessageSender extends Thread {
         if (orders.isEmpty()) {
             logger.warn("No orders to send");
         }
-        for (Integer order : orders) {
+        for (Instruction order : orders) {
             toRobot.writeUTF(order.toString());
             toRobot.flush();
         }
