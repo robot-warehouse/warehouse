@@ -13,6 +13,7 @@ import lejos.pc.comm.NXTInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rp.assignments.team.warehouse.server.RobotInfo;
 import rp.assignments.team.warehouse.server.route.planning.State;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
@@ -32,8 +33,15 @@ public class CommunicationsManager {
 
     /**
      * Constructs a new instance of CommunicationsManager with the given robot name/address.
+     * 
+     * @param robotInfo The robot's information.
      */
-    public CommunicationsManager(String name, String address) {
+    public CommunicationsManager(RobotInfo robotInfo) {
+        assert robotInfo != null;
+        
+        String name = robotInfo.getName();
+        String address = robotInfo.getAddress();
+        
         logger.info("Initialising communications with " + name + " address " + address + ".");
         this.nxtInf = new NXTInfo(NXTCommFactory.BLUETOOTH, name, address);
         try {

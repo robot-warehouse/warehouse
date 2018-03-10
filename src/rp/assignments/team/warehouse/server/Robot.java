@@ -78,7 +78,7 @@ public class Robot implements Picker, Bidder {
     }
 
     public boolean connect() {
-    	CommunicationsManager commsManager = new CommunicationsManager(getName(), getAddress());
+    	CommunicationsManager commsManager = new CommunicationsManager(this.robotInfo);
     	commsManager.startServer();
 
     	if (commsManager.isConnected()) {
