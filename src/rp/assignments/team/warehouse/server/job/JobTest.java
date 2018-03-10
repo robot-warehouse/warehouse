@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.job.comparators.CompareByPriorityComparator;
 import rp.assignments.team.warehouse.server.job.input.Importer;
-import rp.assignments.team.warehouse.server.job.selection.CompareByPriorityComparator;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
 
