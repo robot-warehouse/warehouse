@@ -199,7 +199,7 @@ public class Importer {
             }
 
             int id = Integer.parseInt(m.group(1));
-            boolean cancelled = Integer.parseInt(m.group(1)) == 1;
+            boolean cancelled = Integer.parseInt(m.group(2)) == 1;
             Job job = this.jobs.get(id);
 
             if (job != null) {
