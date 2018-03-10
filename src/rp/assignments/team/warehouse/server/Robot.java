@@ -26,12 +26,22 @@ public class Robot implements Picker, Bidder {
         this.currentPick = null;
     }
 
+	/**
+	 * Get the name of the robot.
+	 *
+	 * @return The name of the robot.
+	 */
     public String getName() {
-        return robotInfo.name;
+        return this.robotInfo.getName();
     }
 
+    /**
+     * Get the address of the robot for bluetooth communications.
+     *
+     * @return The bluetooth address of the robot.
+     */
     public String getAddress() {
-    	return robotInfo.address;
+    	return this.robotInfo.getAddress();
     }
 
     public Location getCurrentLocation() {
