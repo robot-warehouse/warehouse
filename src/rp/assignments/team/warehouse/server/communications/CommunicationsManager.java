@@ -19,13 +19,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class CommunicationsManager { 
 
-    public static final String ROBOT_1_NAME = "John Cena";
-    public static final String ROBOT_1_ADDRESS = "00165308E5A7";
-    public static final String ROBOT_2_NAME = "TriHard";
-    public static final String ROBOT_2_ADDRESS = "0016530A631F";
-    public static final String ROBOT_3_NAME = "Nameless";
-    public static final String ROBOT_3_ADDRESS = "0016530A9AD1";
-
     private final static Logger logger = LogManager.getLogger(CommunicationsManager.class);
 
     private NXTInfo nxtInf;

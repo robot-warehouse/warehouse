@@ -1,19 +1,24 @@
-package rp.assignments.team.warehouse.server.controller;
+package rp.assignments.team.warehouse.server;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
+import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.Warehouse;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
-
-import java.io.File;
-import java.util.Map;
+import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
 
 // TODO
 public class Controller {
 
+    /** Can the application be started? Set to true when all inputs have been dealt with. */
+    private boolean startable;
+
     private Warehouse warehouse;
     private Importer importer;
-    private IJobSelector jobSelector;
 
     private File jobsFile;
     private File cancellationsFile;
@@ -21,8 +26,11 @@ public class Controller {
     private File itemsFile;
     private File dropsFile;
 
+    private List<Job> importedJobs;
+
     public Controller(Warehouse warehouse) {
         this.warehouse = warehouse;
+        this.startable = false;
     }
 
     public boolean setJobsFile(File jobsFile) {
@@ -50,26 +58,46 @@ public class Controller {
 
         importer.parse();
 
-        warehouse.addJobsToQueue(importer.getJobs());
+        List<Job> importedJobs = importer.getJobs();
+
+        this.startable = true;
     }
 
-    public void setupConnections() {
+    public void startApplication() {
+        if (this.startable) {
+            assert importedJobs != null;
 
+            IJobSelector jobSelector = new PriorityJobSelector(importedJobs);
+
+            Thread server = new ServerThread(this.warehouse, jobSelector);
+            server.start();
+        }
+    }
+
+    public boolean connectRobot(RobotInfo robotInfo, Location currentLocation, Facing currentFacing) {
+    	Robot robot = new Robot(robotInfo, currentLocation, currentFacing);
+
+    	if (robot.connect()) {
+    		warehouse.addRobot(robot);
+    		return true;
+    	}
+
+    	return false;
     }
 
     public void disconnectRobot() {
-
+        // TODO we need to safely disconnect the robot, preserving it's current job/pick if it had one and remove it from the warehouse list
     }
 
-    public void cancelCurrentJob() {
-
+    public void cancelCurrentJob(int jobID) {
+        // TODO use jobID(?) to remove job from list of current jobs and send cancel commands to any robot that has a pick for it
     }
 
     public Map<String, Location> getRobotLocations() {
-        return null;
+        return warehouse.getRobotLocations();
     }
 
     public void shutdown() {
-
+        this.warehouse.shutdown();
     }
 }
