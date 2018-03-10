@@ -56,7 +56,7 @@ public class Controller {
 
         importer.parse();
 
-        List<Job> importedJobs = importer.getJobs();
+        this.importedJobs = importer.getJobs();
 
         this.startable = true;
     }
