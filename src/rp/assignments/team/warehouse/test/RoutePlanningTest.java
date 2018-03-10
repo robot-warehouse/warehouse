@@ -13,9 +13,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class RoutePlanningTest {
-    
+
     private static boolean assertionStatus;
-    
+
     @BeforeClass
     public static void setUpBeforeClass() {
         assertionStatus = Location.class.desiredAssertionStatus();
