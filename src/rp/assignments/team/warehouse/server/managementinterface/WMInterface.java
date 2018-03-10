@@ -6,8 +6,8 @@ import java.awt.SystemColor;
 
 import javax.swing.*;
 
+import rp.assignments.team.warehouse.server.Controller;
 import rp.assignments.team.warehouse.server.Warehouse;
-import rp.assignments.team.warehouse.server.controller.Controller;
 
 public class WMInterface {
 

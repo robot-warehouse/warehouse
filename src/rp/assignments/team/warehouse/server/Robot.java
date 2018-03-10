@@ -1,7 +1,5 @@
 package rp.assignments.team.warehouse.server;
 
-import java.util.ArrayList;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,33 +7,31 @@ import rp.assignments.team.warehouse.server.communications.CommunicationsManager
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.assignment.Bidder;
-import rp.assignments.team.warehouse.server.job.assignment.IPickAssigner;
 import rp.assignments.team.warehouse.server.job.assignment.Picker;
-import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
-import rp.assignments.team.warehouse.server.route.planning.AStar;
 
-public class Robot extends Thread implements Picker, Bidder {
+public class Robot implements Picker, Bidder {
 
-    private String name;
-    private String address;
+    private RobotInfo robotInfo;
     private Location currentLocation;
     private Facing currentFacingDirection;
     private Pick currentPick;
-    private boolean isAwaitingInstructions;
-    
-    private CommunicationsManager communicationsManager;
+    private boolean hasComputedInstructionsForPick;
     
     private static Logger logger = LogManager.getLogger(Robot.class);
 
-    public Robot(String name, String address, Location currentLocation) {
-        this.name = name;
-        this.address = address;
+    public Robot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
+    	this.robotInfo = robotInfo;
         this.currentLocation = currentLocation;
+        this.currentFacingDirection = currentFacingDirection;
         this.currentPick = null;
     }
 
     public String getRobotName() {
-        return name;
+        return robotInfo.name;
+    }
+    
+    public String getRobotAddress() {
+    	return robotInfo.address;
     }
 
     public Location getCurrentLocation() {
@@ -54,13 +50,13 @@ public class Robot extends Thread implements Picker, Bidder {
     	this.currentFacingDirection = currentFacingDirection;
     }
     
-    public void isAwaitingInstructions() {
-    	this.isAwaitingInstructions = true;
+    public boolean hasComputedInstructionsForPick() {
+    	return hasComputedInstructionsForPick;
     }
     
-    public void isNoLongerAwaitingInstructions() {
-    	this.isAwaitingInstructions = false;
-    }
+    public void setHasComputedInstructionsForPick(boolean hasIt) {
+    	hasComputedInstructionsForPick = hasIt;
+    } 
 
     public Job getCurrentJob() {
         if (this.currentPick == null) {
@@ -68,6 +64,22 @@ public class Robot extends Thread implements Picker, Bidder {
         }
 
         return currentPick.getJob();
+    }
+    
+    public Pick getCurrentPick() {
+    	return currentPick;
+    }
+    
+    public boolean connect() {
+    	CommunicationsManager commsManager = new CommunicationsManager(getRobotName(), getRobotAddress());
+    	commsManager.startServer();
+    	
+    	if (commsManager.isConnected()) {
+    		(new RobotThread(this, commsManager)).start();
+    		return true;
+    	}
+    	
+    	return false;
     }
 
     @Override
@@ -80,30 +92,12 @@ public class Robot extends Thread implements Picker, Bidder {
         assert this.currentPick == null;
 
         this.currentPick = pick;
+        setHasComputedInstructionsForPick(false); // this might need to be before the line above
     }
 
     @Override
     public int getBid(Pick pick) {
         // TODO Auto-generated method stub
         return 0;
-    }
-
-    @Override
-    public void run() {
-    	communicationsManager = new CommunicationsManager(name, address);
-		communicationsManager.startServer();
-		
-    	while (communicationsManager.isConnected()) {
-    		if (isAwaitingInstructions) {
-    			ArrayList<Location> path = AStar.findPath(currentLocation, currentPick.getPickLocation());
-    			ArrayList<Integer> instructions = RouteExecution.convertCoordinatesToInstructions(currentFacingDirection, path);
-    			
-    			communicationsManager.sendOrders(instructions);
-    			
-    			isNoLongerAwaitingInstructions();
-    		}
-    	}
-    	
-    	
     }
 }

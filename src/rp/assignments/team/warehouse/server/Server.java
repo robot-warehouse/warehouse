@@ -1,7 +1,6 @@
 package rp.assignments.team.warehouse.server;
 
 import rp.assignments.team.warehouse.server.job.Job;
-import rp.assignments.team.warehouse.server.controller.Controller;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.managementinterface.WMInterface;
 
