@@ -14,16 +14,30 @@ import rp.assignments.team.warehouse.server.route.planning.AStar;
 
 public class Robot implements Picker, Bidder {
 
+    /** The robot's information */
     private RobotInfo robotInfo;
+    
+    /** The current location of the robot in the warehouse */
     private Location currentLocation;
+    
+    /** The direction the robot is facing in the warehouse */
     private Facing currentFacingDirection;
+    
+    /** The picks the robot is assigned */
     private Set<Pick> currentPicks;
+    
     private boolean hasComputedInstructionsForPick;
 
     private static Logger logger = LogManager.getLogger(Robot.class);
 
+    /** The maximum weight the robot can carry */
     public static float MAX_WEIGHT = 50.0f;
 
+    /**
+     * @param robotInfo The robot's information.
+     * @param currentLocation The robot's starting location.
+     * @param currentFacingDirection The robot's starting direction.
+     */
     public Robot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
     	this.robotInfo = robotInfo;
         this.currentLocation = currentLocation;
@@ -49,18 +63,40 @@ public class Robot implements Picker, Bidder {
     	return this.robotInfo.getAddress();
     }
 
+    /**
+     * Get the current location of the robot in the warehouse.
+     * 
+     * @return The robot's location.
+     */
     public Location getCurrentLocation() {
         return currentLocation;
     }
 
+    /**
+     * Set the current location of the robot in the warehouse.
+     * 
+     * @param currentLocation The new location of the robot.
+     */
     public void setCurrentLocation(Location currentLocation) {
+        assert currentLocation != null;
+
         this.currentLocation = currentLocation;
     }
 
+    /**
+     * Get the direction the robot is currently facing.
+     * 
+     * @return The direction the robot is facing.
+     */
     public Facing getCurrentFacingDirection() {
     	return currentFacingDirection;
     }
 
+    /**
+     * Set the direction the robot is facing.
+     * 
+     * @param currentFacingDirection The new direction the robot is facing.
+     */
     public void setCurrentFacingDirection(Facing currentFacingDirection) {
     	this.currentFacingDirection = currentFacingDirection;
     }
@@ -73,10 +109,20 @@ public class Robot implements Picker, Bidder {
     	hasComputedInstructionsForPick = hasIt;
     }
 
+    /**
+     * Get the picks the robot is currently working on.
+     * 
+     * @return The picks the robot is working on.
+     */
     public Set<Pick> getCurrentPicks() {
     	return currentPicks;
     }
 
+    /**
+     * Setup the bluetooth connection to the robot.
+     * 
+     * @return True if successfully connected.
+     */
     public boolean connect() {
     	CommunicationsManager commsManager = new CommunicationsManager(getName(), getAddress());
     	commsManager.startServer();
@@ -94,6 +140,11 @@ public class Robot implements Picker, Bidder {
         return this.currentPicks != null;
     }
 
+    /**
+     * Get the current weight of the robot.
+     * 
+     * @return The weight the robot is carrying.
+     */
     public float getCurrentWeight() {
         return (float) this.currentPicks.stream()
             .filter(p -> p.isPicked())

@@ -24,6 +24,10 @@ public class MessageSender extends Thread {
     private BlockingQueue<Command> commands;
     private List<Instruction> orders;
 
+    /**
+     * @param toRobot The stream for communications to the robot.
+     * @param commandQueue A queue of commands to send to the robot.
+     */
     public MessageSender(OutputStream toRobot, BlockingQueue<Command> commandQueue) {
         logger.info("Constructing sender");
         this.toRobot = new DataOutputStream(toRobot);

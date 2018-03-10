@@ -12,6 +12,10 @@ public class RobotThread extends Thread {
 	private Robot robot;
 	private CommunicationsManager commsManager;
 
+	/**
+	 * @param robot The robot the thread is for.
+	 * @param commsManager The communication interface with the robot.
+	 */
 	public RobotThread(Robot robot, CommunicationsManager commsManager) {
 		this.robot = robot;
 		this.commsManager = commsManager;
