@@ -1,4 +1,4 @@
-package rp.assignments.team.warehouse.test;
+package rp.assignments.team.warehouse.server.route.planning;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
