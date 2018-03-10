@@ -1,8 +1,8 @@
 package rp.assignments.team.warehouse.server.job.assignment;
 
-import java.util.Set;
-
 import rp.assignments.team.warehouse.server.job.Pick;
+
+import java.util.Set;
 
 public class PickAuctioner {
 

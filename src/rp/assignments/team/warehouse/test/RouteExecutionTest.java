@@ -1,9 +1,10 @@
 package rp.assignments.team.warehouse.test;
 
 import org.junit.Test;
+import rp.assignments.team.warehouse.server.Facing;
 import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
-import rp.assignments.team.warehouse.server.route.planning.AStar;
 
 import java.util.ArrayList;
 
@@ -11,92 +12,117 @@ import static org.junit.Assert.assertEquals;
 
 public class RouteExecutionTest {
 
-	// 4 tests
+    private final Facing defaultFacingDirection = Facing.East;
 
-	@Test
-	public void simpleTest1() {
-		// simple horizontal test.
-		ArrayList<Integer> result1;
-		Location start1 = new Location(0, 0);
-		Location goal1 = new Location(2, 0);
-		RouteExecution.pathForReading = AStar.findPath(start1, goal1);
-		RouteExecution rExecution = new RouteExecution();
-		result1 = rExecution.getMovements();
-		ArrayList<Integer> expected1 = new ArrayList<Integer>() {
-			{
-				add(2);
-				add(2);
-			}
-		};
-		assertEquals(expected1, result1);
-	}
+    @Test
+    public void simpleHorizontalTest() {
+        // arrange
+        ArrayList<Location> testLocations = new ArrayList<Location>() {
+            {
+                add(new Location(0, 0));
+                add(new Location(1, 0));
+                add(new Location(2, 0));
+            }
+        };
 
-	@Test
-	public void simpleTest2() {
-		// simple vertical test.
-		ArrayList<Integer> result2;
-		Location start2 = new Location(0, 0);
-		Location goal2 = new Location(0, 5);
-		RouteExecution.pathForReading = AStar.findPath(start2, goal2);
-		RouteExecution rExecution = new RouteExecution();
-		result2 = rExecution.getMovements();
-		ArrayList<Integer> expected2 = new ArrayList<Integer>() {
-			{
-				add(0);
-				add(2);
-				add(2);
-				add(2);
-				add(2);
-			}
-		};
-		assertEquals(expected2, result2);
-	}
+        // act
+        ArrayList<Integer> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
+                testLocations);
 
-	@Test
-	public void hardTest() {
-		// Longer path
-		ArrayList<Integer> result3;
-		Location start3 = new Location(1, 0);
-		Location goal3 = new Location(11, 4);
-		RouteExecution.pathForReading = AStar.findPath(start3, goal3);
-		RouteExecution rExecution = new RouteExecution();
-		result3 = rExecution.getMovements();
-		ArrayList<Integer> expected3 = new ArrayList<Integer>() {
-			{
-				add(2);
-				add(2);
-				add(2);
-				add(2);
-				add(2);
-				add(2);
-				add(2);
-				add(2);
-				add(2);
-				add(2);
-				add(0);
-				add(2);
-				add(2);
-				add(2);
-			}
-		};
-		assertEquals(expected3, result3);
-	}
+        // assert
+        ArrayList<Integer> expected = new ArrayList<Integer>() {
+            {
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.STOP);
+            }
+        };
 
-	@Test
-	public void invalidLocationTest() {
-		// check if an obstacle is rejected in conversion
-		ArrayList<Integer> result4;
-		Location start4 = new Location(1, 3);
-		Location goal4 = new Location(11, 4);
-		RouteExecution.pathForReading = AStar.findPath(start4, goal4);
-		RouteExecution rExecution = new RouteExecution();
-		result4 = rExecution.getMovements();
-		ArrayList<Integer> expected4 = new ArrayList<Integer>() {
-			{
+        assertEquals(expected, output);
+    }
 
-			}
-		};
-		assertEquals(expected4, result4);
-	}
+    @Test
+    public void simpleVerticalTest() {
+        // arrange
+        ArrayList<Location> testLocations = new ArrayList<Location>() {
+            {
+                add(new Location(0, 0));
+                add(new Location(0, 1));
+                add(new Location(0, 2));
+                add(new Location(0, 3));
+                add(new Location(0, 4));
+                add(new Location(0, 5));
+            }
+        };
 
+        // act
+        ArrayList<Integer> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
+                testLocations);
+
+        // assert
+        ArrayList<Integer> expected = new ArrayList<Integer>() {
+            {
+                add(Instruction.LEFT);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.STOP);
+            }
+        };
+
+        assertEquals(expected, output);
+    }
+
+    @Test
+    public void longerPathTest() {
+        // arrange
+        ArrayList<Location> testLocations = new ArrayList<Location>() {
+            {
+                add(new Location(1, 0));
+                add(new Location(2, 0));
+                add(new Location(3, 0));
+                add(new Location(4, 0));
+                add(new Location(5, 0));
+                add(new Location(6, 0));
+                add(new Location(7, 0));
+                add(new Location(8, 0));
+                add(new Location(9, 0));
+                add(new Location(10, 0));
+                add(new Location(11, 0));
+                add(new Location(11, 1));
+                add(new Location(11, 2));
+                add(new Location(11, 3));
+                add(new Location(11, 4));
+            }
+        };
+
+        // act
+        ArrayList<Integer> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
+                testLocations);
+
+        // assert
+        ArrayList<Integer> expected = new ArrayList<Integer>() {
+            {
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.LEFT);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.STOP);
+            }
+        };
+        assertEquals(expected, output);
+    }
+
+    // TODO add facing tests
 }

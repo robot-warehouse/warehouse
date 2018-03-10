@@ -1,10 +1,10 @@
 package rp.assignments.team.warehouse.server.job;
 
+import rp.assignments.team.warehouse.server.Location;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import rp.assignments.team.warehouse.server.Location;
 
 public class Item implements IIDed, IRewardable {
 

@@ -1,13 +1,11 @@
 package rp.assignments.team.warehouse.server.communications;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
+import rp.assignments.team.warehouse.server.Facing;
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
-import rp.assignments.team.warehouse.server.route.planning.Data;
-import rp.assignments.team.warehouse.server.route.planning.State;
+
+import java.util.ArrayList;
 
 public class BluetoothTest {
 
@@ -17,10 +15,8 @@ public class BluetoothTest {
         manager.startServer();
         ArrayList<Integer> testOrders = new ArrayList<>();
     	Location start1 = new Location(0, 0);
-		Location goal1 = new Location(0, 2);
-		RouteExecution.pathForReading = AStar.findPath(start1, goal1);
-		RouteExecution rExecution = new RouteExecution();
-		testOrders = rExecution.getMovements();
+		Location goal1 = new Location(2, 0);
+		testOrders = RouteExecution.convertCoordinatesToInstructions(Facing.East, AStar.findPath(start1, goal1));;
 
         if (manager.isConnected()) {
             System.out.println("Enter orders");

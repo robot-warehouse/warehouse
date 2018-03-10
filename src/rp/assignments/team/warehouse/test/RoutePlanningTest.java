@@ -1,30 +1,29 @@
 package rp.assignments.team.warehouse.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import java.util.ArrayList;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
 import rp.assignments.team.warehouse.server.route.planning.State;
 
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 public class RoutePlanningTest {
-    
+
     private static boolean assertionStatus;
-    
+
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void setUpBeforeClass() {
         assertionStatus = Location.class.desiredAssertionStatus();
         Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), false);
     }
 
     @AfterClass
-    public static void tearDownAfterClass() throws Exception {
+    public static void tearDownAfterClass() {
         Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), assertionStatus);
     }
 

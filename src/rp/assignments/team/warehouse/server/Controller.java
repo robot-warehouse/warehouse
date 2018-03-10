@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import rp.assignments.team.warehouse.server.job.Job;
+import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.Warehouse;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
@@ -74,17 +76,17 @@ public class Controller {
 
     public boolean connectRobot(RobotInfo robotInfo, Location currentLocation, Facing currentFacing) {
     	Robot robot = new Robot(robotInfo, currentLocation, currentFacing);
-    	
+
     	if (robot.connect()) {
     		warehouse.addRobot(robot);
     		return true;
     	}
-    	
+
     	return false;
     }
 
     public void disconnectRobot() {
-        // TODO we need to safely disconnect the robot, preserving it's current job/pick if it had one and remove it from the warehouse list 
+        // TODO we need to safely disconnect the robot, preserving it's current job/pick if it had one and remove it from the warehouse list
     }
 
     public void cancelCurrentJob(int jobID) {

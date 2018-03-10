@@ -16,7 +16,7 @@ public class Robot implements Picker, Bidder {
     private Facing currentFacingDirection;
     private Pick currentPick;
     private boolean hasComputedInstructionsForPick;
-    
+
     private static Logger logger = LogManager.getLogger(Robot.class);
 
     public Robot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
@@ -29,7 +29,7 @@ public class Robot implements Picker, Bidder {
     public String getName() {
         return robotInfo.name;
     }
-    
+
     public String getAddress() {
     	return robotInfo.address;
     }
@@ -41,22 +41,22 @@ public class Robot implements Picker, Bidder {
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
     }
-    
+
     public Facing getCurrentFacingDirection() {
     	return currentFacingDirection;
     }
-    
+
     public void setCurrentFacingDirection(Facing currentFacingDirection) {
     	this.currentFacingDirection = currentFacingDirection;
     }
-    
+
     public boolean hasComputedInstructionsForPick() {
     	return hasComputedInstructionsForPick;
     }
-    
+
     public void setHasComputedInstructionsForPick(boolean hasIt) {
     	hasComputedInstructionsForPick = hasIt;
-    } 
+    }
 
     public Job getCurrentJob() {
         if (this.currentPick == null) {
@@ -65,20 +65,20 @@ public class Robot implements Picker, Bidder {
 
         return currentPick.getJob();
     }
-    
+
     public Pick getCurrentPick() {
     	return currentPick;
     }
-    
+
     public boolean connect() {
     	CommunicationsManager commsManager = new CommunicationsManager(getName(), getAddress());
     	commsManager.startServer();
-    	
+
     	if (commsManager.isConnected()) {
     		(new RobotThread(this, commsManager)).start();
     		return true;
     	}
-    	
+
     	return false;
     }
 

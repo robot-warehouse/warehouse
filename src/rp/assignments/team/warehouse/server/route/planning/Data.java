@@ -28,4 +28,23 @@ public class Data {
             add(new State(10, 5));
         }
     };
+
+/*
+	
+	//Add a robot at a particular position as a temporary obstacle
+    public void addObstacle(State obstacle) {
+    	obstacles.add(obstacle);
+    }
+    
+    //gets rid of all the temporary obstacles.
+    public void removeObstacles() {
+    	int length = obstacles.size();
+    	while(length > 20) {
+    		obstacles.remove(obstacles.size()-1);
+    		length = obstacles.size();
+    	}
+    }
+
+*/    
+    
 }

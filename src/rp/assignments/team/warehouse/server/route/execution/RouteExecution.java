@@ -2,7 +2,6 @@ package rp.assignments.team.warehouse.server.route.execution;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import rp.assignments.team.warehouse.server.Facing;
 import rp.assignments.team.warehouse.server.Location;
 
