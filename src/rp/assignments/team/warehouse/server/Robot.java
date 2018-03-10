@@ -1,29 +1,34 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import rp.assignments.team.warehouse.server.communications.CommunicationsManager;
-import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.assignment.Bidder;
 import rp.assignments.team.warehouse.server.job.assignment.Picker;
+import rp.assignments.team.warehouse.server.route.planning.AStar;
 
 public class Robot implements Picker, Bidder {
 
     private RobotInfo robotInfo;
     private Location currentLocation;
     private Facing currentFacingDirection;
-    private Pick currentPick;
+    private Set<Pick> currentPicks;
     private boolean hasComputedInstructionsForPick;
 
     private static Logger logger = LogManager.getLogger(Robot.class);
+
+    public static float MAX_WEIGHT = 50.0f;
 
     public Robot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
     	this.robotInfo = robotInfo;
         this.currentLocation = currentLocation;
         this.currentFacingDirection = currentFacingDirection;
-        this.currentPick = null;
+        this.currentPicks = new HashSet<Pick>();
     }
 
 	/**
@@ -68,16 +73,8 @@ public class Robot implements Picker, Bidder {
     	hasComputedInstructionsForPick = hasIt;
     }
 
-    public Job getCurrentJob() {
-        if (this.currentPick == null) {
-            return null;
-        }
-
-        return currentPick.getJob();
-    }
-
-    public Pick getCurrentPick() {
-    	return currentPick;
+    public Set<Pick> getCurrentPicks() {
+    	return currentPicks;
     }
 
     public boolean connect() {
@@ -94,20 +91,45 @@ public class Robot implements Picker, Bidder {
 
     @Override
     public boolean isAvailable() {
-        return this.currentPick != null;
+        return this.currentPicks != null;
+    }
+
+    public float getCurrentWeight() {
+        return (float) this.currentPicks.stream()
+            .mapToDouble(p -> p.getWeight())
+            .sum();
+    }
+
+    /**
+     * Get the number of items to pick up at the location.
+     *
+     * @param location The location
+     * @return The number of items to take at this location.
+     */
+    public int getNumPicksAtLocation(Location location) {
+        return (int) this.currentPicks.stream()
+            .filter(p -> location.equals(p.getPickLocation()))
+            .count();
     }
 
     @Override
     public void assignPick(Pick pick) {
-        assert this.currentPick == null;
+        assert this.currentPicks != null;
 
-        this.currentPick = pick;
+        this.currentPicks.add(pick);
+
+        logger.trace("Adding pick to robot %s.", this.getName());
+
+        // TODO this needs updating for having a set of picks
         setHasComputedInstructionsForPick(false); // this might need to be before the line above
     }
 
     @Override
     public int getBid(Pick pick) {
-        // TODO Auto-generated method stub
-        return 0;
+        if (this.getCurrentWeight() + pick.getWeight() <= MAX_WEIGHT) {
+            return AStar.findDistance(this.getCurrentLocation(), pick.getPickLocation());
+        } else {
+            return Integer.MAX_VALUE;
+        }
     }
 }

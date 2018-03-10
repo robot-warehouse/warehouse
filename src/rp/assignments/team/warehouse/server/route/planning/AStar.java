@@ -70,6 +70,17 @@ public class AStar {
     }
 
     /**
+     * Get the distance of the generated A* path between start and goal.
+     *
+     * @param start The start location.
+     * @param goal The finish location.
+     * @return The distance of the path between the two locations.
+     */
+    public static int findDistance(Location start, Location goal) {
+        return findPath(start, goal).size();
+    }
+
+    /**
      * Finds the node with the smallest f value ( f=g+h )
      *
      * @param nodes

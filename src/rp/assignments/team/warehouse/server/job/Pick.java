@@ -2,7 +2,7 @@ package rp.assignments.team.warehouse.server.job;
 
 import rp.assignments.team.warehouse.server.Location;
 
-public class Pick {
+public class Pick implements IRewardable {
 
     private final Job job;
     private final Item item;
@@ -37,6 +37,24 @@ public class Pick {
      */
     public Item getItem() {
         return this.item;
+    }
+
+    /**
+     * Get the weight contributed by the pick.
+     *
+     * @return The weight of the item being picked.
+     */
+    public float getWeight() {
+        return this.getItem().getWeight();
+    }
+
+    /**
+     * Get the reward contributed by the pick.
+     *
+     * @return The reward of the item being picked.
+     */
+    public float getReward() {
+        return this.getItem().getReward();
     }
 
     /**

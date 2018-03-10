@@ -1,5 +1,6 @@
 package rp.assignments.team.warehouse.server.job.assignment;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 
 import rp.assignments.team.warehouse.server.Robot;
 import rp.assignments.team.warehouse.server.job.Pick;
+import rp.assignments.team.warehouse.server.job.comparators.CompareByRewardComparator;
 
 public class AuctionPickAssigner implements IPickAssigner {
 
@@ -57,7 +59,8 @@ public class AuctionPickAssigner implements IPickAssigner {
 
     @Override
     public void addPicks(List<Pick> picks) {
-        // TODO maybe order them
+        Collections.sort(picks, new CompareByRewardComparator());
+
         this.picks.addAll(picks);
     }
 
