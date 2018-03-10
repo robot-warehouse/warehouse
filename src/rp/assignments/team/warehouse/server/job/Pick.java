@@ -6,6 +6,7 @@ public class Pick implements IRewardable {
 
     private final Job job;
     private final Item item;
+    private boolean picked;
     private boolean completed;
 
     /**
@@ -18,6 +19,7 @@ public class Pick implements IRewardable {
 
         this.job = job;
         this.item = item;
+        this.picked = false;
         this.completed = false;
     }
 
@@ -67,9 +69,27 @@ public class Pick implements IRewardable {
     }
 
     /**
+     * Check if the item has been picked from the pick location.
+     * 
+     * @return True if the item has been picked.
+     */
+    public boolean isPicked() {
+        return picked;
+    }
+
+    /**
+     * Set the pick as picked.
+     */
+    public void setPicked() {
+        assert this.picked == false;
+
+        this.picked = true;
+    }
+
+    /**
      * Check if the pick has been completed.
      *
-     * @return True if the pick has been completed.
+     * @return True if the item has been dropped off.
      */
     public boolean isCompleted() {
         return completed;

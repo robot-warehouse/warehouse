@@ -96,6 +96,7 @@ public class Robot implements Picker, Bidder {
 
     public float getCurrentWeight() {
         return (float) this.currentPicks.stream()
+            .filter(p -> p.isPicked())
             .mapToDouble(p -> p.getWeight())
             .sum();
     }
