@@ -1,11 +1,11 @@
 package rp.assignments.team.warehouse.server.job.assignment;
 
+import rp.assignments.team.warehouse.server.job.Pick;
+
 import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import rp.assignments.team.warehouse.server.job.Pick;
 
 public class AuctionPickAssigner implements IPickAssigner {
 

@@ -1,13 +1,10 @@
 package rp.assignments.team.warehouse.server.communications;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
-import rp.assignments.team.warehouse.server.route.planning.Data;
-import rp.assignments.team.warehouse.server.route.planning.State;
+
+import java.util.ArrayList;
 
 public class BluetoothTest {
 

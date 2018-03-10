@@ -1,15 +1,15 @@
 package rp.assignments.team.warehouse.server.job;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.CompareByPriorityComparator;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
+
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public class JobTest {
 

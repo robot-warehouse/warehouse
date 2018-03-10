@@ -1,10 +1,10 @@
 package rp.assignments.team.warehouse.server.job.selection;
 
+import rp.assignments.team.warehouse.server.job.Job;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
-import rp.assignments.team.warehouse.server.job.Job;
 
 public class PriorityJobSelector implements IJobSelector {
 

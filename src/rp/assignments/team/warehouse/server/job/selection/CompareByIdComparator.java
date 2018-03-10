@@ -1,8 +1,8 @@
 package rp.assignments.team.warehouse.server.job.selection;
 
-import java.util.Comparator;
-
 import rp.assignments.team.warehouse.server.job.IIDed;
+
+import java.util.Comparator;
 
 public class CompareByIdComparator implements Comparator<IIDed> {
 

@@ -1,13 +1,10 @@
 package rp.assignments.team.warehouse.server.managementinterface;
 
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.SystemColor;
-
-import javax.swing.*;
-
 import rp.assignments.team.warehouse.server.Warehouse;
 import rp.assignments.team.warehouse.server.controller.Controller;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class WMInterface {
 

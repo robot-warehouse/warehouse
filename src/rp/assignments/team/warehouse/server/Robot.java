@@ -1,18 +1,16 @@
 package rp.assignments.team.warehouse.server;
 
-import java.util.ArrayList;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import rp.assignments.team.warehouse.server.communications.CommunicationsManager;
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.assignment.Bidder;
-import rp.assignments.team.warehouse.server.job.assignment.IPickAssigner;
 import rp.assignments.team.warehouse.server.job.assignment.Picker;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
+
+import java.util.ArrayList;
 
 public class Robot extends Thread implements Picker, Bidder {
 
