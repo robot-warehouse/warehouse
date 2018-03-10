@@ -26,11 +26,11 @@ public class Robot implements Picker, Bidder {
         this.currentPick = null;
     }
 
-    public String getRobotName() {
+    public String getName() {
         return robotInfo.name;
     }
     
-    public String getRobotAddress() {
+    public String getAddress() {
     	return robotInfo.address;
     }
 
@@ -71,7 +71,7 @@ public class Robot implements Picker, Bidder {
     }
     
     public boolean connect() {
-    	CommunicationsManager commsManager = new CommunicationsManager(getRobotName(), getRobotAddress());
+    	CommunicationsManager commsManager = new CommunicationsManager(getName(), getAddress());
     	commsManager.startServer();
     	
     	if (commsManager.isConnected()) {

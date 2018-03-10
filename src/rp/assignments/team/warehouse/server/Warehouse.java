@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import rp.assignments.team.warehouse.server.job.Job;
 
@@ -42,7 +43,7 @@ public class Warehouse {
     }
 
     public Map<String, Location> getRobotLocations() {
-        return null; // TODO Get map of robot name and location from list of robots
+        return robots.stream().collect(Collectors.toMap(Robot::getName, Robot::getCurrentLocation));
     }
 
     public void shutdown() {
