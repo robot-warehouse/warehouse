@@ -1,14 +1,15 @@
 package rp.assignments.team.warehouse.test;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 import org.junit.Test;
+
 import rp.assignments.team.warehouse.server.Facing;
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
-
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
 
 public class RouteExecutionTest {
 

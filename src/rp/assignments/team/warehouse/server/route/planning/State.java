@@ -1,8 +1,8 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
-import rp.assignments.team.warehouse.server.Location;
-
 import java.util.ArrayList;
+
+import rp.assignments.team.warehouse.server.Location;
 
 public class State extends Location {
 

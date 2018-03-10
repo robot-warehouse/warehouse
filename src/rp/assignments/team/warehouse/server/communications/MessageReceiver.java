@@ -1,14 +1,15 @@
 package rp.assignments.team.warehouse.server.communications;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import rp.assignments.team.warehouse.shared.communications.Command;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import rp.assignments.team.warehouse.shared.communications.Command;
 
 public class MessageReceiver extends Thread {
 

@@ -1,8 +1,8 @@
 package rp.assignments.team.warehouse.server.job.selection;
 
-import rp.assignments.team.warehouse.server.job.IPrioritised;
-
 import java.util.Comparator;
+
+import rp.assignments.team.warehouse.server.job.IPrioritised;
 
 public class CompareByPriorityComparator implements Comparator<IPrioritised> {
 

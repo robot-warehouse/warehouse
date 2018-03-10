@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import rp.assignments.team.warehouse.server.job.Job;
-import rp.assignments.team.warehouse.server.Location;
-import rp.assignments.team.warehouse.server.Warehouse;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;

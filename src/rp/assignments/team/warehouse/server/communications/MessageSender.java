@@ -1,15 +1,16 @@
 package rp.assignments.team.warehouse.server.communications;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import rp.assignments.team.warehouse.shared.communications.Command;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import rp.assignments.team.warehouse.shared.communications.Command;
 
 /**
  * Sends Messages to the robot.

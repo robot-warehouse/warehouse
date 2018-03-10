@@ -1,18 +1,20 @@
 package rp.assignments.team.warehouse.server.communications;
 
-import lejos.pc.comm.NXTComm;
-import lejos.pc.comm.NXTCommException;
-import lejos.pc.comm.NXTCommFactory;
-import lejos.pc.comm.NXTInfo;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import rp.assignments.team.warehouse.server.route.planning.State;
-import rp.assignments.team.warehouse.shared.communications.Command;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import lejos.pc.comm.NXTComm;
+import lejos.pc.comm.NXTCommException;
+import lejos.pc.comm.NXTCommFactory;
+import lejos.pc.comm.NXTInfo;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import rp.assignments.team.warehouse.server.route.planning.State;
+import rp.assignments.team.warehouse.shared.communications.Command;
 
 /**
  * Manages communications between a robot and the pc
