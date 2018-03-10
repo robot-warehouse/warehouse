@@ -27,6 +27,7 @@ public class Item implements IIDed, IRewardable {
         assert !Float.isNaN(reward);
         assert !Float.isNaN(weight);
         assert Float.compare(0.0f, weight) <= 0 : "Weight cannot be negative";
+        assert location != null;
 
         this.id = id;
         this.reward = reward;
