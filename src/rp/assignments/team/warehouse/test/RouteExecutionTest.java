@@ -3,6 +3,7 @@ package rp.assignments.team.warehouse.test;
 import org.junit.Test;
 import rp.assignments.team.warehouse.server.Facing;
 import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 
 import java.util.ArrayList;
@@ -31,8 +32,8 @@ public class RouteExecutionTest {
         // assert
         ArrayList<Integer> expected = new ArrayList<Integer>() {
             {
-                add(2);
-                add(2);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
             }
         };
 
@@ -60,11 +61,11 @@ public class RouteExecutionTest {
         // assert
         ArrayList<Integer> expected = new ArrayList<Integer>() {
             {
-                add(0);
-                add(2);
-                add(2);
-                add(2);
-                add(2);
+                add(Instruction.LEFT);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
             }
         };
 
@@ -101,20 +102,20 @@ public class RouteExecutionTest {
         // assert
         ArrayList<Integer> expected = new ArrayList<Integer>() {
             {
-                add(2);
-                add(2);
-                add(2);
-                add(2);
-                add(2);
-                add(2);
-                add(2);
-                add(2);
-                add(2);
-                add(2);
-                add(0);
-                add(2);
-                add(2);
-                add(2);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.LEFT);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
+                add(Instruction.FORWARDS);
             }
         };
         assertEquals(expected, output);
