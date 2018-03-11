@@ -1,10 +1,10 @@
 package rp.assignments.team.warehouse.server.job;
 
-import rp.assignments.team.warehouse.server.Location;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import rp.assignments.team.warehouse.server.Location;
 
 public class Item implements IIDed, IRewardable {
 
@@ -27,6 +27,7 @@ public class Item implements IIDed, IRewardable {
         assert !Float.isNaN(reward);
         assert !Float.isNaN(weight);
         assert Float.compare(0.0f, weight) <= 0 : "Weight cannot be negative";
+        assert location != null;
 
         this.id = id;
         this.reward = reward;
@@ -94,20 +95,29 @@ public class Item implements IIDed, IRewardable {
      */
     public static String numericIdToString(int id, int padTo) {
         assert id >= 0;
-        String string = "";
-        int r = 0;
-        int n = id;
-        do {
-            r = n % 26;
-            n = n / 26;
-            string = "" + (char) (r + 0x61) + string;
-        } while (n > 0 && r != 0);
+
+        String string = toStringRadix26(id);
 
         if (string.length() < padTo) {
             string = String.join("", Collections.nCopies(padTo - string.length(), "a")) + string;
         }
 
         return string;
+    }
+
+    /**
+     * Get the string representation of n in radix 26.
+     * 
+     * @param n The integer to be converted.
+     * @return Base 26 equivalent of n.
+     */
+    private static String toStringRadix26(int n) {
+        final String conv = "abcdefghijklmnopqrstuvwxyz";
+
+        if (n < 26)
+            return String.valueOf(conv.charAt(n));
+
+        return toStringRadix26((int) n/26) + String.valueOf(conv.charAt(n%26));
     }
 
     /**

@@ -1,20 +1,31 @@
 package rp.assignments.team.warehouse.server.job.assignment;
 
-import rp.assignments.team.warehouse.server.job.Pick;
-
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import rp.assignments.team.warehouse.server.Robot;
+import rp.assignments.team.warehouse.server.job.Pick;
+import rp.assignments.team.warehouse.server.job.comparators.CompareByRewardComparator;
+
 public class AuctionPickAssigner implements IPickAssigner {
 
     private Queue<Pick> picks;
-    private Set<Bidder> bidders;
+    private Set<Robot> bidders;
 
-    public AuctionPickAssigner(Queue<Pick> picks, Set<Bidder> bidders) {
+    public AuctionPickAssigner(Queue<Pick> picks, Set<Robot> bidders) {
         super();
         this.picks = picks;
+        this.bidders = bidders;
+    }
+
+    public AuctionPickAssigner(Set<Robot> bidders) {
+        super();
+        this.picks = new LinkedList<Pick>();
         this.bidders = bidders;
     }
 
@@ -44,6 +55,13 @@ public class AuctionPickAssigner implements IPickAssigner {
     @Override
     public boolean hasNext() {
         return !this.picks.isEmpty();
+    }
+
+    @Override
+    public void addPicks(List<Pick> picks) {
+        Collections.sort(picks, new CompareByRewardComparator());
+
+        this.picks.addAll(picks);
     }
 
 }

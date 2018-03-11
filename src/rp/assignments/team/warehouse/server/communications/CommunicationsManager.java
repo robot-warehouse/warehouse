@@ -1,30 +1,27 @@
 package rp.assignments.team.warehouse.server.communications;
 
-import lejos.pc.comm.NXTComm;
-import lejos.pc.comm.NXTCommException;
-import lejos.pc.comm.NXTCommFactory;
-import lejos.pc.comm.NXTInfo;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import rp.assignments.team.warehouse.server.route.planning.State;
-import rp.assignments.team.warehouse.shared.communications.Command;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import lejos.pc.comm.NXTComm;
+import lejos.pc.comm.NXTCommException;
+import lejos.pc.comm.NXTCommFactory;
+import lejos.pc.comm.NXTInfo;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import rp.assignments.team.warehouse.server.RobotInfo;
+import rp.assignments.team.warehouse.server.route.execution.Instruction;
+import rp.assignments.team.warehouse.server.route.planning.State;
+import rp.assignments.team.warehouse.shared.communications.Command;
+
 /**
  * Manages communications between a robot and the pc
  */
-public class CommunicationsManager { 
-
-    public static final String ROBOT_1_NAME = "John Cena";
-    public static final String ROBOT_1_ADDRESS = "00165308E5A7";
-    public static final String ROBOT_2_NAME = "TriHard";
-    public static final String ROBOT_2_ADDRESS = "0016530A631F";
-    public static final String ROBOT_3_NAME = "Nameless";
-    public static final String ROBOT_3_ADDRESS = "0016530A9AD1";
+public class CommunicationsManager {
 
     private final static Logger logger = LogManager.getLogger(CommunicationsManager.class);
 
@@ -37,8 +34,15 @@ public class CommunicationsManager {
 
     /**
      * Constructs a new instance of CommunicationsManager with the given robot name/address.
+     *
+     * @param robotInfo The robot's information.
      */
-    public CommunicationsManager(String name, String address) {
+    public CommunicationsManager(RobotInfo robotInfo) {
+        assert robotInfo != null;
+
+        String name = robotInfo.getName();
+        String address = robotInfo.getAddress();
+
         logger.info("Initialising communications with " + name + " address " + address + ".");
         this.nxtInf = new NXTInfo(NXTCommFactory.BLUETOOTH, name, address);
         try {
@@ -90,8 +94,7 @@ public class CommunicationsManager {
      *
      * @param orders What operations the robot should perform to reach goal. See route execution
      */
-    public void sendOrders(List<Integer> orders) {
-        // integers for now, not sure how they'll be implement by job execution
+    public void sendOrders(List<Instruction> orders) {
         sender.setOrders(orders);
         receiver.setFinished(false);
         commands.offer(Command.SEND_ORDERS);

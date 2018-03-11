@@ -1,15 +1,17 @@
 package rp.assignments.team.warehouse.server.communications;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import rp.assignments.team.warehouse.shared.communications.Command;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import rp.assignments.team.warehouse.server.route.execution.Instruction;
+import rp.assignments.team.warehouse.shared.communications.Command;
 
 /**
  * Sends Messages to the robot.
@@ -20,8 +22,12 @@ public class MessageSender extends Thread {
 
     private DataOutputStream toRobot;
     private BlockingQueue<Command> commands;
-    private List<Integer> orders;
+    private List<Instruction> orders;
 
+    /**
+     * @param toRobot The stream for communications to the robot.
+     * @param commandQueue A queue of commands to send to the robot.
+     */
     public MessageSender(OutputStream toRobot, BlockingQueue<Command> commandQueue) {
         logger.info("Constructing sender");
         this.toRobot = new DataOutputStream(toRobot);
@@ -31,14 +37,14 @@ public class MessageSender extends Thread {
 
     private String orderString() {
         String strOrders = "";
-        for (Integer in : this.orders) {
+        for (Instruction in : this.orders) {
             strOrders += in.toString() + ", ";
         }
         return strOrders;
     }
 
-    public void setOrders(List<Integer> orders) {
-        this.orders = new ArrayList<Integer>(orders);
+    public void setOrders(List<Instruction> orders) {
+        this.orders = new ArrayList<Instruction>(orders);
         logger.info("Received orders: " + orderString());
     }
 
@@ -78,7 +84,7 @@ public class MessageSender extends Thread {
         if (orders.isEmpty()) {
             logger.warn("No orders to send");
         }
-        for (Integer order : orders) {
+        for (Instruction order : orders) {
             toRobot.writeUTF(order.toString());
             toRobot.flush();
         }

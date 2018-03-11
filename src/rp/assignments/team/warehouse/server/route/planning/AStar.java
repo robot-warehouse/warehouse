@@ -1,16 +1,24 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import rp.assignments.team.warehouse.server.Location;
-
 import java.util.ArrayList;
 import java.util.Collections;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import rp.assignments.team.warehouse.server.Location;
 
 public class AStar {
 
     private final static Logger logger = LogManager.getLogger(AStar.class);
 
+    /**
+     * Get the path between the start and goal locations.
+     * 
+     * @param start The start location.
+     * @param goal The finish location.
+     * @return List of the locations along the computed path.
+     */
     public static ArrayList<Location> findPath(Location start, Location goal) {
         logger.info("Entering the findPath method");
         ArrayList<State> open = new ArrayList<>(); // Stores nodes available for visiting.
@@ -69,6 +77,17 @@ public class AStar {
     }
 
     /**
+     * Get the distance of the generated A* path between start and goal.
+     *
+     * @param start The start location.
+     * @param goal The finish location.
+     * @return The distance of the path between the two locations.
+     */
+    public static int findDistance(Location start, Location goal) {
+        return findPath(start, goal).size();
+    }
+
+    /**
      * Finds the node with the smallest f value ( f=g+h )
      *
      * @param nodes
@@ -85,7 +104,7 @@ public class AStar {
     }
 
     /**
-     * After we reach the goal node, we get the path to that node by traveling back to the starting node by traversing
+     * After we reach the goal node, we get the path to that node by travelling back to the starting node by traversing
      * to each parent.
      *
      * @param current

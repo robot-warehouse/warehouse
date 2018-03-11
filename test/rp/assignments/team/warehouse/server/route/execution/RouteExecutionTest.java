@@ -1,14 +1,15 @@
-package rp.assignments.team.warehouse.test;
+package rp.assignments.team.warehouse.server.route.execution;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
+
 import rp.assignments.team.warehouse.server.Facing;
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
-
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
 
 public class RouteExecutionTest {
 
@@ -26,11 +27,11 @@ public class RouteExecutionTest {
         };
 
         // act
-        ArrayList<Integer> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
+        ArrayList<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
                 testLocations);
 
         // assert
-        ArrayList<Integer> expected = new ArrayList<Integer>() {
+        ArrayList<Instruction> expected = new ArrayList<Instruction>() {
             {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
@@ -56,11 +57,11 @@ public class RouteExecutionTest {
         };
 
         // act
-        ArrayList<Integer> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
+        ArrayList<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
                 testLocations);
 
         // assert
-        ArrayList<Integer> expected = new ArrayList<Integer>() {
+        ArrayList<Instruction> expected = new ArrayList<Instruction>() {
             {
                 add(Instruction.LEFT);
                 add(Instruction.FORWARDS);
@@ -98,11 +99,11 @@ public class RouteExecutionTest {
         };
 
         // act
-        ArrayList<Integer> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
+        ArrayList<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
                 testLocations);
 
         // assert
-        ArrayList<Integer> expected = new ArrayList<Integer>() {
+        ArrayList<Instruction> expected = new ArrayList<Instruction>() {
             {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);

@@ -1,10 +1,13 @@
 package rp.assignments.team.warehouse.server.managementinterface;
 
-import rp.assignments.team.warehouse.server.Warehouse;
-import rp.assignments.team.warehouse.server.controller.Controller;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.SystemColor;
 
 import javax.swing.*;
-import java.awt.*;
+
+import rp.assignments.team.warehouse.server.Controller;
+import rp.assignments.team.warehouse.server.Warehouse;
 
 public class WMInterface {
 
@@ -23,7 +26,7 @@ public class WMInterface {
     private final int SEPARATOR_WIDTH = 130;
 
     /**
-     * Launch the application.
+     * Launch the Warehouse GUI.
      */
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -40,7 +43,7 @@ public class WMInterface {
     }
 
     /**
-     * Create the application.
+     * Create the Warehouse GUI.
      */
     public WMInterface(Controller controller) {
         this.controller = controller;
@@ -48,7 +51,7 @@ public class WMInterface {
     }
 
     /**
-     * Initialize the contents of the frame.
+     * Initialise the contents of the frame.
      */
     private void initialize() {
         frame = new JFrame();
@@ -114,7 +117,7 @@ public class WMInterface {
             JFrame fromInterface = new JFrame("Exit");
             if (JOptionPane.showConfirmDialog(fromInterface, "Are you sure you want to exit?", "Confirm Exit",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
-                System.exit(0);
+                controller.shutdown();
             }
         });
         btnExit.setBounds(244, 451, BUTTON_NARROW_WIDTH, BUTTON_HEIGHT);

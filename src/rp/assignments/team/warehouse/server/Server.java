@@ -1,6 +1,5 @@
 package rp.assignments.team.warehouse.server;
 
-import rp.assignments.team.warehouse.server.controller.Controller;
 import rp.assignments.team.warehouse.server.managementinterface.WMInterface;
 
 public class Server {
@@ -11,7 +10,5 @@ public class Server {
         Controller controller = new Controller(warehouse);
 
         new WMInterface(controller);
-
-//        (new JobAssigner(warehouse)).start();
     }
 }

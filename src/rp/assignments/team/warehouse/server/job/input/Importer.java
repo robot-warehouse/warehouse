@@ -1,20 +1,26 @@
 package rp.assignments.team.warehouse.server.job.input;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import rp.assignments.team.warehouse.server.Location;
-import rp.assignments.team.warehouse.server.job.Item;
-import rp.assignments.team.warehouse.server.job.Job;
-import rp.assignments.team.warehouse.server.job.JobItem;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.job.Item;
+import rp.assignments.team.warehouse.server.job.Job;
+import rp.assignments.team.warehouse.server.job.JobItem;
 
 public class Importer {
 
@@ -59,9 +65,9 @@ public class Importer {
     /**
      * Parse the job input CSVs
      *
-     * @throws IOException
+     * @return True if successful.
      */
-    public void parse() throws IOException {
+    public boolean parse() {
         try (BufferedReader jobsReader = new BufferedReader(new FileReader(jobsFile));
                 BufferedReader cancellationsReader = new BufferedReader(new FileReader(cancellationsFile));
                 BufferedReader locationsReader = new BufferedReader(new FileReader(locationsFile));
@@ -72,11 +78,13 @@ public class Importer {
             this.parseJobs(jobsReader);
             this.parseCancellations(cancellationsReader);
             this.parseDrops(dropsReader);
+
+            this.doneParsing = true;
         } catch (IOException e) {
-            throw e;
+            logger.fatal(e.getMessage());
         }
 
-        this.doneParsing = true;
+        return this.doneParsing;
     }
 
     private void parseLocations(BufferedReader locationsReader) throws IOException {
@@ -96,7 +104,7 @@ public class Importer {
             int id = Item.parseId(m.group(3));
 
             if (!Location.isValidLocation(x, y)) {
-                logger.info("Invalid coordinates in locations file (%d, %d)", x, y);
+                logger.info("Invalid coordinates in locations file ({}, {})", x, y);
                 continue;
             }
 
@@ -105,7 +113,7 @@ public class Importer {
             if (!this.locations.containsKey(id)) {
                 this.locations.put(id, l);
             } else {
-               logger.info("locations file referenced item id %c in a new location (%d, %d)", id, x, y);
+               logger.info("locations file referenced item id {} in a new location ({}, {})", id, x, y);
             }
         }
     }
@@ -133,10 +141,10 @@ public class Importer {
                 if (!items.containsKey(id)) {
                     items.put(id, new Item(id, reward, weight, location));
                 } else {
-                    logger.info("items file referenced item id %s multiple times", idString);
+                    logger.info("items file referenced item id {} multiple times", idString);
                 }
             } else {
-                logger.info("items file referenced item id %s with unmapped location", idString);
+                logger.info("items file referenced item id {} with unmapped location", idString);
             }
         }
     }
@@ -170,7 +178,7 @@ public class Importer {
                 if (items.containsKey(itemId)) {
                     jobItems.add(new JobItem(items.get(itemId), count));
                 } else {
-                    logger.info("jobs file referenced unknown item id %s in job %d", itemIdString, id);
+                    logger.info("jobs file referenced unknown item id {} in job {}", itemIdString, id);
                 }
 
                 i += 2;
@@ -191,7 +199,7 @@ public class Importer {
             }
 
             int id = Integer.parseInt(m.group(1));
-            boolean cancelled = Integer.parseInt(m.group(1)) == 1;
+            boolean cancelled = Integer.parseInt(m.group(2)) == 1;
             Job job = this.jobs.get(id);
 
             if (job != null) {
@@ -199,7 +207,7 @@ public class Importer {
                     job.setPreviouslyCancelled();
                 }
             } else {
-                logger.info("cancellations file referenced unknown job id %d", id);
+                logger.info("cancellations file referenced unknown job id {}", id);
             }
         }
     }
@@ -222,18 +230,22 @@ public class Importer {
             Location l = new Location(x, y);
 
             if (!drops.add(l)) {
-                logger.info("drops file referenced location %s multiple times", l);
+                logger.info("drops file referenced location {} multiple times", l);
             }
         }
     }
 
     private boolean isInvalidLine(String file, String line, Matcher m) {
         if (!m.matches()) {
-            logger.warn("Invalid line in %s file. Saw: %s", file, line);
+            logger.warn("Invalid line in {} file. Saw: {}", file, line);
             return true;
         }
         return false;
     }
+
+    public boolean isDoneParsing() {
+		return this.doneParsing;
+	}
 
     public List<Job> getJobs() throws ImportNotFinishedException {
         if (!this.doneParsing) {
@@ -243,12 +255,12 @@ public class Importer {
         return new ArrayList<Job>(this.jobs.values());
     }
 
-    public List<Item> getItems() throws ImportNotFinishedException {
+    public Set<Item> getItems() throws ImportNotFinishedException {
         if (!this.doneParsing) {
             throw new ImportNotFinishedException();
         }
 
-        return new ArrayList<Item>(this.items.values());
+        return new HashSet<Item>(this.items.values());
     }
 
     public Set<Location> getDrops() throws ImportNotFinishedException {

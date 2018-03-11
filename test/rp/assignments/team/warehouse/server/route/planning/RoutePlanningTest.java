@@ -1,16 +1,17 @@
-package rp.assignments.team.warehouse.test;
+package rp.assignments.team.warehouse.server.route.planning;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import java.util.ArrayList;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
 import rp.assignments.team.warehouse.server.route.planning.State;
-
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class RoutePlanningTest {
 

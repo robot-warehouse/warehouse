@@ -2,10 +2,11 @@ package rp.assignments.team.warehouse.server.job;
 
 import rp.assignments.team.warehouse.server.Location;
 
-public class Pick {
+public class Pick implements IRewardable {
 
     private final Job job;
     private final Item item;
+    private boolean picked;
     private boolean completed;
 
     /**
@@ -18,6 +19,7 @@ public class Pick {
 
         this.job = job;
         this.item = item;
+        this.picked = false;
         this.completed = false;
     }
 
@@ -40,6 +42,24 @@ public class Pick {
     }
 
     /**
+     * Get the weight contributed by the pick.
+     *
+     * @return The weight of the item being picked.
+     */
+    public float getWeight() {
+        return this.getItem().getWeight();
+    }
+
+    /**
+     * Get the reward contributed by the pick.
+     *
+     * @return The reward of the item being picked.
+     */
+    public float getReward() {
+        return this.getItem().getReward();
+    }
+
+    /**
      * Get the location to pick the item from.
      *
      * @return The pick location.
@@ -49,9 +69,27 @@ public class Pick {
     }
 
     /**
+     * Check if the item has been picked from the pick location.
+     * 
+     * @return True if the item has been picked.
+     */
+    public boolean isPicked() {
+        return picked;
+    }
+
+    /**
+     * Set the pick as picked.
+     */
+    public void setPicked() {
+        assert this.picked == false;
+
+        this.picked = true;
+    }
+
+    /**
      * Check if the pick has been completed.
      *
-     * @return True if the pick has been completed.
+     * @return True if the item has been dropped off.
      */
     public boolean isCompleted() {
         return completed;

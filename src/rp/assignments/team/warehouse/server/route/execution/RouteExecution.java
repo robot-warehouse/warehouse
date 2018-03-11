@@ -1,21 +1,22 @@
 package rp.assignments.team.warehouse.server.route.execution;
 
+import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import rp.assignments.team.warehouse.server.Facing;
 import rp.assignments.team.warehouse.server.Location;
-
-import java.util.ArrayList;
 
 public class RouteExecution {
 
     private final static Logger logger = LogManager.getLogger(RouteExecution.class);
 
-    public static ArrayList<Integer> convertCoordinatesToInstructions(Facing facingDirection, ArrayList<Location> path) {
+    public static ArrayList<Instruction> convertCoordinatesToInstructions(Facing facingDirection, ArrayList<Location> path) {
 
-        logger.info(" Start Convert coordinates into numerated actions");
+        logger.info("Start Convert coordinates into numerated actions");
         
-        ArrayList<Integer> movementCommands = new ArrayList<>();
+        ArrayList<Instruction> movementCommands = new ArrayList<>();
 
         // loop through the array list containing the route.
         for (int i = 0; i < path.size() - 1; i++) {
