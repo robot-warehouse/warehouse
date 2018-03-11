@@ -20,9 +20,12 @@ public class Warehouse {
     /** The robots in the warehouse */
     private Set<Robot> robots;
 
+    /** Any robots that aren't currently connected */
+    private Set<RobotInfo> offlineRobots;
+
     public Warehouse() {
         this.running = true;
-        this.robots = new HashSet<Robot>();
+        this.robots = new HashSet<>();
     }
 
     /**
@@ -68,6 +71,15 @@ public class Warehouse {
      */
     public Set<Robot> getRobots() {
         return this.robots;
+    }
+
+    /**
+     * Get the offline robots
+     *
+     * @return Set of robots not in the warehouse
+     */
+    public Set<RobotInfo> getOfflineRobots() {
+        return this.offlineRobots;
     }
 
     /**

@@ -3,6 +3,7 @@ package rp.assignments.team.warehouse.server;
 import java.util.ArrayList;
 
 import rp.assignments.team.warehouse.server.communications.CommunicationsManager;
+import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
@@ -24,8 +25,8 @@ public class RobotThread extends Thread {
 	@Override
     public void run() {
     	while (commsManager.isConnected()) {
-    		if (robot.getCurrentPick() != null && !robot.hasComputedInstructionsForPick()) {
-    			ArrayList<Location> path = AStar.findPath(robot.getCurrentLocation(), robot.getCurrentPick().getPickLocation());
+    		if (robot.getCurrentPicks() != null && !robot.hasComputedInstructionsForPick()) {
+    			ArrayList<Location> path = AStar.findPath(robot.getCurrentLocation(), ((Pick)robot.getCurrentPicks().toArray()[0]).getPickLocation());
     			ArrayList<Instruction> instructions = RouteExecution.convertCoordinatesToInstructions(robot.getCurrentFacingDirection(), path);
 
     			commsManager.sendOrders(instructions);
