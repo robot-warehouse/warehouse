@@ -71,8 +71,6 @@ public class MessageSender extends Thread {
 
     }
 
-    // perhaps use a type instead of int here?
-    // should this throw exception or should it be handled in this method?
     public void sendOrders() throws IOException {
         // send a command to give new information
         toRobot.writeUTF(Command.SEND_ORDERS.toString());
@@ -92,6 +90,13 @@ public class MessageSender extends Thread {
     public void sendCancellation() throws IOException {
         logger.info("Sending cancellation request to robot");
         toRobot.writeUTF(Command.CANCEL.toString());
+        toRobot.flush();
+    }
+    
+    public void sendNumberOfPicks(int picks) throws IOException {
+    	toRobot.writeUTF(Command.SEND_PICKS.toString());
+    	toRobot.writeUTF(Integer.toString(picks));
+    	toRobot.flush();
     }
 
 }

@@ -72,6 +72,10 @@ public class CommunicationsManager {
     public State getRobotState() {
         return receiver.getLatestPosition();
     }
+    
+    public boolean getFinished() {
+    	return receiver.getFinished();
+    }
 
     /*
      * Start the server threads
@@ -89,6 +93,7 @@ public class CommunicationsManager {
     public void sendOrders(List<Integer> orders) {
         // integers for now, not sure how they'll be implement by job execution
         sender.setOrders(orders);
+        receiver.setFinished(false);
         commands.offer(Command.SEND_ORDERS);
 
     }

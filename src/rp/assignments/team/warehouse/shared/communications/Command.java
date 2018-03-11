@@ -21,6 +21,10 @@ public enum Command {
      */
     FINISHED_JOB,
     /**
+	 * Send the number of the picks
+	 */
+	SEND_PICKS,
+    /**
      * End of current sequence of messages
      */
     END;

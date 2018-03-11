@@ -16,10 +16,12 @@ public class MessageReceiver extends Thread {
 
     private DataInputStream fromRobot;
     private List<rp.assignments.team.warehouse.server.route.planning.State> locations;
+    private boolean robotFinished;
 
     public MessageReceiver(InputStream inpStream) {
         this.fromRobot = new DataInputStream(inpStream);
         this.locations = new ArrayList<>();
+        this.robotFinished = false;
         logger.info("Constructing Receiver.");
 
     }
@@ -38,7 +40,8 @@ public class MessageReceiver extends Thread {
                         logger.info("Received " + currState + " from robot.");
                         locations.add(currState);
                         break;
-                    // add more commands to switch on if neccessary
+                    case FINISHED_JOB:
+                    	robotFinished = false;
                     default:
                         logger.warn("Robot set unrecognised command");
                         break;
@@ -66,5 +69,14 @@ public class MessageReceiver extends Thread {
             return locations.get(locations.size() - 1);
         }
     }
+    
+    public boolean getFinished() {
+    	return robotFinished;
+    }
+    
+    public void setFinished(boolean finished) {
+    	this.robotFinished = finished;
+    }
+    
 
 }
