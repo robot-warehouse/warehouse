@@ -22,6 +22,7 @@ public class BluetoothTest {
         if (manager.isConnected()) {
             System.out.println("Enter orders");
             manager.sendOrders(testOrders);
+            manager.sendNumOfPicks(2);
             System.out.println("Orders sent");
         }
 

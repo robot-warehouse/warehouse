@@ -100,6 +100,15 @@ public class CommunicationsManager {
         commands.offer(Command.SEND_ORDERS);
 
     }
+    
+    public void sendNumOfPicks(int picks) {
+    	try {
+			sender.sendNumberOfPicks(picks);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
     /**
      * Tell the robot to cancel the current set of orders
