@@ -85,12 +85,16 @@ public class MarkovLocalisation implements StoppableRunnable {
 				else m_pilot.rotatePositive();
 				continue;
 			}
+			m_pilot.moveForward();
+			
+			//if(m_ranger.getRange() / m_map.getCellSize() >= 1f)
+				m_distribution = actionModel.updateAfterMove(m_distribution, m_pilot.getGridPose().getHeading());
 			
 			/*if(random.nextFloat() < 0.05){
 				if(random.nextBoolean())m_pilot.rotateNegative();
 				else m_pilot.rotatePositive();
 			}*/
-			m_pilot.moveForward();
+			
 			while(m_ranger.getRangeValues().incomplete());
 			m_distribution = sensorModel.updateAfterSensing(m_distribution, m_pilot.getGridPose().getHeading(), m_ranger.getRangeValues());
 			System.out.println(m_pilot.getGridPose());
@@ -107,7 +111,7 @@ public class MarkovLocalisation implements StoppableRunnable {
 				}
 				string += "\n";
 			}
-			System.out.println(string + "\n\n");
+			//System.out.println(string + "\n\n");
 			Delay.msDelay(100);
 		
 		}
