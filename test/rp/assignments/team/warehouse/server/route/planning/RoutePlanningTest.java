@@ -2,6 +2,8 @@ package rp.assignments.team.warehouse.server.route.planning;
 
 import java.util.ArrayList;
 
+import lejos.util.Assertion;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -64,38 +66,18 @@ public class RoutePlanningTest {
         Assert.assertEquals(expected2, result2);
     }
 
-    @Test
+    @Test(expected = AssertionError.class)
     public void startPosValidationTest() {
-        // check validation of starting position
-        ArrayList<Location> result3;
-
-        try {
-            Location start3 = new Location(-1, 0);
-            Location goal3 = new Location(0, 5);
-            result3 = AStar.findPath(start3, goal3);
-        } catch (AssertionError ex) {
-            Assert.assertTrue(true);
-            return;
-        }
-
-        Assert.assertTrue("Location was allowed even though invalid", false);
+        Location start3 = new Location(-1, 0);
+        Location goal3 = new Location(0, 5);
+        AStar.findPath(start3, goal3);
     }
 
-    @Test
+    @Test(expected = AssertionError.class)
     public void goalPosValidationTest() {
-        // check validation of goal position
-        ArrayList<Location> result4;
-
-        try {
-            Location start4 = new Location(0, 5);
-            Location goal4 = new Location(-1, 0);
-            result4 = AStar.findPath(start4, goal4);
-        } catch (AssertionError ex) {
-            Assert.assertTrue(true);
-            return;
-        }
-
-        Assert.assertTrue("Location was allowed even though invalid", false);
+        Location start4 = new Location(0, 5);
+        Location goal4 = new Location(-1, 0);
+        AStar.findPath(start4, goal4);
     }
 
     @Test
