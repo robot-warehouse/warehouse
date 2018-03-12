@@ -64,7 +64,7 @@ public class MarkovLocalisation implements StoppableRunnable {
 
 		frame.add(m_mapVis);
 		frame.pack();
-		frame.setSize(m_mapVis.getMinimumSize());
+		frame.setSize(600, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 

@@ -15,7 +15,10 @@ public class TeamSensorModel implements SensorModel{
 		this.cellSize = cellSize;
 	}
 
-
+	private int abs(int x){
+		if(x<0) return -x;
+		return x;
+	}
 
 	@Override
 	public GridPositionDistribution updateAfterSensing(GridPositionDistribution _dist, Heading _heading,
@@ -27,21 +30,14 @@ public class TeamSensorModel implements SensorModel{
 		for(int x=0; x<_to.getGridMap().getXSize(); x++){
 			for(int y=0; y<_to.getGridMap().getYSize(); y++){
 				if(_to.getGridMap().isObstructed(x, y))continue;
-				int outData = (int) _to.getGridMap().rangeToObstacleFromGridPosition(x, y, Heading.toDegrees(_heading));
+				int outData = (int) (_to.getGridMap().rangeToObstacleFromGridPosition(x, y, Heading.toDegrees(_heading)) / cellSize);
 				float prob = _dist.getProbability(x, y);
-				/*switch(_heading){
-				case PLUS_X: if(_dist.isValidGridPosition(x-1, y))prob = _dist.getProbability(x-1, y);break;
-				case MINUS_X: if(_dist.isValidGridPosition(x+1, y))prob = _dist.getProbability(x+1, y);break;
-				case PLUS_Y: if(_dist.isValidGridPosition(x, y-1))prob = _dist.getProbability(x, y-1);break;
-				case MINUS_Y: if(_dist.isValidGridPosition(x, y+1))prob = _dist.getProbability(x, y+1);break;
-				}*/
 				
-				if( 0 == reading - outData){
-					prob *= 0.8;
-				}
-				if( -1 == reading - outData || 1 == reading - outData){
-					prob *= 0.1;
-				}
+				if(abs(outData-reading) == 0) prob *= 0.6;
+				if(abs(outData-reading) == 1) prob *= 0.15;
+				if(abs(outData-reading) == 2) prob *= 0.05;
+				if(abs(outData-reading) > 2) prob = 0f;
+				
 				_to.setProbability(x, y, prob);
 			}
 		}
