@@ -1,17 +1,13 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import java.util.ArrayList;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import rp.assignments.team.warehouse.server.Location;
-import rp.assignments.team.warehouse.server.route.planning.AStar;
-import rp.assignments.team.warehouse.server.route.planning.State;
 
 public class RoutePlanningTest {
 
@@ -45,7 +41,7 @@ public class RoutePlanningTest {
                 add(new State(5, 0));
             }
         };
-        assertEquals(expected1, result1);
+        Assert.assertEquals(expected1, result1);
     }
 
     @Test
@@ -65,27 +61,41 @@ public class RoutePlanningTest {
                 add(new State(0, 5));
             }
         };
-        assertEquals(expected2, result2);
+        Assert.assertEquals(expected2, result2);
     }
 
     @Test
     public void startPosValidationTest() {
         // check validation of starting position
         ArrayList<Location> result3;
-        Location start3 = new Location(-1, 0);
-        Location goal3 = new Location(0, 5);
-        result3 = AStar.findPath(start3, goal3);
-        assertNull(result3);
+
+        try {
+            Location start3 = new Location(-1, 0);
+            Location goal3 = new Location(0, 5);
+            result3 = AStar.findPath(start3, goal3);
+        } catch (AssertionError ex) {
+            Assert.assertTrue(true);
+            return;
+        }
+
+        Assert.assertTrue("Location was allowed even though invalid", false);
     }
 
     @Test
     public void goalPosValidationTest() {
         // check validation of goal position
         ArrayList<Location> result4;
-        Location start4 = new Location(0, 5);
-        Location goal4 = new Location(-1, 0);
-        result4 = AStar.findPath(start4, goal4);
-        assertNull(result4);
+
+        try {
+            Location start4 = new Location(0, 5);
+            Location goal4 = new Location(-1, 0);
+            result4 = AStar.findPath(start4, goal4);
+        } catch (AssertionError ex) {
+            Assert.assertTrue(true);
+            return;
+        }
+
+        Assert.assertTrue("Location was allowed even though invalid", false);
     }
 
     @Test
@@ -95,7 +105,7 @@ public class RoutePlanningTest {
         Location start5 = new Location(1, 2);
         Location goal5 = new Location(0, 5);
         result5 = AStar.findPath(start5, goal5);
-        assertNull(result5);
+        Assert.assertNull(result5);
     }
 
     @Test
@@ -105,6 +115,6 @@ public class RoutePlanningTest {
         Location start6 = new Location(0, 0);
         Location goal6 = new Location(1, 2);
         result6 = AStar.findPath(start6, goal6);
-        assertNull(result6);
+        Assert.assertNull(result6);
     }
 }
