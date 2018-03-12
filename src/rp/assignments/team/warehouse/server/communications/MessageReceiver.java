@@ -45,7 +45,8 @@ public class MessageReceiver extends Thread {
                         locations.add(currState);
                         break;
                     case FINISHED_JOB:
-                    	robotFinished = false;
+                    	System.out.println("finished");
+                    	robotFinished = true;
                     default:
                         logger.warn("Robot set unrecognised command");
                         break;
