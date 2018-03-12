@@ -2,8 +2,6 @@ package rp.assignments.team.warehouse.server.route.planning;
 
 import java.util.ArrayList;
 
-import lejos.util.Assertion;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
