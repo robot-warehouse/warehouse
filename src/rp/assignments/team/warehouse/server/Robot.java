@@ -73,6 +73,15 @@ public class Robot implements Picker, Bidder {
     }
 
     /**
+     * Get the robot info
+     *
+     * @return The RobotInfo
+     */
+    public RobotInfo getRobotInfo() {
+        return this.robotInfo;
+    }
+
+    /**
      * Set the current location of the robot in the warehouse.
      * 
      * @param currentLocation The new location of the robot.

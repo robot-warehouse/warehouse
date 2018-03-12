@@ -1,8 +1,12 @@
 package rp.assignments.team.warehouse.server;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.input.Importer;
@@ -16,7 +20,6 @@ public class Controller {
     private boolean startable;
 
     private Warehouse warehouse;
-    private Importer importer;
 
     private File jobsFile;
     private File cancellationsFile;
@@ -52,8 +55,7 @@ public class Controller {
     }
 
     public void importFiles() {
-        importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
-
+        Importer importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
         importer.parse();
 
         this.importedJobs = importer.getJobs();
@@ -83,7 +85,7 @@ public class Controller {
     	return false;
     }
 
-    public void disconnectRobot() {
+    public void disconnectRobot(int robotIndex) {
         // TODO we need to safely disconnect the robot, preserving it's current job/pick if it had one and remove it from the warehouse list
     }
 
@@ -92,7 +94,15 @@ public class Controller {
     }
 
     public Map<String, Location> getRobotLocations() {
-        return warehouse.getRobotLocations();
+        return this.warehouse.getRobotLocations();
+    }
+
+    public Set<RobotInfo> getOnlineRobots() {
+        return this.warehouse.getRobots().stream().map(Robot::getRobotInfo).collect(Collectors.toSet());
+    }
+
+    public Set<RobotInfo> getOfflineRobots() {
+        return this.warehouse.getOfflineRobots();
     }
 
     public void shutdown() {

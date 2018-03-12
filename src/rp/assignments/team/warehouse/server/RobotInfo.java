@@ -14,7 +14,7 @@ public enum RobotInfo {
     private final String name;
 	private final String address;
 
-	private RobotInfo(String name, String address) {
+	RobotInfo(String name, String address) {
 		this.name = name;
 		this.address = address;
 	}
