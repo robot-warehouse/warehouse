@@ -72,37 +72,36 @@ public class MarkovLocalisation implements StoppableRunnable {
 
 	@Override
 	public void run() {
+		// create the models
 		TeamActionModel actionModel = new TeamActionModel();
 		TeamSensorModel sensorModel = new TeamSensorModel(m_map.getCellSize());
+		
 		Random random = new Random(134299);
 		m_running = true;
-		System.out.println(String.format("%s %s", m_map.getXSize(), m_map.getYSize()));
 		
 		while (m_running) {
 			
+			// if the robot is too close to the wall, randomly turn right or left
 			if(m_ranger.getRange() / m_map.getCellSize() < 1f){
 				if(random.nextBoolean())m_pilot.rotateNegative();
 				else m_pilot.rotatePositive();
 				continue;
 			}
+			
+			// move forward 
 			m_pilot.moveForward();
 			
-			//if(m_ranger.getRange() / m_map.getCellSize() >= 1f)
-				m_distribution = actionModel.updateAfterMove(m_distribution, m_pilot.getGridPose().getHeading());
+			// update distribution using action model.
+			m_distribution = actionModel.updateAfterMove(m_distribution, m_pilot.getGridPose().getHeading());
 			
-			/*if(random.nextFloat() < 0.05){
-				if(random.nextBoolean())m_pilot.rotateNegative();
-				else m_pilot.rotatePositive();
-			}*/
-			
-			while(m_ranger.getRangeValues().incomplete());
+			// update distribution using sensor model.
 			m_distribution = sensorModel.updateAfterSensing(m_distribution, m_pilot.getGridPose().getHeading(), m_ranger.getRangeValues());
-			System.out.println(m_pilot.getGridPose());
 			
 			if(m_mapVis != null){
 				m_mapVis.setDistribution(m_distribution);
 			}
 			
+			/*
 			String string = "";
 			for(int i=0; i<m_distribution.getGridMap().getXSize(); i++){
 				for(int j=0; j<m_distribution.getGridMap().getYSize(); j++){
@@ -111,7 +110,7 @@ public class MarkovLocalisation implements StoppableRunnable {
 				}
 				string += "\n";
 			}
-			//System.out.println(string + "\n\n");
+			//System.out.println(string + "\n\n");*/
 			Delay.msDelay(100);
 		
 		}
