@@ -247,12 +247,12 @@ public class Importer {
 		return this.doneParsing;
 	}
 
-    public List<Job> getJobs() throws ImportNotFinishedException {
+    public Set<Job> getJobs() throws ImportNotFinishedException {
         if (!this.doneParsing) {
             throw new ImportNotFinishedException();
         }
 
-        return new ArrayList<Job>(this.jobs.values());
+        return new HashSet<Job>(this.jobs.values());
     }
 
     public Set<Item> getItems() throws ImportNotFinishedException {

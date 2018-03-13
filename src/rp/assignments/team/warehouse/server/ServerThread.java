@@ -1,6 +1,7 @@
 package rp.assignments.team.warehouse.server;
 
 import java.util.List;
+import java.util.Set;
 
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.assignment.AuctionPickAssigner;
@@ -26,7 +27,7 @@ public class ServerThread extends Thread {
      * 
      * @return List of jobs being worked on.
      */
-    public List<Job> getWorkingOnJobs() {
+    public Set<Job> getWorkingOnJobs() {
         return this.warehouse.getWorkingOnJobs();
     }
 

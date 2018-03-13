@@ -15,7 +15,7 @@ public class Warehouse {
     private boolean running;
 
     /** The jobs being worked on */
-    private List<Job> workingOnJobs;
+    private Set<Job> workingOnJobs;
 
     /** The robots in the warehouse */
     private Set<Robot> robots;
@@ -29,6 +29,7 @@ public class Warehouse {
     public Warehouse() {
         this.running = true;
         this.robots = new HashSet<>();
+        this.workingOnJobs = new HashSet<>();
 
         this.offlineRobots = RobotInfo.values();
     }
@@ -79,7 +80,7 @@ public class Warehouse {
      *
      * @return List of jobs being worked on.
      */
-    public List<Job> getWorkingOnJobs() {
+    public Set<Job> getWorkingOnJobs() {
         return this.workingOnJobs;
     }
 

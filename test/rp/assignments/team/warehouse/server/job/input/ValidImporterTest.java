@@ -77,7 +77,7 @@ public class ValidImporterTest {
 
     @Test
     public void importsCorrectJobs() {
-        List<Job> jobs = importer.getJobs();
+        Set<Job> jobs = importer.getJobs();
 
         Assert.assertEquals(jobs.size(), 2);
         Assert.assertThat(jobs,

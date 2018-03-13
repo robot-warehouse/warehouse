@@ -1,9 +1,9 @@
 package rp.assignments.team.warehouse.server;
 
 import java.io.File;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import rp.assignments.team.warehouse.server.gui.ManagementInterface;
 import rp.assignments.team.warehouse.server.job.Job;
@@ -26,7 +26,7 @@ public class Controller {
     private File itemsFile;
     private File dropsFile;
 
-    private List<Job> importedJobs;
+    private Set<Job> importedJobs;
 
     private IJobSelector jobSelector;
 
