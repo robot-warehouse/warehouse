@@ -198,7 +198,9 @@ public class ManagementInterface {
                                     Facing.North);
 
                             if (facingDirection != null) {
-                                this.controller.connectRobot(robotInfo, new Location(x, y), facingDirection);
+                                if (!this.controller.connectRobot(robotInfo, new Location(x, y), facingDirection)) {
+                                    JOptionPane.showMessageDialog(this.frame, "Failed to connect to robot.");
+                                }
                             }
                         }
                     }
@@ -211,7 +213,9 @@ public class ManagementInterface {
         JButton btnDisconnectRobot = new JButton("Disconnect Robot");
         btnDisconnectRobot.addActionListener(event -> {
             if (!this.tblOnlineRobots.getSelectionModel().isSelectionEmpty()) {
-                this.controller.disconnectRobot(this.tblOnlineRobots.getSelectedRow());
+                this.tblOnlineRobots.setRowSelectionAllowed(false); // supposed to lock selection while robot is being disconnected
+                this.controller.disconnectRobot((String) this.tblOnlineRobots.getValueAt(this.tblOnlineRobots.getSelectedRow(), 0));
+                this.tblOnlineRobots.setRowSelectionAllowed(true);
             }
         });
         btnDisconnectRobot.setBounds(PANE_RIGHT_X + TABLE_WIDTH - BUTTON_WIDTH_WIDE, Y_TOP, BUTTON_WIDTH_WIDE,

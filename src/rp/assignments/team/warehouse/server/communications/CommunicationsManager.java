@@ -89,6 +89,11 @@ public class CommunicationsManager {
         sender.start();
     }
 
+    public void stopServer() {
+        // TODO send shutdown command to robot
+        // TODO close sender and receiver threads
+    }
+
     /**
      * Send orders of where the robot should go
      *

@@ -28,6 +28,8 @@ public class Robot implements Picker, Bidder {
     
     private boolean hasComputedInstructionsForPick;
 
+    private CommunicationsManager communicationsManager;
+
     private static Logger logger = LogManager.getLogger(Robot.class);
 
     /** The maximum weight the robot can carry */
@@ -133,15 +135,28 @@ public class Robot implements Picker, Bidder {
      * @return True if successfully connected.
      */
     public boolean connect() {
-    	CommunicationsManager commsManager = new CommunicationsManager(this.robotInfo);
-    	commsManager.startServer();
+    	this.communicationsManager = new CommunicationsManager(this.robotInfo);
+        this.communicationsManager.startServer();
 
-    	if (commsManager.isConnected()) {
-    		(new RobotThread(this, commsManager)).start();
+    	if (this.communicationsManager.isConnected()) {
+    		(new RobotThread(this, this.communicationsManager)).start();
     		return true;
     	}
 
     	return false;
+    }
+
+    public void disconnect() {
+        this.communicationsManager.stopServer();
+    }
+
+    /**
+     * Returns true if the robot is still connected to the thread
+     *
+     * @return
+     */
+    public boolean isConnected() {
+        return this.communicationsManager.isConnected();
     }
 
     @Override
@@ -156,8 +171,8 @@ public class Robot implements Picker, Bidder {
      */
     public float getCurrentWeight() {
         return (float) this.currentPicks.stream()
-            .filter(p -> p.isPicked())
-            .mapToDouble(p -> p.getWeight())
+            .filter(Pick::isPicked)
+            .mapToDouble(Pick::getWeight)
             .sum();
     }
 

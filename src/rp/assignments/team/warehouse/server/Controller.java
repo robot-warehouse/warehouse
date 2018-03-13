@@ -1,12 +1,9 @@
 package rp.assignments.team.warehouse.server;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.input.Importer;
@@ -83,15 +80,28 @@ public class Controller {
     	Robot robot = new Robot(robotInfo, currentLocation, currentFacing);
 
     	if (robot.connect()) {
-    		warehouse.addRobot(robot);
+    		this.warehouse.addRobot(robot);
+    		this.managementInterface.addRobotToTable(robot);
     		return true;
     	}
 
     	return false;
     }
 
-    public void disconnectRobot(int robotIndex) {
+    public void disconnectRobot(String robotName) {
         // TODO we need to safely disconnect the robot, preserving it's current job/pick if it had one and remove it from the warehouse list
+
+        Optional<Robot> optionalRobot = this.warehouse.getRobots().stream().filter(r -> r.getName().equals(robotName)).findFirst();
+
+        if (optionalRobot.isPresent()) {
+            Robot robot = optionalRobot.get();
+
+            robot.disconnect();
+
+            if (!robot.isConnected()) {
+                this.managementInterface.removeRobotFromTable();
+            }
+        }
     }
 
     public void cancelCurrentJob(int jobID) {
@@ -100,10 +110,6 @@ public class Controller {
 
     public Map<String, Location> getRobotLocations() {
         return this.warehouse.getRobotLocations();
-    }
-
-    public Set<RobotInfo> getOnlineRobots() {
-        return this.warehouse.getRobots().stream().map(Robot::getRobotInfo).collect(Collectors.toSet());
     }
 
     public RobotInfo[] getOfflineRobots() {

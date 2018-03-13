@@ -44,7 +44,7 @@ public class MessageSender extends Thread {
     }
 
     public void setOrders(List<Instruction> orders) {
-        this.orders = new ArrayList<Instruction>(orders);
+        this.orders = new ArrayList<>(orders);
         logger.info("Received orders: " + orderString());
     }
 
