@@ -73,12 +73,17 @@ public class Importer {
                 BufferedReader locationsReader = new BufferedReader(new FileReader(locationsFile));
                 BufferedReader itemsReader = new BufferedReader(new FileReader(itemsFile));
                 BufferedReader dropsReader = new BufferedReader(new FileReader(dropsFile))) {
+            logger.info("Parsing locations");
             this.parseLocations(locationsReader);
+            logger.info("Parsing items");
             this.parseItems(itemsReader);
+            logger.info("Parsing jobs");
             this.parseJobs(jobsReader);
+            logger.info("Parsing cancellations");
             this.parseCancellations(cancellationsReader);
+            logger.info("Parsing drops");
             this.parseDrops(dropsReader);
-
+            logger.info("Done parsing");
             this.doneParsing = true;
         } catch (IOException e) {
             logger.fatal(e.getMessage());
