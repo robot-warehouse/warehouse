@@ -35,4 +35,9 @@ public class PriorityJobSelector implements IJobSelector {
         return this.jobs.peek() != null;
     }
 
+    @Override
+    public boolean remove(Job job) {
+        return this.jobs.remove(job);
+    }
+
 }

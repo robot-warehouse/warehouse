@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import rp.assignments.team.warehouse.server.communications.CommunicationsManager;
+import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.assignment.Bidder;
 import rp.assignments.team.warehouse.server.job.assignment.Picker;
@@ -16,16 +17,16 @@ public class Robot implements Picker, Bidder {
 
     /** The robot's information */
     private RobotInfo robotInfo;
-    
+
     /** The current location of the robot in the warehouse */
     private Location currentLocation;
-    
+
     /** The direction the robot is facing in the warehouse */
     private Facing currentFacingDirection;
-    
+
     /** The picks the robot is assigned */
     private Set<Pick> currentPicks;
-    
+
     private boolean hasComputedInstructionsForPick;
 
     private CommunicationsManager communicationsManager;
@@ -67,7 +68,7 @@ public class Robot implements Picker, Bidder {
 
     /**
      * Get the current location of the robot in the warehouse.
-     * 
+     *
      * @return The robot's location.
      */
     public Location getCurrentLocation() {
@@ -85,7 +86,7 @@ public class Robot implements Picker, Bidder {
 
     /**
      * Set the current location of the robot in the warehouse.
-     * 
+     *
      * @param currentLocation The new location of the robot.
      */
     public void setCurrentLocation(Location currentLocation) {
@@ -96,7 +97,7 @@ public class Robot implements Picker, Bidder {
 
     /**
      * Get the direction the robot is currently facing.
-     * 
+     *
      * @return The direction the robot is facing.
      */
     public Facing getCurrentFacingDirection() {
@@ -105,7 +106,7 @@ public class Robot implements Picker, Bidder {
 
     /**
      * Set the direction the robot is facing.
-     * 
+     *
      * @param currentFacingDirection The new direction the robot is facing.
      */
     public void setCurrentFacingDirection(Facing currentFacingDirection) {
@@ -122,7 +123,7 @@ public class Robot implements Picker, Bidder {
 
     /**
      * Get the picks the robot is currently working on.
-     * 
+     *
      * @return The picks the robot is working on.
      */
     public Set<Pick> getCurrentPicks() {
@@ -131,7 +132,7 @@ public class Robot implements Picker, Bidder {
 
     /**
      * Setup the bluetooth connection to the robot.
-     * 
+     *
      * @return True if successfully connected.
      */
     public boolean connect() {
@@ -161,12 +162,12 @@ public class Robot implements Picker, Bidder {
 
     @Override
     public boolean isAvailable() {
-        return this.currentPicks != null;
+        return this.getCurrentWeight() < MAX_WEIGHT;
     }
 
     /**
      * Get the current weight of the robot.
-     * 
+     *
      * @return The weight the robot is carrying.
      */
     public float getCurrentWeight() {
@@ -208,4 +209,20 @@ public class Robot implements Picker, Bidder {
             return Integer.MAX_VALUE;
         }
     }
+
+    /**
+     * React to a job being cancelled
+     *
+     * @param job The job that has been cancelled.
+     */
+    public void jobCancelled(Job job) {
+        // Drop any picks for the cancelled job
+        boolean hadPicks = this.currentPicks.removeIf(p -> p.getJob().equals(job));
+
+        if (hadPicks) {
+            // This robot was affected
+            // TODO cancel current movement if affected by the job cancellation
+        }
+    }
+
 }

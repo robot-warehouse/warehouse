@@ -39,7 +39,7 @@ public class Warehouse {
 
     /**
      * Check if the warehouse running.
-     * 
+     *
      * @return True if the warehouse is running.
      */
     public boolean isRunning() {
@@ -48,7 +48,7 @@ public class Warehouse {
 
     /**
      * Add a job to the list of jobs currently being worked on.
-     * 
+     *
      * @param job The job which is now being worked on.
      */
     public void addWorkingOnJob(Job job) {
@@ -57,8 +57,25 @@ public class Warehouse {
     }
 
     /**
+     * Cancel a job which may or may not have work started on it.
+     *
+     * @param job The job to be cancelled.
+     */
+    public void cancelJob(Job job) {
+        if (this.workingOnJobs.contains(job)) {
+            // Uh-oh! Better find any affected robots...
+            robots.stream()
+                .forEach(r -> r.jobCancelled(job));
+
+            this.workingOnJobs.remove(job);
+        }
+
+        job.setCancelled();
+    }
+
+    /**
      * Get the jobs currently being worked on.
-     * 
+     *
      * @return List of jobs being worked on.
      */
     public List<Job> getWorkingOnJobs() {
@@ -67,7 +84,7 @@ public class Warehouse {
 
     /**
      * Add a robot to the warehouse.
-     * 
+     *
      * @param robot The robot to add.
      */
     public void addRobot(Robot robot) {
@@ -77,7 +94,7 @@ public class Warehouse {
 
     /**
      * Get the robots in the warehouse.
-     * 
+     *
      * @return Set of robots in the warehouse.
      */
     public Set<Robot> getRobots() {
@@ -95,7 +112,7 @@ public class Warehouse {
 
     /**
      * Get a map of robot names mapped to their location in the warehouse.
-     * 
+     *
      * @return Map of robot names to locations
      */
     public Map<String, Location> getRobotLocations() {

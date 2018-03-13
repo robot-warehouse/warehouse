@@ -12,6 +12,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     private final float reward;
     private final float averageReward;
     private final float priority;
+    private boolean cancelled;
     private boolean previouslyCancelled;
     private List<Pick> availablePicks;
     private int completedPickCount;
@@ -25,6 +26,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 
         this.id = id;
         this.jobItems = jobItems;
+        this.cancelled = false;
         this.previouslyCancelled = false;
         this.pickCount = calcPickCount(this);
         this.reward = calcReward(this);
@@ -63,6 +65,21 @@ public class Job implements IIDed, IPrioritised, IRewardable {
      */
     public List<JobItem> getJobItems() {
         return this.jobItems;
+    }
+
+    /**
+     * @return True if the job has been cancelled.
+     */
+    public boolean isCancelled() {
+        return this.cancelled;
+    }
+
+    /**
+     * Mark the job as now cancelled. Any progress made towards the job is now worthless
+     * and execution of the job should be terminated ASAP.
+     */
+    public void setCancelled() {
+        this.cancelled = true;
     }
 
     /**
