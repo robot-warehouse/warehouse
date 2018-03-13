@@ -25,6 +25,11 @@ public class BluetoothTest {
             manager.sendNumOfPicks(2);
             System.out.println("Orders sent");
         }
+        while(!manager.getFinished()) {
+        	
+        }
+        System.out.println("new orders sent");
+        manager.sendOrders(testOrders);
 
 
     }
