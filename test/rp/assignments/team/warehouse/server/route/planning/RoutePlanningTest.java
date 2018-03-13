@@ -64,14 +64,14 @@ public class RoutePlanningTest {
         Assert.assertEquals(expected2, result2);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected=IllegalArgumentException.class)
     public void startPosValidationTest() {
         Location start3 = new Location(-1, 0);
         Location goal3 = new Location(0, 5);
         AStar.findPath(start3, goal3);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected=IllegalArgumentException.class)
     public void goalPosValidationTest() {
         Location start4 = new Location(0, 5);
         Location goal4 = new Location(-1, 0);

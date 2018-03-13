@@ -27,11 +27,15 @@ public class AStar {
         State startState = new State(start);
         State goalState = new State(goal);
 
-        // Return if either the start node or the goal node are invalid.
-        if (Data.obstacles.contains(startState) || Data.obstacles.contains(goalState) || !startState.isValidLocation()
-                || !goalState.isValidLocation()) {
-            logger.fatal("Terminating because of an invalid node");
-            return null;
+        // Throw exception if either the start node or the goal node are invalid.
+        if (!startState.isValidLocation() || !goalState.isValidLocation()) {
+            logger.fatal("Invalid start/goal node passed to findPath");
+            throw new IllegalArgumentException("Invalid start/goal node.");
+        }
+        
+        if (Data.obstacles.contains(startState) || Data.obstacles.contains(goalState)) {
+            logger.error("Obstacle located in start/goal node passed to findPath");
+        	return null;
         }
 
         while (true) {
