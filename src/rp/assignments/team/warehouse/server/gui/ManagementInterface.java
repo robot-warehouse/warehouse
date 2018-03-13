@@ -1,6 +1,8 @@
 package rp.assignments.team.warehouse.server.gui;
 
 import java.awt.*;
+import java.io.File;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,6 +37,8 @@ public class ManagementInterface {
     private JFrame frame;
     private JTable tblOnlineRobots;
     private JTable tblCurrentJobs;
+    
+    private File baseDirectory = new File("./input");
 
     /**
      * Create the application.
@@ -71,6 +75,7 @@ public class ManagementInterface {
         JButton btnUploadCancellationsFile = new JButton("Upload Cancellations");
         btnUploadCancellationsFile.addActionListener(event -> {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(this.baseDirectory);
             int returnVal = fileChooser.showOpenDialog(this.frame);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -85,6 +90,7 @@ public class ManagementInterface {
         JButton btnUploadDropsFile = new JButton("Upload Drops");
         btnUploadDropsFile.addActionListener(event -> {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(this.baseDirectory);
             int returnVal = fileChooser.showOpenDialog(this.frame);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -100,6 +106,7 @@ public class ManagementInterface {
         JButton btnUploadItemsFile = new JButton("Upload Items");
         btnUploadItemsFile.addActionListener(event -> {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(this.baseDirectory);
             int returnVal = fileChooser.showOpenDialog(this.frame);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -114,6 +121,7 @@ public class ManagementInterface {
         JButton btnUploadJobsFile = new JButton("Upload Jobs");
         btnUploadJobsFile.addActionListener(event -> {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(this.baseDirectory);
             int returnVal = fileChooser.showOpenDialog(this.frame);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -128,6 +136,7 @@ public class ManagementInterface {
         JButton btnUploadLocationsFile = new JButton("Upload Locations");
         btnUploadLocationsFile.addActionListener(event -> {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(this.baseDirectory);
             int returnVal = fileChooser.showOpenDialog(this.frame);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
