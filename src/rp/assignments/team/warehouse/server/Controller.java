@@ -27,6 +27,8 @@ public class Controller {
 
     private List<Job> importedJobs;
 
+    private IJobSelector jobSelector;
+
     public Controller(Warehouse warehouse) {
         this.warehouse = warehouse;
         this.startable = false;
@@ -69,7 +71,7 @@ public class Controller {
         if (this.startable) {
             assert importedJobs != null;
 
-            IJobSelector jobSelector = new PriorityJobSelector(importedJobs);
+            jobSelector = new PriorityJobSelector(importedJobs);
 
             Thread server = new ServerThread(this.warehouse, jobSelector);
             server.start();
@@ -104,8 +106,17 @@ public class Controller {
         }
     }
 
-    public void cancelCurrentJob(int jobID) {
-        // TODO use jobID(?) to remove job from list of current jobs and send cancel commands to any robot that has a pick for it
+    /**
+     * Cancel a job which may or may not have work started on it.
+     *
+     * @param job The job to be cancelled.
+     */
+    public void cancelJob(Job job) {
+        // Remove job from the selector (may not do anything if we've already started the job)
+        this.jobSelector.remove(job);
+
+        // Notify the warehouse of the job cancellation
+        this.warehouse.cancelJob(job);
     }
 
     public Map<String, Location> getRobotLocations() {
