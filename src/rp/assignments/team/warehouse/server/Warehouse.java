@@ -21,11 +21,13 @@ public class Warehouse {
     private Set<Robot> robots;
 
     /** Any robots that aren't currently connected */
-    private Set<RobotInfo> offlineRobots;
+    private RobotInfo[] offlineRobots;
 
     public Warehouse() {
         this.running = true;
         this.robots = new HashSet<>();
+
+        this.offlineRobots = RobotInfo.values();
     }
 
     /**
@@ -78,7 +80,7 @@ public class Warehouse {
      *
      * @return Set of robots not in the warehouse
      */
-    public Set<RobotInfo> getOfflineRobots() {
+    public RobotInfo[] getOfflineRobots() {
         return this.offlineRobots;
     }
 

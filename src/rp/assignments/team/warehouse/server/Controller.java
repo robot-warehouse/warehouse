@@ -101,7 +101,7 @@ public class Controller {
         return this.warehouse.getRobots().stream().map(Robot::getRobotInfo).collect(Collectors.toSet());
     }
 
-    public Set<RobotInfo> getOfflineRobots() {
+    public RobotInfo[] getOfflineRobots() {
         return this.warehouse.getOfflineRobots();
     }
 
