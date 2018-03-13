@@ -4,6 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import rp.assignments.team.warehouse.server.job.Job;
+
 public class ManagementInterface {
 
     private final int WINDOW_HEIGHT = 510;
@@ -285,17 +287,53 @@ public class ManagementInterface {
     }
 
     /**
+     * Updates the information of a robot on the online robots table on the gui
+     *
+     * @param robot The robot to update
+     */
+    public void updateRobotInRobotTable(Robot robot) {
+        // TODO
+    }
+
+    /**
      * Removes a robot from the online robots table
      */
     public void removeRobotFromTable() {
         this.tblOnlineRobots.remove(this.tblOnlineRobots.getSelectedRow());
     }
 
+    /**
+     * Adds a job to the current jobs table on the gui
+     *
+     * @param job The job to add
+     */
+    public void addJobToCurrentJobsTable(Job job) {
+        ((DefaultTableModel) this.tblCurrentJobs.getModel()).addRow(
+                new Object[]{
+                        job.getId(),
+                        job.getPickCount(),
+                        job.getReward()
+                        // TODO possibly add more??
+                }
+        );
+    }
+
+    /**
+     * Removes a specified job from the current jobs table on the gui
+     *
+     * @param job The job to remove
+     */
+    public void removeJobFromCurrentJobsTable(Job job) {
+        // TODO
+    }
+
     //endregion
 
     /**
-     * @param component
-     * @return
+     * Gets a Y value 10 pixels below the bottom of the passed component
+     *
+     * @param component The component to get the Y value underneath
+     * @return int
      */
     private int getYBelow(JComponent component) {
         return component.getY() + component.getHeight() + 10;

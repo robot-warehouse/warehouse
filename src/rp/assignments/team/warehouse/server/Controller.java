@@ -20,6 +20,7 @@ public class Controller {
     private boolean startable;
 
     private Warehouse warehouse;
+    private ManagementInterface managementInterface;
 
     private File jobsFile;
     private File cancellationsFile;
@@ -32,6 +33,10 @@ public class Controller {
     public Controller(Warehouse warehouse) {
         this.warehouse = warehouse;
         this.startable = false;
+    }
+
+    public void setManagementInterface(ManagementInterface managementInterface) {
+        this.managementInterface = managementInterface;
     }
 
     public boolean setJobsFile(File jobsFile) {
@@ -108,4 +113,16 @@ public class Controller {
     public void shutdown() {
         this.warehouse.shutdown();
     }
+
+    // region ManagementInterfaceUpdateMethods
+
+    public void addRobotToCurrentRobotTable(Robot robot) {
+        this.managementInterface.addRobotToTable(robot);
+    }
+
+    public void removeRobotFromCurrentRobotTable() {
+        this.managementInterface.removeRobotFromTable();
+    }
+
+    // endregion
 }

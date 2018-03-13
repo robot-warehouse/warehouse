@@ -23,11 +23,18 @@ public class Warehouse {
     /** Any robots that aren't currently connected */
     private RobotInfo[] offlineRobots;
 
+    /** Instance of the controller class */
+    private Controller controller;
+
     public Warehouse() {
         this.running = true;
         this.robots = new HashSet<>();
 
         this.offlineRobots = RobotInfo.values();
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     /**
@@ -46,6 +53,7 @@ public class Warehouse {
      */
     public void addWorkingOnJob(Job job) {
     	this.workingOnJobs.add(job);
+    	// TODO update current job table on gui
     }
 
     /**
@@ -64,6 +72,7 @@ public class Warehouse {
      */
     public void addRobot(Robot robot) {
         this.robots.add(robot);
+        this.controller.addRobotToCurrentRobotTable(robot);
     }
 
     /**

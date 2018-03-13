@@ -7,6 +7,10 @@ public class Server {
 
         Controller controller = new Controller(warehouse);
 
-        new ManagementInterface(controller);
+        ManagementInterface managementInterface = new ManagementInterface(controller);
+
+        controller.setManagementInterface(managementInterface);
+
+        warehouse.setController(controller);
     }
 }
