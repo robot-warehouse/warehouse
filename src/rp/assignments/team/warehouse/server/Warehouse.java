@@ -53,7 +53,7 @@ public class Warehouse {
      */
     public void addWorkingOnJob(Job job) {
     	this.workingOnJobs.add(job);
-    	// TODO update current job table on gui
+    	this.controller.addJobToCurrentJobsTable(job);
     }
 
     /**
@@ -71,6 +71,7 @@ public class Warehouse {
         }
 
         job.setCancelled();
+        this.controller.removeJobFromCurrentJobsTable(job);
     }
 
     /**

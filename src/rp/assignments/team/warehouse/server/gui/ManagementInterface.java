@@ -1,9 +1,15 @@
-package rp.assignments.team.warehouse.server;
+package rp.assignments.team.warehouse.server.gui;
 
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import rp.assignments.team.warehouse.server.Controller;
+import rp.assignments.team.warehouse.server.Facing;
+import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.Robot;
+import rp.assignments.team.warehouse.server.RobotInfo;
+import rp.assignments.team.warehouse.server.Warehouse;
 import rp.assignments.team.warehouse.server.job.Job;
 
 public class ManagementInterface {
@@ -234,7 +240,7 @@ public class ManagementInterface {
         lblCurrentJobs.setBounds(PANE_RIGHT_X, getYBelow(tblOnlineRobots) - 10, LABEL_WIDTH, LABEL_HEIGHT);
         this.frame.getContentPane().add(lblCurrentJobs);
 
-        this.tblCurrentJobs = new JTable();
+        this.tblCurrentJobs = new JTable(new JobTableModel());
         this.tblCurrentJobs.setBounds(PANE_RIGHT_X, getYBelow(lblCurrentJobs) - 15, TABLE_WIDTH, 200);
         this.frame.getContentPane().add(this.tblCurrentJobs);
 
@@ -243,7 +249,9 @@ public class ManagementInterface {
             if (tblCurrentJobs.getSelectionModel().isSelectionEmpty()) {
                 JOptionPane.showMessageDialog(this.frame, "Please select a job to cancel");
             } else {
-                this.controller.cancelCurrentJob(tblCurrentJobs.getSelectedRow());
+                int index = tblCurrentJobs.getSelectedRow();
+                Job job = getJobFromCurrentJobsTable(index);
+                this.controller.cancelJob(job);
             }
         });
         btnCancelJob.setBounds(PANE_RIGHT_X + (TABLE_WIDTH / 2) - (BUTTON_WIDTH_WIDE / 2), getYBelow(tblCurrentJobs),
@@ -312,14 +320,17 @@ public class ManagementInterface {
      * @param job The job to add
      */
     public void addJobToCurrentJobsTable(Job job) {
-        ((DefaultTableModel) this.tblCurrentJobs.getModel()).addRow(
-                new Object[]{
-                        job.getId(),
-                        job.getPickCount(),
-                        job.getReward()
-                        // TODO possibly add more??
-                }
-        );
+        JobTableModel model = (JobTableModel) this.tblCurrentJobs.getModel();
+        model.addRow(job);
+    }
+
+    /**
+     * Get a job from the current jobs table on the gui
+     *
+     * @param job The job to add
+     */
+    public Job getJobFromCurrentJobsTable(int rowIndex) {
+        return ((JobTableModel) this.tblCurrentJobs.getModel()).getRow(rowIndex);
     }
 
     /**
@@ -328,7 +339,8 @@ public class ManagementInterface {
      * @param job The job to remove
      */
     public void removeJobFromCurrentJobsTable(Job job) {
-        // TODO
+        JobTableModel model = (JobTableModel) this.tblCurrentJobs.getModel();
+        model.removeRow(job);
     }
 
     //endregion

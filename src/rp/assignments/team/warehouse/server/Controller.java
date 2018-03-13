@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import rp.assignments.team.warehouse.server.gui.ManagementInterface;
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
@@ -142,4 +143,12 @@ public class Controller {
     }
 
     // endregion
+
+    public void addJobToCurrentJobsTable(Job job) {
+        this.managementInterface.addJobToCurrentJobsTable(job);
+    }
+
+    public void removeJobFromCurrentJobsTable(Job job) {
+        this.managementInterface.removeJobFromCurrentJobsTable(job);
+    }
 }
