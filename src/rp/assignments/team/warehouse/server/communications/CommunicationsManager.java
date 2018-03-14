@@ -81,17 +81,43 @@ public class CommunicationsManager {
     	return receiver.getFinished();
     }
 
-    /*
+    /**
      * Start the server threads
      */
     public void startServer() {
         receiver.start();
         sender.start();
     }
-
+    
+    /**
+     * 
+     */
     public void stopServer() {
         // TODO send shutdown command to robot
+    	commands.offer(Command.DISCONNECT);
+    	try {
+			receiver.join();
+			sender.join();
+			communicator.close();
+		} catch (InterruptedException e) {
+			logger.error("Unable to stop server threads");
+		} catch (IOException e) {
+			logger.error("Error disconnecting the server");
+		}
+    	connected = false;
         // TODO close sender and receiver threads
+    }
+    
+    public void reconnect() {
+    	try {
+			if(communicator.open(nxtInf)) {
+				receiver = new MessageReceiver(communicator.getInputStream());
+				sender = new MessageSender(communicator.getOutputStream(), commands);
+				logger.info("Reconnected with " + nxtInf.name);
+			}
+		} catch (NXTCommException e) {
+			logger.error("Unable to reconnect with the server");
+		}
     }
 
     /**
@@ -134,6 +160,7 @@ public class CommunicationsManager {
         } catch (IOException e) {
             logger.error("Something went wrong with server");
         }
+        connected = false;
 
     }
 

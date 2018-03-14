@@ -27,7 +27,15 @@ public enum Command {
     /**
      * End of current sequence of messages
      */
-    END;
+    END,
+    /**
+     * Disconnect the robot from the server
+     */
+    DISCONNECT,
+    /**
+     * Attempt to reconnect with a robot.
+     */
+    RECONNECT;
 
     public static Command strToCommand(String s) throws NullPointerException, IllegalArgumentException {
         for (Command c : Command.values()) {

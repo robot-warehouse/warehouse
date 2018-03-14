@@ -1,6 +1,7 @@
 package rp.assignments.team.warehouse.server.communications;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -47,6 +48,9 @@ public class MessageReceiver extends Thread {
                     case FINISHED_JOB:
                     	System.out.println("finished");
                     	robotFinished = true;
+                    case DISCONNECT:
+                    	logger.info("Receiver thread ending");
+                    	break;
                     default:
                         logger.warn("Robot set unrecognised command");
                         break;
@@ -58,7 +62,7 @@ public class MessageReceiver extends Thread {
                 break;
             } catch (IllegalArgumentException e) {
                 logger.error("Invalid/unrecgonised command sent from robot, waiting for next command.");
-            }
+            } 
         }
     }
 
@@ -82,6 +86,8 @@ public class MessageReceiver extends Thread {
     public void setFinished(boolean finished) {
     	this.robotFinished = finished;
     }
+    
+   
     
 
 }

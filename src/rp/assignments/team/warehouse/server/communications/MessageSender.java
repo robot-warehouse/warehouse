@@ -60,8 +60,8 @@ public class MessageSender extends Thread {
                         break;
                     case CANCEL:
                         this.sendCancellation();
-
                         break;
+                    case DISCONNECT:
                     default:
                         logger.warn("Unrecognised command send to MessageSender");
                         break;
@@ -102,6 +102,11 @@ public class MessageSender extends Thread {
     public void sendNumberOfPicks(int picks) throws IOException {
     	toRobot.writeUTF(Command.SEND_PICKS.toString());
     	toRobot.writeUTF(Integer.toString(picks));
+    	toRobot.flush();
+    }
+    
+    public void disconnect() throws IOException {
+    	toRobot.writeUTF(Command.DISCONNECT.toString());
     	toRobot.flush();
     }
 
