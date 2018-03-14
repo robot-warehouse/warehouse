@@ -13,7 +13,7 @@ import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 
 public class RouteExecutionTest {
 
-    private final Facing defaultFacingDirection = Facing.East;
+    private final Facing defaultFacingDirection = Facing.EAST;
 
     @Test
     public void simpleHorizontalTest() {

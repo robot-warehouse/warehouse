@@ -18,7 +18,7 @@ public class BluetoothTest {
 		ArrayList<Instruction> testOrders = new ArrayList<>();
 		Location start1 = new Location(0, 0);
 		Location goal1 = new Location(2, 0);
-		testOrders = RouteExecution.convertCoordinatesToInstructions(Facing.East, AStar.findPath(start1, goal1));
+		testOrders = RouteExecution.convertCoordinatesToInstructions(Facing.EAST, AStar.findPath(start1, goal1));
 		;
 
 		if (manager.isConnected()) {
@@ -33,7 +33,7 @@ public class BluetoothTest {
 		Location start2 = new Location(2, 0);
 		Location goal = new Location(4, 0);
 		System.out.println("new orders sent");
-		testOrders = RouteExecution.convertCoordinatesToInstructions(Facing.East, AStar.findPath(start2, goal));
+		testOrders = RouteExecution.convertCoordinatesToInstructions(Facing.EAST, AStar.findPath(start2, goal));
 		manager.sendOrders(testOrders);
 		while (!manager.getFinished()) {
 

@@ -28,7 +28,7 @@ public class RouteExecution {
 
             // left and right is relative to the direction in which the robot is facing so every time we need to
             // check in which direction the robot is facing.
-            if (facingDirection == Facing.East) {
+            if (facingDirection == Facing.EAST) {
 
                 //if the x coordinate is same, the robot needs to move along the Y axis
                 if (now.getX() == next.getX()) {
@@ -39,69 +39,69 @@ public class RouteExecution {
                         //considering the current direction of the robot this means it needs to turn left.
                         movementCommands.add(Instruction.LEFT);
                         //update the direction towards which the robot is facing.
-                        facingDirection = Facing.North;
+                        facingDirection = Facing.NORTH;
                     } else if (now.getY() == next.getY() + 1) {
                         movementCommands.add(Instruction.RIGHT);
-                        facingDirection = Facing.South;
+                        facingDirection = Facing.SOUTH;
                     }
                 } else if (now.getY() == next.getY()) {
                     if (now.getX() == next.getX() - 1) {
                         movementCommands.add(Instruction.FORWARDS);
                     } else if (now.getX() == next.getX() + 1) {
                         movementCommands.add(Instruction.BACKWARDS);
-                        facingDirection = Facing.West;
+                        facingDirection = Facing.WEST;
                     }
                 }
-            } else if (facingDirection == Facing.South) {
+            } else if (facingDirection == Facing.SOUTH) {
                 if (now.getX() == next.getX()) {
                     if (now.getY() == next.getY() - 1) {
                         movementCommands.add(Instruction.BACKWARDS);
-                        facingDirection = Facing.North;
+                        facingDirection = Facing.NORTH;
                     } else if (now.getY() == next.getY() + 1) {
                         movementCommands.add(Instruction.FORWARDS);
-                        facingDirection = Facing.South;
+                        facingDirection = Facing.SOUTH;
                     }
                 } else if (now.getY() == next.getY()) {
                     if (now.getX() == next.getX() - 1) {
                         movementCommands.add(Instruction.LEFT);
-                        facingDirection = Facing.East;
+                        facingDirection = Facing.EAST;
                     } else if (now.getX() == next.getX() + 1) {
                         movementCommands.add(Instruction.RIGHT);
-                        facingDirection = Facing.West;
+                        facingDirection = Facing.WEST;
                     }
                 }
-            } else if (facingDirection == Facing.West) {
+            } else if (facingDirection == Facing.WEST) {
                 if (now.getX() == next.getX()) {
                     if (now.getY() == next.getY() - 1) {
                         movementCommands.add(Instruction.RIGHT);
-                        facingDirection = Facing.North;
+                        facingDirection = Facing.NORTH;
                     } else if (now.getY() == next.getY() + 1) {
                         movementCommands.add(Instruction.LEFT);
-                        facingDirection = Facing.South;
+                        facingDirection = Facing.SOUTH;
                     }
                 } else if (now.getY() == next.getY()) {
                     if (now.getX() == next.getX() - 1) {
                         movementCommands.add(Instruction.BACKWARDS);
-                        facingDirection = Facing.East;
+                        facingDirection = Facing.EAST;
                     } else if (now.getX() == next.getX() + 1) {
                         movementCommands.add(Instruction.FORWARDS);
                     }
                 }
-            } else if (facingDirection == Facing.North) {
+            } else if (facingDirection == Facing.NORTH) {
                 if (now.getX() == next.getX()) {
                     if (now.getY() == next.getY() - 1) {
                         movementCommands.add(Instruction.FORWARDS);
                     } else if (now.getY() == next.getY() + 1) {
                         movementCommands.add(Instruction.BACKWARDS);
-                        facingDirection = Facing.South;
+                        facingDirection = Facing.SOUTH;
                     }
                 } else if (now.getY() == next.getY()) {
                     if (now.getX() == next.getX() - 1) {
                         movementCommands.add(Instruction.RIGHT);
-                        facingDirection = Facing.East;
+                        facingDirection = Facing.EAST;
                     } else if (now.getX() == next.getX() + 1) {
                         movementCommands.add(Instruction.LEFT);
-                        facingDirection = Facing.West;
+                        facingDirection = Facing.WEST;
                     }
                 }
             }

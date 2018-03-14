@@ -4,20 +4,20 @@ public enum Facing {
     /**
      * Positive in the y-axis, facing away from the lab door
      */
-    North,
+    NORTH,
 
     /**
      * Positive in the x-axis
      */
-    East,
+    EAST,
 
     /**
      * Negative in the y-axis, facing towards the lab door
      */
-    South,
+    SOUTH,
 
     /**
      * Negative in the x-axis
      */
-    West
+    WEST;
 }

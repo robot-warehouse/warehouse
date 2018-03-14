@@ -210,7 +210,7 @@ public class ManagementInterface {
                                     JOptionPane.PLAIN_MESSAGE,
                                     new ImageIcon(),
                                     Facing.values(),
-                                    Facing.North);
+                                    Facing.NORTH);
 
                             if (facingDirection != null) {
                                 if (!this.controller.connectRobot(robotInfo, new Location(x, y), facingDirection)) {
