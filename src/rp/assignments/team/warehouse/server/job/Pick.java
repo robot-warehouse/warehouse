@@ -54,6 +54,7 @@ public class Pick implements IRewardable {
      * Get the reward contributed by the pick.
      *
      * @return The reward of the item being picked.
+     * @see Item#getReward()
      */
     public float getReward() {
         return this.getItem().getReward();
@@ -63,6 +64,7 @@ public class Pick implements IRewardable {
      * Get the location to pick the item from.
      *
      * @return The pick location.
+     * @see Item#getLocation()
      */
     public Location getPickLocation() {
         return this.item.getLocation();

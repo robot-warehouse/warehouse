@@ -80,6 +80,7 @@ public class Item implements IIDed, IRewardable {
      * @param id The numeric id.
      * @return The string equivalent.
      * @see #PAD_TO
+     * @see #numericIdToString(int, int)
      */
     public static String numericIdToString(int id) {
         return numericIdToString(id, PAD_TO);

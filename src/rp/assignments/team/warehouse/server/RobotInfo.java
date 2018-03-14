@@ -11,9 +11,16 @@ public enum RobotInfo {
 	/** The robot named */
 	NAMELESS("Nameless", "0016530A9AD1");
 
+    /** The name of the robot. */
     private final String name;
+    
+    /** The address of the robot for bluetooth communications. */
 	private final String address;
 
+	/**
+	 * @param name The name of the robot.
+	 * @param address The address of the robot for bluetooth communications.
+	 */
 	RobotInfo(String name, String address) {
 		this.name = name;
 		this.address = address;

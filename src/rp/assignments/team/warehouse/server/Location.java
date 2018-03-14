@@ -2,12 +2,18 @@ package rp.assignments.team.warehouse.server;
 
 public class Location {
 
+    /** The minimum x coordinate of the warehouse. */
     public static final int MIN_X = 0;
+    /** The maximum x coordinate of the warehouse. */
     public static final int MAX_X = 11;
+    /** The minimum y coordinate of the warehouse. */
     public static final int MIN_Y = 0;
+    /** The maximum y coordinate of the warehouse. */
     public static final int MAX_Y = 7;
 
+    /** The x coordinate. */
     private final int x;
+    /** The y coordinate. */
     private final int y;
 
     /**

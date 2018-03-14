@@ -32,6 +32,7 @@ public class JobItem {
 
     /**
      * @return the reward of a single item times the how many to pick
+     * @see Item#getReward()
      */
     public float getReward() {
         return this.item.getReward() * this.count;

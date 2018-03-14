@@ -37,13 +37,21 @@ public enum Command {
      */
     RECONNECT;
 
+    /**
+     * Convert a string into a {@link Command}.
+     *
+     * @param s The string to convert from.
+     * @return The command the string represents.
+     * @throws NullPointerException
+     * @throws IllegalArgumentException
+     */
     public static Command strToCommand(String s) throws NullPointerException, IllegalArgumentException {
         for (Command c : Command.values()) {
             if (c.toString().equals(s)) {
                 return c;
             }
         }
-        throw new IllegalArgumentException("Not a value of this enum");
 
+        throw new IllegalArgumentException("Not a value of this enum");
     }
 }

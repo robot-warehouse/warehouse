@@ -33,7 +33,8 @@ public class CommunicationsManager {
     private boolean connected;
 
     /**
-     * Constructs a new instance of CommunicationsManager with the given robot name/address.
+     * Constructs a new instance of CommunicationsManager with the given robot
+     * name/address.
      *
      * @param robotInfo The robot's information.
      */
@@ -71,14 +72,17 @@ public class CommunicationsManager {
     }
 
     /**
-     * Gets the state of the robot. Returns null if the robot has not given it's position yet
+     * Gets the state of the robot. Returns null if the robot has not given it's
+     * position yet.
+     * 
+     * @return The last position of the robot or null if unknown.
      */
     public State getRobotState() {
         return receiver.getLatestPosition();
     }
-    
+
     public boolean getFinished() {
-    	return receiver.getFinished();
+        return receiver.getFinished();
     }
 
     /**
@@ -88,36 +92,39 @@ public class CommunicationsManager {
         receiver.start();
         sender.start();
     }
-    
+
     /**
-     * 
+     * Disconnect from the robot.
      */
     public void stopServer() {
         // TODO send shutdown command to robot
-    	commands.offer(Command.DISCONNECT);
-    	try {
-			receiver.join();
-			sender.join();
-			communicator.close();
-		} catch (InterruptedException e) {
-			logger.error("Unable to stop server threads");
-		} catch (IOException e) {
-			logger.error("Error disconnecting the server");
-		}
-    	connected = false;
+        commands.offer(Command.DISCONNECT);
+        try {
+            receiver.join();
+            sender.join();
+            communicator.close();
+        } catch (InterruptedException e) {
+            logger.error("Unable to stop server threads");
+        } catch (IOException e) {
+            logger.error("Error disconnecting the server");
+        }
+        connected = false;
         // TODO close sender and receiver threads
     }
-    
+
+    /**
+     * Resume the connection to the robot.
+     */
     public void reconnect() {
-    	try {
-			if(communicator.open(nxtInf)) {
-				receiver = new MessageReceiver(communicator.getInputStream());
-				sender = new MessageSender(communicator.getOutputStream(), commands);
-				logger.info("Reconnected with " + nxtInf.name);
-			}
-		} catch (NXTCommException e) {
-			logger.error("Unable to reconnect with the server");
-		}
+        try {
+            if (communicator.open(nxtInf)) {
+                receiver = new MessageReceiver(communicator.getInputStream());
+                sender = new MessageSender(communicator.getOutputStream(), commands);
+                logger.info("Reconnected with " + nxtInf.name);
+            }
+        } catch (NXTCommException e) {
+            logger.error("Unable to reconnect with the server");
+        }
     }
 
     /**
@@ -131,14 +138,14 @@ public class CommunicationsManager {
         commands.offer(Command.SEND_ORDERS);
 
     }
-    
+
     public void sendNumOfPicks(int picks) {
-    	try {
-			sender.sendNumberOfPicks(picks);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            sender.sendNumberOfPicks(picks);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**

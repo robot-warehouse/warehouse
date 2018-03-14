@@ -44,12 +44,24 @@ public class Job implements IIDed, IPrioritised, IRewardable {
         return (float) j.jobItems.stream().mapToDouble(x -> (double) x.getReward()).sum();
     }
 
-    private static float calcPriority(Job j) {
-        return j.getReward();
+    /**
+     * Get the priority of a job.
+     *
+     * @param job The job to calculate the priority of.
+     * @return The priority of the given job.
+     */
+    private static float calcPriority(Job job) {
+        return job.getReward();
     }
 
-    private static float calcAverageReward(Job j) {
-        return j.reward / j.pickCount;
+    /**
+     * Calculate the average reward of a job.
+     *
+     * @param job The job to calculate the average reward for.
+     * @return The average reward of the given job.
+     */
+    private static float calcAverageReward(Job job) {
+        return job.reward / job.pickCount;
     }
 
     /**
@@ -134,6 +146,11 @@ public class Job implements IIDed, IPrioritised, IRewardable {
         return this.availablePicks.size() > 0;
     }
 
+    /**
+     * Get a list of available picks for the job.
+     *
+     * @return A list of available picks.
+     */
     public List<Pick> getAvailablePicks() {
         return this.availablePicks;
     }

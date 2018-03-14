@@ -17,12 +17,19 @@ public class AuctionPickAssigner implements IPickAssigner {
     private Queue<Pick> picks;
     private Set<Robot> bidders;
 
+    /**
+     * @param picks The initial picks for assignment.
+     * @param bidders The bidders for the auction.
+     */
     public AuctionPickAssigner(Queue<Pick> picks, Set<Robot> bidders) {
         super();
         this.picks = picks;
         this.bidders = bidders;
     }
 
+    /**
+     * @param bidders The bidders for the auction.
+     */
     public AuctionPickAssigner(Set<Robot> bidders) {
         super();
         this.picks = new LinkedList<Pick>();

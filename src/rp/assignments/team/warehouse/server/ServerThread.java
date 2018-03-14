@@ -10,10 +10,19 @@ import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 
 public class ServerThread extends Thread {
 
+    /** The Warehouse. */
     private Warehouse warehouse;
+    
+    /** The job selector */
     private IJobSelector jobSelector;
+    
+    /** The pick assigner */
     private IPickAssigner pickAssigner;
 
+    /**
+     * @param warehouse The Warehouse.
+     * @param jobSelector The job selector.
+     */
     public ServerThread(Warehouse warehouse, IJobSelector jobSelector) {
         assert warehouse != null;
 

@@ -94,8 +94,8 @@ public class AStar {
     /**
      * Finds the node with the smallest f value ( f=g+h )
      *
-     * @param nodes
-     * @return
+     * @param nodes The nodes to search through.
+     * @return The node with the minimum f value.
      */
     private static State findSmallestF(ArrayList<State> nodes) {
         State result = nodes.get(0);
@@ -111,9 +111,9 @@ public class AStar {
      * After we reach the goal node, we get the path to that node by travelling back to the starting node by traversing
      * to each parent.
      *
-     * @param current
-     * @param start
-     * @return
+     * @param current The current node.
+     * @param start The starting node.
+     * @return The path to the goal node
      */
     private static ArrayList<Location> getPath(State current, State start) {
         ArrayList<Location> path = new ArrayList<>();

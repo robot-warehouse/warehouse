@@ -34,6 +34,11 @@ public class Warehouse {
         this.offlineRobots = RobotInfo.values();
     }
 
+    /**
+     * Add the controller to the warehouse.
+     * 
+     * @param controller The controller for the warehouse.
+     */
     public void setController(Controller controller) {
         this.controller = controller;
     }

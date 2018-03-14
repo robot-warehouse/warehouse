@@ -6,66 +6,104 @@ import rp.assignments.team.warehouse.server.Location;
 
 public class State extends Location {
 
+    /**
+     * The total weight of the node.
+     * 
+     * @see #calculateTotalWeight(State, State)
+     */
     private float totalWeight;
+    
+    /**
+     * The distance from the start node.
+     * 
+     * @see #calculateG(State)
+     */
     private float distanceFromStart;
+    
+    /**
+     * The h value for this node
+     * 
+     * @see #calculateH(State)
+     */
     private float heuristic;
 
+    /**
+     * The parent of this node.
+     *
+     * @see #setParent(State)
+     */
     private State parent;
 
     /**
-     * @param x
-     * @param y
+     * @param x The x coordinate.
+     * @param y The y coordinate.
      */
     public State(int x, int y) {
         super(x, y);
     }
 
     /**
-     * @param location
+     * @param location The location for this node.
      */
     State(Location location) {
         super(location.getX(), location.getY());
     }
 
     /**
-     * @return
+     * Get the distance this node is from the start node.
+     *
+     * @return The distance from the start node.
+     * @see #calculateG(State)
      */
     public float getDistanceFromStart() {
         return this.distanceFromStart;
     }
 
     /**
-     * @return
+     * Get the total weight of this node.
+     *
+     * @return The total weight of this node
+     * @see #setTotalWeight()
      */
     public float getTotalWeight() {
         return this.totalWeight;
     }
 
     /**
-     *
+     * Set the total weight of this node.
+     * 
+     * @see #getDistanceFromStart()
+     * @see #getHeuristic()
      */
     public void setTotalWeight() {
         this.totalWeight = this.getDistanceFromStart() + this.getHeuristic();
     }
 
     /**
-     * @return
+     * Get the parent of this node.
+     *
+     * @return The parent of this node.
+     * @see #setParent(State)
      */
     public State getParent() {
         return parent;
     }
 
     /**
-     * @param parent
+     * Set the parent of this node.
+     * 
+     * @param parent The parent of this node.
      */
     public void setParent(State parent) {
         this.parent = parent;
     }
 
     /**
-     * @param start
-     * @param goal
-     * @return
+     * Get a list of this node's neighbours.
+     *
+     * @param start The start node.
+     * @param goal The goal node.
+     * @return List of this nodes neighbours.
      */
     public ArrayList<State> getNeighbours(State start, State goal) {
         ArrayList<State> neighbours = new ArrayList<>();
@@ -138,17 +176,15 @@ public class State extends Location {
     }
 
     /**
-     * @param next
-     * @return
+     * Get the distance from this node to another.
+     *
+     * @param next The node to calculate the distance to.
+     * @return The distance from this node to the next node.
      */
     public float getDistance(State next) {
         return (float) Math.sqrt((getX() - next.getX() ^ 2) + (getY() - next.getY() ^ 2));
     }
 
-    /**
-     * @param object
-     * @return
-     */
     @Override
     public boolean equals(Object object) {
         if (object instanceof State) {
@@ -160,46 +196,49 @@ public class State extends Location {
     }
 
     /**
-     * @return
-     */
-    @Override
-    public String toString() {
-        String result = "";
-        result = result + getX() + "," + getY();
-        return result;
-    }
-
-    /**
-     * @return
+     * Checks if this node is in a valid location in the warehouse.
+     *
+     * @return True if this represents a valid location in the warehouse.
      */
     boolean isValidLocation() {
         return Location.isValidLocation(getX(), getY());
     }
 
     /**
-     * @return
+     * Get the h value for this node.
+     *
+     * @return The h value for this node.
      */
     private float getHeuristic() {
         return this.heuristic;
     }
 
     /**
-     * @param start
+     * Calculate the g value for this node.
+     *
+     * @param start The start node.
      */
     private void calculateG(State start) {
         this.distanceFromStart = (float) Math.sqrt((getX() - start.getX() ^ 2) + (getY() - start.getY() ^ 2));
     }
 
     /**
-     * @param goal
+     * Calculate the h value for this node.
+     *
+     * @param goal The goal node.
      */
     private void calculateH(State goal) {
         this.heuristic = (float) Math.sqrt((getX() - goal.getX() ^ 2) + (getY() - goal.getY() ^ 2));
     }
 
     /**
-     * @param start
-     * @param goal
+     * Calculate the total weight of this node.
+     *
+     * @param start The start node.
+     * @param goal The goal node.
+     * @see #calculateG(State)
+     * @see #calculateH(State)
+     * @see #setTotalWeight()
      */
     private void calculateTotalWeight(State start, State goal) {
         calculateG(start);

@@ -293,7 +293,7 @@ public class ManagementInterface {
     //region PublicMethodsForController
 
     /**
-     * Adds a connected robot to the online robots table
+     * Adds a connected robot to the online robots table.
      *
      * @param robot The robot to add to the table
      */
@@ -308,7 +308,7 @@ public class ManagementInterface {
     }
 
     /**
-     * Updates the information of a robot on the online robots table on the gui
+     * Updates the information of a robot on the online robots table in the GUI.
      *
      * @param robot The robot to update
      */
@@ -317,16 +317,16 @@ public class ManagementInterface {
     }
 
     /**
-     * Removes a robot from the online robots table
+     * Remove the selected robot from the robot table in the GUI.
      */
     public void removeRobotFromTable() {
         this.tblOnlineRobots.remove(this.tblOnlineRobots.getSelectedRow());
     }
 
     /**
-     * Adds a job to the current jobs table on the gui
+     * Add a job to the current jobs table in the GUI.
      *
-     * @param job The job to add
+     * @param job The job to add to the table.
      */
     public void addJobToCurrentJobsTable(Job job) {
         JobTableModel model = (JobTableModel) this.tblCurrentJobs.getModel();
@@ -334,18 +334,18 @@ public class ManagementInterface {
     }
 
     /**
-     * Get a job from the current jobs table on the gui
+     * Get a job from the current jobs table in the GUI.
      *
-     * @param job The job to add
+     * @param rowIndex The row index of the job.
      */
     public Job getJobFromCurrentJobsTable(int rowIndex) {
         return ((JobTableModel) this.tblCurrentJobs.getModel()).getRow(rowIndex);
     }
 
     /**
-     * Removes a specified job from the current jobs table on the gui
+     * Remove a job from the current jobs table in the GUI.
      *
-     * @param job The job to remove
+     * @param job The job to remove from the table.
      */
     public void removeJobFromCurrentJobsTable(Job job) {
         JobTableModel model = (JobTableModel) this.tblCurrentJobs.getModel();

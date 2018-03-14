@@ -26,17 +26,26 @@ public enum Instruction {
      * Tells the robot to stop
      */
     STOP(4);
-    
+
     private final Integer value;
-    
+
+    /**
+     * @param value The integer value that represents the instruction.
+     */
     private Instruction(int value) {
         this.value = value;
     }
-    
+
+    /**
+     * Get the integer value of this instruction.
+     * 
+     * @return The integer value that represents the instruction.
+     */
     public int intValue() {
         return this.value;
     }
-    
+
+    @Override
     public String toString() {
         return this.value.toString();
     }

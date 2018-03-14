@@ -10,7 +10,10 @@ import rp.assignments.team.warehouse.server.route.planning.AStar;
 
 public class RobotThread extends Thread {
 
+    /** The robot the thread is for. */
 	private Robot robot;
+	
+	/** The communication interface with the robot. */
 	private CommunicationsManager commsManager;
 
 	/**

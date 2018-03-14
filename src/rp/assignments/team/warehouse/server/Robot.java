@@ -29,6 +29,7 @@ public class Robot implements Picker, Bidder {
 
     private boolean hasComputedInstructionsForPick;
 
+    /** The communication interface with the robot. */
     private CommunicationsManager communicationsManager;
 
     private static Logger logger = LogManager.getLogger(Robot.class);
@@ -147,6 +148,9 @@ public class Robot implements Picker, Bidder {
     	return false;
     }
 
+    /**
+     * Tear down the bluetooth connection to the robot.
+     */
     public void disconnect() {
         this.communicationsManager.stopServer();
     }
@@ -154,7 +158,7 @@ public class Robot implements Picker, Bidder {
     /**
      * Returns true if the robot is still connected to the thread
      *
-     * @return
+     * @return True if the robot is connected.
      */
     public boolean isConnected() {
         return this.communicationsManager.isConnected();
