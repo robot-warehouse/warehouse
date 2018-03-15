@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
 public class MessageReceiver extends Thread {
@@ -17,7 +18,7 @@ public class MessageReceiver extends Thread {
     private final static Logger logger = LogManager.getLogger(MessageReceiver.class);
 
     private DataInputStream fromRobot;
-    private List<rp.assignments.team.warehouse.server.route.planning.State> locations;
+    private List<Location> locations;
     private boolean robotFinished;
 
     /**
@@ -61,7 +62,7 @@ public class MessageReceiver extends Thread {
                 e.printStackTrace();
                 break;
             } catch (IllegalArgumentException e) {
-                logger.error("Invalid/unrecgonised command sent from robot, waiting for next command.");
+                logger.error("Invalid/unrecognised command sent from robot, waiting for next command.");
             } 
         }
     }
@@ -71,7 +72,7 @@ public class MessageReceiver extends Thread {
      *
      * @return The last state of the robot.
      */
-    public rp.assignments.team.warehouse.server.route.planning.State getLatestPosition() {
+    public Location getLatestPosition() {
         if (locations.size() == 0) {
             return null;
         } else {

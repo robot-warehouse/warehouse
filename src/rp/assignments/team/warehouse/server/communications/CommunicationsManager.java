@@ -13,6 +13,7 @@ import lejos.pc.comm.NXTInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.RobotInfo;
 import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.planning.State;
@@ -77,7 +78,7 @@ public class CommunicationsManager {
      * 
      * @return The last position of the robot or null if unknown.
      */
-    public State getRobotState() {
+    public Location getRobotLocation() {
         return receiver.getLatestPosition();
     }
 
