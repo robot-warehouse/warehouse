@@ -285,9 +285,8 @@ public class ManagementInterface {
         this.frame.getContentPane().add(btnShutdown);
         // endregion
 
-        // TODO generalise button size
-        // TODO add more update methods
-        // TODO some more stuff
+        // TODO create RobotTableModel, take JobTableModel as example
+        // TODO create updates for RobotTableModel
     }
 
     //region PublicMethodsForController
