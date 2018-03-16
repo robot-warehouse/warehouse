@@ -7,12 +7,13 @@ import org.apache.logging.log4j.Logger;
 
 import rp.assignments.team.warehouse.server.Facing;
 import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.route.planning.State;
 
 public class RouteExecution {
 
     private final static Logger logger = LogManager.getLogger(RouteExecution.class);
 
-    public static ArrayList<Instruction> convertCoordinatesToInstructions(Facing facingDirection, ArrayList<Location> path) {
+    public static ArrayList<Instruction> convertCoordinatesToInstructions(Facing facingDirection, ArrayList<State> path) {
 
         logger.info("Start Convert coordinates into numerated actions");
         

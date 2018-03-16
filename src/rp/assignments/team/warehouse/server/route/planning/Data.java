@@ -52,22 +52,9 @@ public class Data {
     public static ArrayList<State> getRow(){
     	return singleRow;
     }
-/*
-	
-	//Add a robot at a particular position as a temporary obstacle
-    public void addObstacle(State obstacle) {
-    	obstacles.add(obstacle);
-    }
     
-    //gets rid of all the temporary obstacles.
-    public void removeObstacles() {
-    	int length = obstacles.size();
-    	while(length > 20) {
-    		obstacles.remove(obstacles.size()-1);
-    		length = obstacles.size();
-    	}
-    }
-
-*/    
+    public static ArrayList<State> getObstacles(){
+    	return obstacles;
+    }   
     
 }

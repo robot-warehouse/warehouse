@@ -2,6 +2,7 @@ package rp.assignments.team.warehouse.server.route.planning;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +20,7 @@ public class AStar {
      * @param goal The finish location.
      * @return List of the locations along the computed path.
      */
-    public static ArrayList<Location> findPath(Location start, Location goal) {
+    public static List<State> findPath(Location start, Location goal, ArrayList<State> obstacles) {
         logger.info("Entering the findPath method");
         ArrayList<State> open = new ArrayList<>(); // Stores nodes available for visiting.
         ArrayList<State> closed = new ArrayList<>(); // Stores already visited nodes
@@ -62,7 +63,7 @@ public class AStar {
             for (State neighbour : neighbours) {
                 // If any neighbour is an obstacle or if it has already been visited, move to
                 // the next node.
-                if (Data.obstacles.contains(neighbour) || closed.contains(neighbour)) {
+                if (obstacles.contains(neighbour) || closed.contains(neighbour)) {
                     continue;
                 }
 
@@ -87,9 +88,9 @@ public class AStar {
      * @param goal The finish location.
      * @return The distance of the path between the two locations.
      */
-    public static int findDistance(Location start, Location goal) {
-        return findPath(start, goal).size();
-    }
+//    public static int findDistance(Location start, Location goal) {
+//        return findPath(start, goal,).size();
+//    }
 
     /**
      * Finds the node with the smallest f value ( f=g+h )
@@ -115,8 +116,8 @@ public class AStar {
      * @param start The starting node.
      * @return The path to the goal node
      */
-    private static ArrayList<Location> getPath(State current, State start) {
-        ArrayList<Location> path = new ArrayList<>();
+    private static List<State> getPath(State current, State start) {
+        ArrayList<State> path = new ArrayList<>();
         State node = current;
         path.add(current);
         while (!node.equals(start)) {
