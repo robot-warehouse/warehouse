@@ -156,7 +156,7 @@ public class State extends Location {
 //			neighbours.add(n8);
 //		}
 
-        return neighbours;
+        return neighbourStates;
     }
 
     /**
