@@ -1,6 +1,7 @@
 package rp.assignments.team.warehouse.server.route.execution;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +14,7 @@ public class RouteExecution {
 
     private final static Logger logger = LogManager.getLogger(RouteExecution.class);
 
-    public static ArrayList<Instruction> convertCoordinatesToInstructions(Facing facingDirection, ArrayList<State> path) {
+    public static ArrayList<Instruction> convertCoordinatesToInstructions(Facing facingDirection, List<State> path) {
 
         logger.info("Start Convert coordinates into numerated actions");
         

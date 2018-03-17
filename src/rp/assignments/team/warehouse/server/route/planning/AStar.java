@@ -20,7 +20,7 @@ public class AStar {
      * @param goal The finish location.
      * @return List of the locations along the computed path.
      */
-    public static List<State> findPath(Location start, Location goal, ArrayList<State> obstacles) {
+    public static List<State> findPath(Location start, Location goal, List<State> obstacles) {
         logger.info("Entering the findPath method");
         ArrayList<State> open = new ArrayList<>(); // Stores nodes available for visiting.
         ArrayList<State> closed = new ArrayList<>(); // Stores already visited nodes
@@ -28,7 +28,7 @@ public class AStar {
         State startState = new State(start);
         State goalState = new State(goal);
         
-        if (Data.obstacles.contains(startState) || Data.obstacles.contains(goalState)) {
+        if (obstacles.contains(startState) || Data.obstacles.contains(goalState)) {
             logger.error("Obstacle located in start/goal node passed to findPath");
         	return null;
         }
@@ -92,7 +92,7 @@ public class AStar {
      * @param nodes The nodes to search through.
      * @return The node with the minimum f value.
      */
-    private static State findSmallestF(ArrayList<State> nodes) {
+    private static State findSmallestF(List<State> nodes) {
         State result = nodes.get(0);
         for (int i = 0; i < nodes.size() - 1; i++) {
             if (nodes.get(i).getTotalWeight() < nodes.get(i + 1).getTotalWeight()) {
