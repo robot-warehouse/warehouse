@@ -25,12 +25,16 @@ public class Controller {
 
     /** The file to import the jobs from. */
     private File jobsFile;
+    
     /** The file to import the cancellation history from. */
     private File cancellationsFile;
+    
     /** The file to import the item locations from. */
     private File locationsFile;
+    
     /** The file to import the items from. */
     private File itemsFile;
+    
     /** The file to import the drop locations from. */
     private File dropsFile;
 
