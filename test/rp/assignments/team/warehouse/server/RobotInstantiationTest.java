@@ -5,6 +5,8 @@ import static org.mockito.Mockito.mock;
 import org.junit.Assert;
 import org.junit.Test;
 
+import rp.assignments.team.warehouse.shared.Facing;
+
 public class RobotInstantiationTest {
     
     private static RobotInfo robotInfo = RobotInfo.NAMELESS;

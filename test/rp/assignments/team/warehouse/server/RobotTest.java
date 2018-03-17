@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import rp.assignments.team.warehouse.shared.Facing;
+
 public class RobotTest {
     
     private static RobotInfo robotInfo = RobotInfo.NAMELESS;

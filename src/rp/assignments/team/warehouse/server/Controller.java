@@ -10,6 +10,7 @@ import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
+import rp.assignments.team.warehouse.shared.Facing;
 
 // TODO
 public class Controller {

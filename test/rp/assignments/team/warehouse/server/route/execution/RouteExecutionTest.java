@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import rp.assignments.team.warehouse.server.Facing;
-import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 import rp.assignments.team.warehouse.server.route.planning.State;
+import rp.assignments.team.warehouse.shared.Facing;
+import rp.assignments.team.warehouse.shared.Instruction;
 
 public class RouteExecutionTest {
 

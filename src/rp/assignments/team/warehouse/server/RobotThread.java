@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import rp.assignments.team.warehouse.server.communications.CommunicationsManager;
 import rp.assignments.team.warehouse.server.job.Pick;
-import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
+import rp.assignments.team.warehouse.shared.Instruction;
 
 public class RobotThread extends Thread {
 

@@ -12,6 +12,7 @@ import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.assignment.Bidder;
 import rp.assignments.team.warehouse.server.job.assignment.Picker;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
+import rp.assignments.team.warehouse.shared.Facing;
 
 public class Robot implements Picker, Bidder {
 
