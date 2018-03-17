@@ -9,7 +9,7 @@ public class CompareByPriorityComparator implements Comparator<IPrioritised> {
     private boolean ascending;
 
     public CompareByPriorityComparator() {
-        this.ascending = true;
+        this.ascending = false;
     }
 
     public CompareByPriorityComparator(boolean ascending) {
