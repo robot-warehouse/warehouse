@@ -26,7 +26,7 @@ public class InvalidLocationInstantiationTest {
         this.y = y;
     }
 
-    @Test(expected=AssertionError.class)
+    @Test(expected=IllegalArgumentException.class)
     public void cannotInstantiateinvalidLocation() {
         Location location = new Location(x, y);
         Assert.assertNull(location);

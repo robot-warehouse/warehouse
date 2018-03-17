@@ -1,5 +1,7 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
+import static org.junit.Assume.assumeFalse;
+
 import java.util.ArrayList;
 
 import org.junit.AfterClass;
@@ -10,19 +12,6 @@ import org.junit.Test;
 import rp.assignments.team.warehouse.server.Location;
 
 public class RoutePlanningTest {
-
-    private static boolean assertionStatus;
-
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        assertionStatus = Location.class.desiredAssertionStatus();
-        Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), false);
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() {
-        Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), assertionStatus);
-    }
 
     @Test
     public void simpleHorizontalTest() {
@@ -62,20 +51,6 @@ public class RoutePlanningTest {
             }
         };
         Assert.assertEquals(expected2, result2);
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void startPosValidationTest() {
-        Location start3 = new Location(-1, 0);
-        Location goal3 = new Location(0, 5);
-        AStar.findPath(start3, goal3);
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void goalPosValidationTest() {
-        Location start4 = new Location(0, 5);
-        Location goal4 = new Location(-1, 0);
-        AStar.findPath(start4, goal4);
     }
 
     @Test

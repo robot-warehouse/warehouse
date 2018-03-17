@@ -21,7 +21,9 @@ public class Location {
      * @param y The y coordinate.
      */
     public Location(int x, int y) {
-        assert isValidLocation(x, y);
+        if (!isValidLocation(x, y)) {
+            throw new IllegalArgumentException("Cannot initialise Location with invalid coordinates.");
+        }
 
         this.x = x;
         this.y = y;
