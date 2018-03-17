@@ -8,6 +8,9 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import rp.assignments.team.warehouse.server.Robot;
 import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.comparators.CompareByRewardComparator;
@@ -16,6 +19,8 @@ public class AuctionPickAssigner implements IPickAssigner {
 
     private Queue<Pick> picks;
     private Set<Robot> bidders;
+
+    private static final Logger logger = LogManager.getLogger(AuctionPickAssigner.class);
 
     /**
      * @param picks The initial picks for assignment.
@@ -54,8 +59,13 @@ public class AuctionPickAssigner implements IPickAssigner {
                 if (picker != null) {
                     this.picks.remove();
                     picker.assignPick(pick);
+                    logger.trace("Assigning pick for item {} in job {} to picker {}.", pick.getItem().getId(), pick.getJob().getId(), picker.getName());
+                } else {
+                    logger.error("PickAuctioner auctioned pick to null picker.");
                 }
             }
+        } else {
+            logger.warn("Called next() when no picks remaining to assign");
         }
     }
 
