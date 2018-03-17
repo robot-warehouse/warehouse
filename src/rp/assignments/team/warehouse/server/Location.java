@@ -47,6 +47,22 @@ public class Location {
         return this.y;
     }
 
+    public Location[] getNeighbours() {
+        int[][] vectors = new int[][] { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+        Location[] neighbours = new Location[4];
+
+        for (int i = 0; i < vectors.length; i++) {
+                int x = this.getX() + vectors[i][0];
+                int y = this.getY() + vectors[i][1];
+
+                if (Location.isValidLocation(x, y)) {
+                    neighbours[i] = new Location(x, y);
+                }
+        }
+
+        return neighbours;
+    }
+
     /**
      * Indicates if another location is equal to this one.
      *
@@ -55,6 +71,20 @@ public class Location {
      */
     public boolean equals(Location other) {
         return other != null && other.getX() == this.x && other.getY() == this.y;
+    }
+
+    /**
+     * Indicates if another location is equal to this one.
+     *
+     * @param other The location to compare with.
+     * @return True if other is the same location.
+     */
+    public boolean equals(Object other) {
+        if (other instanceof Location) {
+            return this.equals((Location) other);
+        }
+
+        return false;
     }
 
     /**

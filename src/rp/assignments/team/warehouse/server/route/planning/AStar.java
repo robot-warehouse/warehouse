@@ -52,7 +52,7 @@ public class AStar {
             }
 
             // Get all (at most four) neighbours of the current node.
-            ArrayList<State> neighbours = current.getNeighbours(startState, goalState);
+            List<State> neighbours = current.getNeighbours(startState, goalState);
 
             for (State neighbour : neighbours) {
                 // If any neighbour is an obstacle or if it has already been visited, move to

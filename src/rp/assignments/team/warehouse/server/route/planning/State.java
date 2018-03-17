@@ -1,6 +1,7 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rp.assignments.team.warehouse.server.Location;
 
@@ -105,19 +106,14 @@ public class State extends Location {
      * @param goal The goal node.
      * @return List of this nodes neighbours.
      */
-    public ArrayList<State> getNeighbours(State start, State goal) {
-        ArrayList<State> neighbours = new ArrayList<>();
+    public List<State> getNeighbours(State start, State goal) {
+        Location[] neighbours = this.getNeighbours();
+        List<State> neighbourStates = new ArrayList<>();
 
-        if (isValidLocation(getX() + 1, getY())) {
-            State neighbourEast = new State(getX() + 1, getY());
-            neighbourEast.calculateTotalWeight(start, goal);
-            neighbours.add(neighbourEast);
-        }
-
-        if (isValidLocation(getX() - 1, getY())) {
-            State neighbourWest = new State(getX() - 1, getY());
-            neighbourWest.calculateTotalWeight(start, goal);
-            neighbours.add(neighbourWest);
+        for (Location neighbour : neighbours) {
+            State neighbourState = new State(neighbour);
+            neighbourState.calculateTotalWeight(start, goal);
+            neighbourStates.add(neighbourState);
         }
 
 //		rp.assignments.team.warehouse.server.route.planning.State n3 = new rp.assignments.team.warehouse.server.route
@@ -139,18 +135,6 @@ public class State extends Location {
 //			n4.setParent(current);
 //			neighbours.add(n4);
 //		}
-
-        if (isValidLocation(getX(), getY() - 1)) {
-            State neighbourSouth = new State(getX(), getY() - 1);
-            neighbourSouth.calculateTotalWeight(start, goal);
-            neighbours.add(neighbourSouth);
-        }
-
-        if (isValidLocation(getX(), getY() + 1)) {
-            State neighbourNorth = new State(getX(), getY() + 1);
-            neighbourNorth.calculateTotalWeight(start, goal);
-            neighbours.add(neighbourNorth);
-        }
 
 //		rp.assignments.team.warehouse.server.route.planning.State n7 = new rp.assignments.team.warehouse.server.route
 // .planning.State(getX(current) + 1, getY(current) - 1);

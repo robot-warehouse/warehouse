@@ -80,7 +80,7 @@ public class TwoRobots {
 					if (!Data.singleRow.contains(loc1a)) {
 						System.out.println(loc1a.toString());
 						System.out.println("check4");
-						ArrayList<State> neighbours = loc1a.getNeighbours(start1, goal1);
+						List<State> neighbours = loc1a.getNeighbours(start1, goal1);
 						for (State each : neighbours) {
 							if (!obs1.contains(each)) {
 								l1.add(i + 1, each);
