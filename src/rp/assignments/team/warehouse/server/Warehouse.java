@@ -20,8 +20,8 @@ public class Warehouse {
     /** The robots in the warehouse */
     private Set<Robot> robots;
 
-    /** Any robots that aren't currently connected */
-    private RobotInfo[] offlineRobots;
+    /** Array of RobotInfo for all known robots */
+    private RobotInfo[] knownRobots;
 
     /** Instance of the controller class */
     private Controller controller;
@@ -31,12 +31,12 @@ public class Warehouse {
         this.robots = new HashSet<>();
         this.workingOnJobs = new HashSet<>();
 
-        this.offlineRobots = RobotInfo.values();
+        this.knownRobots = RobotInfo.values();
     }
 
     /**
      * Add the controller to the warehouse.
-     * 
+     *
      * @param controller The controller for the warehouse.
      */
     public void setController(Controller controller) {
@@ -109,12 +109,12 @@ public class Warehouse {
     }
 
     /**
-     * Get the offline robots
+     * Get information of all known robots.
      *
-     * @return Set of robots not in the warehouse
+     * @return Set of RobotInfo for known robots.
      */
-    public RobotInfo[] getOfflineRobots() {
-        return this.offlineRobots;
+    public RobotInfo[] getKnownRobots() {
+        return this.knownRobots;
     }
 
     /**
