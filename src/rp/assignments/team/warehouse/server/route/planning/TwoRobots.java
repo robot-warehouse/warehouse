@@ -23,16 +23,16 @@ public class TwoRobots {
 			// get the current position of r1.
 
 			//get the arraylist of the current route of the robot from current position + 2.
-			
+
 			//stop the robot when it reaches current position + 3 and make it wait for the new route
 
 		} else if (r2) {
 			// get the current position of r2.
 
 			//get the arraylist of the current route of the robot from current position + 2.
-			
+
 			//stop the robot when it reaches current position + 3 and make it wait for the new route
-			
+
 		}
 
 		List<State> l1 = new ArrayList<State>();
