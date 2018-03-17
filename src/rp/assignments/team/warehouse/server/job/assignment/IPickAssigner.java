@@ -9,7 +9,7 @@ public interface IPickAssigner {
     /**
      * Assigns the next pick to an available picker.
      */
-    public void next();
+    public Pick next();
 
     /**
      * Check if there are more picks to be assigned.

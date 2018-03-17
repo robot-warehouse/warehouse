@@ -42,7 +42,7 @@ public class AuctionPickAssigner implements IPickAssigner {
     }
 
     @Override
-    public void next() {
+    public Pick next() {
         if (hasNext()) {
             Set<Bidder> availableBidders = this.bidders.stream().filter(x -> x.isAvailable())
                     .collect(Collectors.toCollection(HashSet::new));
@@ -60,6 +60,7 @@ public class AuctionPickAssigner implements IPickAssigner {
                     this.picks.remove();
                     picker.assignPick(pick);
                     logger.trace("Assigning pick for item {} in job {} to picker {}.", pick.getItem().getId(), pick.getJob().getId(), picker.getName());
+                    return pick;
                 } else {
                     logger.error("PickAuctioner auctioned pick to null picker.");
                 }
@@ -67,6 +68,8 @@ public class AuctionPickAssigner implements IPickAssigner {
         } else {
             logger.warn("Called next() when no picks remaining to assign");
         }
+
+        return null;
     }
 
     @Override
