@@ -20,7 +20,7 @@ public class AStar {
      * @param goal The finish location.
      * @return List of the locations along the computed path.
      */
-    public static List<State> findPath(Location start, Location goal, ArrayList<State> obstacles) {
+    public static ArrayList<State> findPath(Location start, Location goal, ArrayList<State> obstacles) {
         logger.info("Entering the findPath method");
         ArrayList<State> open = new ArrayList<>(); // Stores nodes available for visiting.
         ArrayList<State> closed = new ArrayList<>(); // Stores already visited nodes
@@ -116,7 +116,7 @@ public class AStar {
      * @param start The starting node.
      * @return The path to the goal node
      */
-    private static List<State> getPath(State current, State start) {
+    private static ArrayList<State> getPath(State current, State start) {
         ArrayList<State> path = new ArrayList<>();
         State node = current;
         path.add(current);
