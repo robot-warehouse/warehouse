@@ -13,8 +13,27 @@ public class TwoRobots {
 	// ---------At the beginning---------
 	// priority is given to r1 and route is changed for r2
 
-	private static void findPath(State start1, State goal1, State start2, State goal2) {
+	private static void findPath(State start1, State goal1, State start2, State goal2, Boolean r1, Boolean r2) {
 		long begin = System.currentTimeMillis();
+		// boolean r1 is true when r1 is moving.
+
+		// boolean r2 is true when r2 is moving.
+
+		if (r1) {
+			// get the current position of r1.
+
+			//get the arraylist of the current route of the robot from current position + 2.
+			
+			//stop the robot when it reaches current position + 3 and make it wait for the new route
+
+		} else if (r2) {
+			// get the current position of r2.
+
+			//get the arraylist of the current route of the robot from current position + 2.
+			
+			//stop the robot when it reaches current position + 3 and make it wait for the new route
+			
+		}
 
 		List<State> l1 = new ArrayList<State>();
 		List<State> l2 = new ArrayList<State>();
@@ -27,7 +46,7 @@ public class TwoRobots {
 		// get Route for r2 in a list called l2
 		l2 = AStar.findPath(start2, goal2, Data.getObstacles());
 
-		//the lists of obstacles for both the robots
+		// the lists of obstacles for both the robots
 		obs1 = Data.getObstacles();
 		obs2 = Data.getObstacles();
 		System.out.println("before");
@@ -70,9 +89,9 @@ public class TwoRobots {
 							}
 						}
 					} else {
-						obs2.add(loc2a);
-						l2 = AStar.findPath(start2, goal2, obs2);
-						obs2.remove(obs2.size()-1);
+						obs1.add(loc1a);
+						l1 = AStar.findPath(start1, goal1, obs1);
+						obs1.remove(obs1.size() - 1);
 						i = 0;
 					}
 
@@ -87,9 +106,9 @@ public class TwoRobots {
 			State loc2a = l2.get(i);
 			if (loc1a.equals(loc2a)) {
 				// if (!loc1b.equals(l2.get(i - 1))) {
-				State temp = l2.get(i - 1);
+				State temp = l1.get(i - 1);
 				// add a pause for 2nd robot for previous position
-				l2.add(i - 1, temp);
+				l1.add(i - 1, temp);
 				// } else if (!loc2b.equals(l1.get(i - 1))) {
 				// State temp = l1.get(i - 1);
 				// // add a pause for 1st robot for previous position
@@ -133,7 +152,7 @@ public class TwoRobots {
 		State goal1 = new State(3, 0);
 		State goal2 = new State(2, 0);
 
-		TwoRobots.findPath(start1, goal1, start2, goal2);
+		TwoRobots.findPath(start1, goal1, start2, goal2, false , false);
 	}
 	// ---------Later-----------------
 	// if r1 is moving and r2 is stationary i.e. waiting for a new route.

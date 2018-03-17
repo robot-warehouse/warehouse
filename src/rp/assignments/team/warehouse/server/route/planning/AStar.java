@@ -88,9 +88,9 @@ public class AStar {
      * @param goal The finish location.
      * @return The distance of the path between the two locations.
      */
-//    public static int findDistance(Location start, Location goal) {
-//        return findPath(start, goal,).size();
-//    }
+    public static int findDistance(Location start, Location goal) {
+        return findPath(start, goal,Data.obstacles).size();
+    }
 
     /**
      * Finds the node with the smallest f value ( f=g+h )
