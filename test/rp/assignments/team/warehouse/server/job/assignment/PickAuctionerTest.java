@@ -3,7 +3,6 @@ package rp.assignments.team.warehouse.server.job.assignment;
 import static org.mockito.Mockito.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
