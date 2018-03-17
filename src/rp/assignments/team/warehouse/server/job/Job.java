@@ -23,6 +23,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
      */
     public Job(int id, List<JobItem> jobItems) {
         assert id >= 0;
+        assert jobItems != null;
 
         this.id = id;
         this.jobItems = jobItems;
@@ -116,12 +117,14 @@ public class Job implements IIDed, IPrioritised, IRewardable {
      */
     public void pickCompleted(Pick pick) {
         assert pick != null;
+        assert pick.getJob().equals(this);
         assert pick.isCompleted();
 
         if (!this.availablePicks.contains(pick)) {
             throw new IllegalArgumentException("Completed pick must belong to the job and not already be completed.");
         }
 
+        this.availablePicks.remove(pick);
         this.completedPickCount++;
     }
 
@@ -135,6 +138,15 @@ public class Job implements IIDed, IPrioritised, IRewardable {
         assert this.completedPickCount <= this.pickCount;
 
         return this.completedPickCount == this.pickCount;
+    }
+
+    /**
+     * Get the number of picks that have been completed.
+     *
+     * @return The number of picks completed.
+     */
+    public int getCompletedPickCount() {
+        return this.completedPickCount;
     }
 
     /**

@@ -15,6 +15,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import rp.assignments.team.warehouse.server.Location;
@@ -23,6 +25,7 @@ import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.JobItem;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(Enclosed.class)
 public class ValidImporterTest {
 
     private static Importer importer;
@@ -43,7 +46,7 @@ public class ValidImporterTest {
     }
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUpBeforeClass() {
         String datasetPath = ImporterInputPath.INPUT_PATH + "/valid/";
         File jobsFile = new File(datasetPath + "/jobs.csv");
         File cancellationsFile = new File(datasetPath + "/cancellations.csv");
@@ -53,46 +56,81 @@ public class ValidImporterTest {
 
         importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
     }
-
-    @Test
-    public void canImportValidDataset() {
-        Assert.assertTrue(importer.parse());
+    
+    public static class ImportNotFinishedTests {
+        
+        @Test
+        public void isDoneParsingShouldBeFalse() {
+            Assert.assertFalse(importer.isDoneParsing());
+        }
+    
+        @Test(expected=ImportNotFinishedException.class)
+        public void cannotGetJobsBeforeImport() {
+            importer.getJobs();
+        }
+        
+        @Test(expected=ImportNotFinishedException.class)
+        public void cannotGetItemsBeforeImport() {
+            importer.getItems();
+        }
+        
+        @Test(expected=ImportNotFinishedException.class)
+        public void cannotGetDropsBeforeImport() {
+            importer.getDrops();
+        }
+        
     }
 
-    @Test
-    public void importsCorrectDropLocations() {
-        Set<Location> drops = importer.getDrops();
+    @FixMethodOrder(MethodSorters.NAME_ASCENDING)  
+    public static class ImportValidDatasetTests {
 
-        Assert.assertEquals(drops.size(), 2);
-        Assert.assertThat(drops, hasItems(sameBeanAs(drop0), sameBeanAs(drop1)));
-    }
+        @Test
+        public void canImportValidDataset() {
+            Assert.assertTrue(importer.parse());
+        }
+        
+        @Test
+        public void isDoneParsingShouldBeTrue() {
+            Assert.assertTrue(importer.isDoneParsing());
+        }
+    
+        @Test
+        public void importsCorrectDropLocations() {
+            Set<Location> drops = importer.getDrops();
+    
+            Assert.assertEquals(drops.size(), 2);
+            Assert.assertThat(drops, hasItems(sameBeanAs(drop0), sameBeanAs(drop1)));
+        }
+    
+        @Test
+        public void importsCorrectItems() {
+            Set<Item> items = importer.getItems();
 
-    @Test
-    public void importsCorrectItems() {
-        Set<Item> items = importer.getItems();
+            Assert.assertEquals(items.size(), 3);
+            Assert.assertThat(items, hasItems(sameBeanAs(aa), sameBeanAs(ab), sameBeanAs(ac)));
+        }
 
-        Assert.assertEquals(items.size(), 3);
-        Assert.assertThat(items, hasItems(sameBeanAs(aa), sameBeanAs(ab), sameBeanAs(ac)));
-    }
+        @Test
+        public void importsCorrectJobs() {
+            Set<Job> jobs = importer.getJobs();
 
-    @Test
-    public void importsCorrectJobs() {
-        Set<Job> jobs = importer.getJobs();
-
-        Assert.assertEquals(jobs.size(), 2);
-        Assert.assertThat(jobs,
-            hasItems(
-                allOf(
-                    hasProperty("id", equalTo(j1000.getId())),
-                    hasProperty("jobItems", sameBeanAs(j1000.getJobItems())),
-                    hasProperty("previouslyCancelled", equalTo(j1000.isPreviouslyCancelled()))
-                ),
-                allOf(
-                    hasProperty("id", equalTo(j1001.getId())),
-                    hasProperty("jobItems", sameBeanAs(j1001.getJobItems())),
-                    hasProperty("previouslyCancelled", equalTo(j1001.isPreviouslyCancelled()))
+            Assert.assertEquals(jobs.size(), 2);
+            Assert.assertThat(jobs,
+                hasItems(
+                    allOf(
+                        hasProperty("id", equalTo(j1000.getId())),
+                        hasProperty("jobItems", sameBeanAs(j1000.getJobItems())),
+                        hasProperty("previouslyCancelled", equalTo(j1000.isPreviouslyCancelled()))
+                    ),
+                    allOf(
+                        hasProperty("id", equalTo(j1001.getId())),
+                        hasProperty("jobItems", sameBeanAs(j1001.getJobItems())),
+                        hasProperty("previouslyCancelled", equalTo(j1001.isPreviouslyCancelled()))
+                    )
                 )
-            )
-        );
+            );
+        }
+
     }
+
 }

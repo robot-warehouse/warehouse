@@ -43,6 +43,10 @@ public class Robot implements Picker, Bidder {
      * @param currentFacingDirection The robot's starting direction.
      */
     public Robot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
+        assert robotInfo != null;
+        assert currentLocation != null;
+        assert currentFacingDirection != null;
+
     	this.robotInfo = robotInfo;
         this.currentLocation = currentLocation;
         this.currentFacingDirection = currentFacingDirection;
@@ -111,6 +115,8 @@ public class Robot implements Picker, Bidder {
      * @param currentFacingDirection The new direction the robot is facing.
      */
     public void setCurrentFacingDirection(Facing currentFacingDirection) {
+        assert currentFacingDirection != null;
+
     	this.currentFacingDirection = currentFacingDirection;
     }
 
