@@ -30,9 +30,13 @@ public class RouteExecution {
             // left and right is relative to the direction in which the robot is facing so every time we need to
             // check in which direction the robot is facing.
             if (facingDirection == Facing.EAST) {
+            	
+            	if(now.getX() == next.getX() && now.getY() == next.getY()) { // Stays at the same place
+            		movementCommands.add(Instruction.STOP);
+            	}
 
                 //if the x coordinate is same, the robot needs to move along the Y axis
-                if (now.getX() == next.getX()) {
+            	else if (now.getX() == next.getX()) {
 
                     //this condition implies that the robot needs to move along the positive Y axis
                     if (now.getY() == next.getY() - 1) {
@@ -54,7 +58,12 @@ public class RouteExecution {
                     }
                 }
             } else if (facingDirection == Facing.SOUTH) {
-                if (now.getX() == next.getX()) {
+            	
+            	if(now.getX() == next.getX() && now.getY() == next.getY()) { // Stays at the same place
+            		movementCommands.add(Instruction.STOP);
+            	}
+            	
+            	else if (now.getX() == next.getX()) {
                     if (now.getY() == next.getY() - 1) {
                         movementCommands.add(Instruction.BACKWARDS);
                         facingDirection = Facing.NORTH;
@@ -72,7 +81,12 @@ public class RouteExecution {
                     }
                 }
             } else if (facingDirection == Facing.WEST) {
-                if (now.getX() == next.getX()) {
+            	
+            	if(now.getX() == next.getX() && now.getY() == next.getY()) { // Stays at the same place
+            		movementCommands.add(Instruction.STOP);
+            	}
+            	
+            	else if (now.getX() == next.getX()) {
                     if (now.getY() == next.getY() - 1) {
                         movementCommands.add(Instruction.RIGHT);
                         facingDirection = Facing.NORTH;
@@ -89,7 +103,12 @@ public class RouteExecution {
                     }
                 }
             } else if (facingDirection == Facing.NORTH) {
-                if (now.getX() == next.getX()) {
+            	
+            	if(now.getX() == next.getX() && now.getY() == next.getY()) { // Stays at the same place
+            		movementCommands.add(Instruction.STOP);
+            	}
+            	
+            	else if (now.getX() == next.getX()) {
                     if (now.getY() == next.getY() - 1) {
                         movementCommands.add(Instruction.FORWARDS);
                     } else if (now.getY() == next.getY() + 1) {
