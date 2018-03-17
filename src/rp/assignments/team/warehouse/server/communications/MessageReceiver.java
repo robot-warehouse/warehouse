@@ -11,25 +11,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.Robot;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
 public class MessageReceiver extends Thread {
 
     private final static Logger logger = LogManager.getLogger(MessageReceiver.class);
+    
+    private Robot robot;
 
     private DataInputStream fromRobot;
-    private List<Location> locations;
-    private boolean robotFinished;
 
     /**
-     * @param inpStream A stream of communications from the robot.
+     * @param robot Reference to the robot instance to update information
+     * @param inputStream A stream of communications from the robot.
      */
-    public MessageReceiver(InputStream inpStream) {
-        this.fromRobot = new DataInputStream(inpStream);
-        this.locations = new ArrayList<>();
-        this.robotFinished = false;
+    public MessageReceiver(InputStream inputStream, Robot robot) {
+        this.robot = robot;
+        this.fromRobot = new DataInputStream(inputStream);
+        
         logger.info("Constructing Receiver.");
-
     }
 
     @Override
@@ -41,14 +42,15 @@ public class MessageReceiver extends Thread {
                     case SEND_POSITION:
                         int x = Integer.valueOf(fromRobot.readUTF()); // get x
                         int y = Integer.valueOf(fromRobot.readUTF()); // get y
-                        rp.assignments.team.warehouse.server.route.planning.State currState = new rp.assignments.team
-                                .warehouse.server.route.planning.State(x, y);
-                        logger.info("Received " + currState + " from robot.");
-                        locations.add(currState);
+                        
+                        Location currentLocation = new Location(x, y);
+                        this.robot.setCurrentLocation(currentLocation);
+                        
+                        logger.info("Received " + currentLocation + " from robot.");
                         break;
                     case FINISHED_JOB:
                     	System.out.println("finished");
-                    	robotFinished = true;
+                    	this.robot.setHasFinishedJob(true);
                     case DISCONNECT:
                     	logger.info("Receiver thread ending");
                     	break;
@@ -66,29 +68,4 @@ public class MessageReceiver extends Thread {
             } 
         }
     }
-
-    /**
-     * Last position of robot as a State : see the State class.
-     *
-     * @return The last state of the robot.
-     */
-    public Location getLatestPosition() {
-        if (locations.size() == 0) {
-            return null;
-        } else {
-            return locations.get(locations.size() - 1);
-        }
-    }
-    
-    public boolean getFinished() {
-    	return robotFinished;
-    }
-    
-    public void setFinished(boolean finished) {
-    	this.robotFinished = finished;
-    }
-    
-   
-    
-
 }

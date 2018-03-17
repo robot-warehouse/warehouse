@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import rp.assignments.team.warehouse.server.Location;
+import rp.assignments.team.warehouse.server.Robot;
 import rp.assignments.team.warehouse.server.RobotInfo;
 import rp.assignments.team.warehouse.server.route.execution.Instruction;
 import rp.assignments.team.warehouse.server.route.planning.State;
@@ -26,11 +27,15 @@ public class CommunicationsManager {
 
     private final static Logger logger = LogManager.getLogger(CommunicationsManager.class);
 
-    private NXTInfo nxtInf;
-    private NXTComm communicator;
-    private BlockingQueue<Command> commands;
     private MessageSender sender;
     private MessageReceiver receiver;
+    private Robot robot;
+    
+    private NXTInfo nxtInf;
+    private NXTComm communicator;
+    
+    private BlockingQueue<Command> commands;
+    
     private boolean connected;
 
     /**
@@ -39,7 +44,7 @@ public class CommunicationsManager {
      *
      * @param robotInfo The robot's information.
      */
-    public CommunicationsManager(RobotInfo robotInfo) {
+    public CommunicationsManager(RobotInfo robotInfo, Robot robot) {
         assert robotInfo != null;
 
         String name = robotInfo.getName();
@@ -47,15 +52,19 @@ public class CommunicationsManager {
 
         logger.info("Initialising communications with " + name + " address " + address + ".");
         this.nxtInf = new NXTInfo(NXTCommFactory.BLUETOOTH, name, address);
+        this.robot = robot;
+        
         try {
-            connected = false;
+            this.connected = false;
             this.communicator = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
+            
             if (communicator.open(nxtInf)) {
+                this.commands = new LinkedBlockingQueue<>();
+                this.sender = new MessageSender(communicator.getOutputStream(), commands);
+                this.receiver = new MessageReceiver(communicator.getInputStream(), robot);
+                this.connected = true;
+                
                 logger.info("Connected to robot " + nxtInf.name);
-                commands = new LinkedBlockingQueue<>();
-                sender = new MessageSender(communicator.getOutputStream(), commands);
-                receiver = new MessageReceiver(communicator.getInputStream());
-                connected = true;
             }
         } catch (NXTCommException e) {
             logger.fatal("Could not connect to robot");
@@ -70,20 +79,6 @@ public class CommunicationsManager {
     public boolean isConnected() {
         // should be called to check whether server is working before this class is used
         return connected;
-    }
-
-    /**
-     * Gets the state of the robot. Returns null if the robot has not given it's
-     * position yet.
-     * 
-     * @return The last position of the robot or null if unknown.
-     */
-    public Location getRobotLocation() {
-        return receiver.getLatestPosition();
-    }
-
-    public boolean getFinished() {
-        return receiver.getFinished();
     }
 
     /**
@@ -119,8 +114,8 @@ public class CommunicationsManager {
     public void reconnect() {
         try {
             if (communicator.open(nxtInf)) {
-                receiver = new MessageReceiver(communicator.getInputStream());
-                sender = new MessageSender(communicator.getOutputStream(), commands);
+                receiver = new MessageReceiver(communicator.getInputStream(), this.robot);
+                sender = new MessageSender(communicator.getOutputStream(), this.commands);
                 logger.info("Reconnected with " + nxtInf.name);
             }
         } catch (NXTCommException e) {
@@ -135,7 +130,6 @@ public class CommunicationsManager {
      */
     public void sendOrders(List<Instruction> orders) {
         sender.setOrders(orders);
-        receiver.setFinished(false);
         commands.offer(Command.SEND_ORDERS);
 
     }

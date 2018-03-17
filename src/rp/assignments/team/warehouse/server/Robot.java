@@ -28,6 +28,8 @@ public class Robot implements Picker, Bidder {
     private Set<Pick> currentPicks;
 
     private boolean hasComputedInstructionsForPick;
+    
+    private boolean hasFinishedJob;
 
     /** The communication interface with the robot. */
     private CommunicationsManager communicationsManager;
@@ -120,12 +122,40 @@ public class Robot implements Picker, Bidder {
     	this.currentFacingDirection = currentFacingDirection;
     }
 
+    /**
+     * Returns whether the robot has already computed the route for the current pick
+     *
+     * @return true/false
+     */
     public boolean hasComputedInstructionsForPick() {
-    	return hasComputedInstructionsForPick;
+        return hasComputedInstructionsForPick;
     }
 
-    public void setHasComputedInstructionsForPick(boolean hasIt) {
-    	hasComputedInstructionsForPick = hasIt;
+    /**
+     * Sets whether the robot has already computed the route for the current pick
+     *
+     * @param hasComputedInstructionsForPick true/false
+     */
+    public void setHasComputedInstructionsForPick(boolean hasComputedInstructionsForPick) {
+        this.hasComputedInstructionsForPick = hasComputedInstructionsForPick;
+    }
+    
+    /**
+     * Returns whether the robot has completed it's current job
+     *
+     * @return true/false
+     */
+    public boolean hasFinishedJob() {
+        return this.hasFinishedJob;
+    }
+    
+    /**
+     * Sets whether the robot has completed it's current job
+     *
+     * @param hasFinishedJob true/false
+     */
+    public void setHasFinishedJob(boolean hasFinishedJob) {
+        this.hasFinishedJob = hasFinishedJob;
     }
 
     /**
