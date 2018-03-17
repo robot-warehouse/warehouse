@@ -1,11 +1,6 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import rp.assignments.team.warehouse.server.Location;
 
 public class TwoRobots {
@@ -67,23 +62,11 @@ public class TwoRobots {
 
 		i = 0;
 		while (i < Math.min(l2.size(), l1.size())) {
-			State loc1a = l2.get(i);
-			State loc2a = l1.get(i);
-			if (loc1a.equals(loc2a)) {
-				// if (!loc1b.equals(l2.get(i - 1))) {
+			State loc2 = l2.get(i);
+			State loc1 = l1.get(i);
+			if (loc1.equals(loc2)) {
 				State temp = l2.get(i - 1);
-				// add a pause for 2nd robot for previous position
 				l2.add(i - 1, temp);
-				// } else if (!loc2b.equals(l1.get(i - 1))) {
-				// State temp = l1.get(i - 1);
-				// // add a pause for 1st robot for previous position
-				// l1.add(i - 1, temp);
-				// } else {
-				// obs2.add(loc1a);
-				// System.out.println("rerouting...");
-				// l2 = AStar.findPath(start2, goal2, obs2);
-				// i = 0;
-				// }
 			}
 
 			i++;

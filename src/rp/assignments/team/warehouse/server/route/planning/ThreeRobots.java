@@ -48,7 +48,7 @@ public class ThreeRobots {
 								else if (!loc1b.equals(start) && !loc1b.equals(goal))
 									obs3.add(loc1b);
 								l3 = AStar.findPath(start, goal, obs3);
-								//obs3.remove(obs3.size() - 1);
+								// obs3.remove(obs3.size() - 1);
 								i = 0;
 								j = 0;
 							}
@@ -70,10 +70,7 @@ public class ThreeRobots {
 						State loc2b = l2.get(j + 1);
 
 						if (swapped(loc1a, loc1b, loc2a, loc2b)) {
-							System.out.println("check3");
 							if (!Data.singleRow.contains(loc1a)) {
-								System.out.println(loc1a.toString());
-								System.out.println("check4");
 								ArrayList<State> neighbours = loc1a.getNeighbours(start, goal);
 								for (State each : neighbours) {
 									if (!obs3.contains(each)) {
@@ -89,7 +86,7 @@ public class ThreeRobots {
 									obs3.add(loc1b);
 								l3 = AStar.findPath(start, goal, obs3);
 								check = true;
-								//obs3.remove(obs3.size() - 1);
+								// obs3.remove(obs3.size() - 1);
 								i = 0;
 								j = 0;
 							}
@@ -100,8 +97,24 @@ public class ThreeRobots {
 				}
 			}
 		}
-		
-		
+
+		int i = 0;
+		while (i < Math.min(l2.size(), Math.min(l3.size(), l1.size()))) {
+			State loc1 = l1.get(i);
+			State loc2 = l2.get(i);
+			State loc3 = l3.get(i);
+			State temp = l3.get(i - 1);
+			if (i > 0) {
+				temp = l3.get(i - 1);
+			} else
+				temp = loc3;
+			if (loc1.equals(loc3) && !loc2.equals(temp)) {
+				l3.add(i - 1, temp);
+			} else if (loc2.equals(loc3) && !loc1.equals(temp)) {
+				l3.add(i - 1, temp);
+			}
+			i++;
+		}
 
 		return l3;
 	}

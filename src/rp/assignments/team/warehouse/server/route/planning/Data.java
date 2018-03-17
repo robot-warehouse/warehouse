@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Data {
 
-    public static ArrayList obstacles = new ArrayList<State>() {
+    public static ArrayList<State> obstacles = new ArrayList<State>() {
         {
             add(new State(1, 1));
             add(new State(1, 2));
@@ -30,7 +30,7 @@ public class Data {
         }
     };
 
-    public static ArrayList singleRow = new ArrayList<State>() {{
+    public static ArrayList<State> singleRow = new ArrayList<State>() {{
     	add(new State(0,0));
     	add(new State(0,1));
     	add(new State(0,2));
