@@ -1,5 +1,8 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Location {
 
     /** The minimum x coordinate of the warehouse. */
@@ -47,17 +50,17 @@ public class Location {
         return this.y;
     }
 
-    public Location[] getNeighbours() {
+    public List<Location> getNeighbours() {
         int[][] vectors = new int[][] { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
-        Location[] neighbours = new Location[4];
+        List<Location> neighbours = new ArrayList<>();
 
-        for (int i = 0; i < vectors.length; i++) {
-                int x = this.getX() + vectors[i][0];
-                int y = this.getY() + vectors[i][1];
+        for (int[] vector : vectors) {
+            int x = this.getX() + vector[0];
+            int y = this.getY() + vector[1];
 
-                if (Location.isValidLocation(x, y)) {
-                    neighbours[i] = new Location(x, y);
-                }
+            if (Location.isValidLocation(x, y)) {
+                neighbours.add(new Location(x, y));
+            }
         }
 
         return neighbours;

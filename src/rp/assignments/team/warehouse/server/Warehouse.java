@@ -66,8 +66,7 @@ public class Warehouse {
     public void cancelJob(Job job) {
         if (this.workingOnJobs.contains(job)) {
             // Uh-oh! Better find any affected robots...
-            robots.stream()
-                .forEach(r -> r.jobCancelled(job));
+            robots.forEach(r -> r.jobCancelled(job));
 
             this.workingOnJobs.remove(job);
         }
@@ -112,7 +111,7 @@ public class Warehouse {
     public RobotInfo[] getKnownRobots() {
         return RobotInfo.values();
     }
-    
+
     /**
      * Get set of online robots' RobotInfo.
      *
@@ -120,7 +119,7 @@ public class Warehouse {
      */
     public Set<RobotInfo> getOnlineRobots() {
         return this.getRobots().stream()
-                .map(r -> r.getRobotInfo())
+                .map(Robot::getRobotInfo)
                 .collect(Collectors.toSet());
     }
 
@@ -131,8 +130,8 @@ public class Warehouse {
      */
     public Set<RobotInfo> getOfflineRobots() {
         Set<RobotInfo> onlineRobots = this.getOnlineRobots();
- 
-        return Arrays.asList(this.getKnownRobots()).stream()
+
+        return Arrays.stream(this.getKnownRobots())
                 .filter(r -> !onlineRobots.contains(r))
                 .collect(Collectors.toSet());
     }

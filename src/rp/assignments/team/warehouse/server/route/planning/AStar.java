@@ -20,15 +20,17 @@ public class AStar {
      * @param goal The finish location.
      * @return List of the locations along the computed path.
      */
-    public static List<State> findPath(Location start, Location goal, List<State> obstacles) {
+    public static List<Location> findPath(Location start, Location goal) {
         logger.info("Entering the findPath method");
         ArrayList<State> open = new ArrayList<>(); // Stores nodes available for visiting.
         ArrayList<State> closed = new ArrayList<>(); // Stores already visited nodes
 
         State startState = new State(start);
         State goalState = new State(goal);
+
+        List<State> obstacles = Data.getObstacles();
         
-        if (obstacles.contains(startState) || Data.obstacles.contains(goalState)) {
+        if (obstacles.contains(startState) || obstacles.contains(goalState)) {
             logger.error("Obstacle located in start/goal node passed to findPath");
         	return null;
         }
@@ -83,7 +85,9 @@ public class AStar {
      * @return The distance of the path between the two locations.
      */
     public static int findDistance(Location start, Location goal) {
-        return findPath(start, goal,Data.obstacles).size();
+        List<Location> path = findPath(start, goal);
+
+        return path == null ? 0 : path.size();
     }
 
     /**
@@ -110,8 +114,8 @@ public class AStar {
      * @param start The starting node.
      * @return The path to the goal node
      */
-    private static List<State> getPath(State current, State start) {
-        ArrayList<State> path = new ArrayList<>();
+    private static List<Location> getPath(State current, State start) {
+        ArrayList<Location> path = new ArrayList<>();
         State node = current;
         path.add(current);
         while (!node.equals(start)) {

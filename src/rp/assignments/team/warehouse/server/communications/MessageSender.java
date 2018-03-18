@@ -81,6 +81,11 @@ public class MessageSender extends Thread {
 
     }
 
+    /**
+     * Sends SEND_ORDERS command to robot
+     *
+     * @throws IOException
+     */
     public void sendOrders() throws IOException {
         // send a command to give new information
         toRobot.writeUTF(Command.SEND_ORDERS.toString());
@@ -97,20 +102,34 @@ public class MessageSender extends Thread {
 
     }
 
+    /**
+     * Sends CANCEL command to robot cancelling the current job
+     *
+     * @throws IOException In case of error with connection
+     */
     public void sendCancellation() throws IOException {
         logger.info("Sending cancellation request to robot");
         toRobot.writeUTF(Command.CANCEL.toString());
         toRobot.flush();
     }
-    
+
+    /**
+     * Sends SEND_PICKS command to robot along with the number of picks
+     *
+     * @param picks The number of items to pickup
+     * @throws IOException In case of error with connection
+     */
     public void sendNumberOfPicks(int picks) throws IOException {
     	toRobot.writeUTF(Command.SEND_PICKS.toString());
     	toRobot.writeUTF(Integer.toString(picks));
     	toRobot.flush();
     }
-    
-    
-    
+
+    /**
+     * Sends DISCONNECT command to robot
+     *
+     * @throws IOException In case of error with connection
+     */
     public void disconnect() throws IOException {
     	toRobot.writeUTF(Command.DISCONNECT.toString());
     	toRobot.flush();

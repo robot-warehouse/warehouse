@@ -42,13 +42,11 @@ public class CommunicationsManager {
      * Constructs a new instance of CommunicationsManager with the given robot
      * name/address.
      *
-     * @param robotInfo The robot's information.
+     * @param robot The robot the communications manager is connecting to
      */
-    public CommunicationsManager(RobotInfo robotInfo, Robot robot) {
-        assert robotInfo != null;
-
-        String name = robotInfo.getName();
-        String address = robotInfo.getAddress();
+    public CommunicationsManager(Robot robot) {
+        String name = robot.getRobotInfo().getName();
+        String address = robot.getRobotInfo().getAddress();
 
         logger.info("Initialising communications with " + name + " address " + address + ".");
         this.nxtInf = new NXTInfo(NXTCommFactory.BLUETOOTH, name, address);

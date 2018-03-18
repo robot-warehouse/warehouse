@@ -174,7 +174,7 @@ public class Robot implements Picker, Bidder {
      * @return True if successfully connected.
      */
     public boolean connect() {
-    	this.communicationsManager = new CommunicationsManager(this.robotInfo, this);
+    	this.communicationsManager = new CommunicationsManager(this);
         this.communicationsManager.startServer();
 
     	if (this.communicationsManager.isConnected()) {

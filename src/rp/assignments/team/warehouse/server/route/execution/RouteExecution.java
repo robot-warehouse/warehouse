@@ -15,7 +15,7 @@ public class RouteExecution {
 
     private final static Logger logger = LogManager.getLogger(RouteExecution.class);
 
-    public static ArrayList<Instruction> convertCoordinatesToInstructions(Facing facingDirection, List<State> path) {
+    public static ArrayList<Instruction> convertCoordinatesToInstructions(Facing facingDirection, List<Location> path) {
 
         logger.info("Start Convert coordinates into numerated actions");
         
