@@ -8,7 +8,7 @@ public class TwoRobots {
 	// ---------At the beginning---------
 	// priority is given to r1 and route is changed for r2
 
-	private static ArrayList<State> findPath(ArrayList<State> l1, State start, State goal) {
+	static ArrayList<State> findPath(ArrayList<State> l1, State start, State goal) {
 		long begin = System.currentTimeMillis();
 
 		ArrayList<State> l2 = new ArrayList<State>();
@@ -23,8 +23,8 @@ public class TwoRobots {
 		System.out.println("before");
 		
 		int i = 0;
-		while (i < Math.min(l2.size(), l1.size()) - 1) {
-			for (int j = 0; j < Math.min(l2.size(), l1.size()) - 1; j++) {
+		while (i < l2.size() - 1) {
+			for (int j = 0; j < l1.size() - 1; j++) {
 
 				State loc1a = l2.get(i);
 				State loc2a = l1.get(j);
