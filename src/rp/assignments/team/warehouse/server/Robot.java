@@ -71,7 +71,16 @@ public class Robot implements Picker, Bidder {
      * @return The bluetooth address of the robot.
      */
     public String getAddress() {
-    	return this.robotInfo.getAddress();
+        return this.robotInfo.getAddress();
+    }
+
+    /**
+     * Get the {@link RobotInfo} enumeration value for this robot.
+     *
+     * @return The {@link RobotInfo} enumeration value for this robot.
+     */
+    public RobotInfo getRobotInfo() {
+        return this.robotInfo;
     }
 
     /**
@@ -81,15 +90,6 @@ public class Robot implements Picker, Bidder {
      */
     public Location getCurrentLocation() {
         return currentLocation;
-    }
-
-    /**
-     * Get the robot info
-     *
-     * @return The RobotInfo
-     */
-    public RobotInfo getRobotInfo() {
-        return this.robotInfo;
     }
 
     /**

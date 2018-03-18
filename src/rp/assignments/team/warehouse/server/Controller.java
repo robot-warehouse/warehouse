@@ -202,12 +202,12 @@ public class Controller {
     }
 
     /**
-     * Get information of all known robots.
+     * Get set of offline robots' RobotInfo.
      *
-     * @return Set of RobotInfo for known robots.
+     * @return Set of offline robots' RobotInfo.
      */
-    public RobotInfo[] getKnownRobots() {
-        return this.warehouse.getKnownRobots();
+    public Set<RobotInfo> getOfflineRobots() {
+        return this.warehouse.getOfflineRobots();
     }
 
     /**

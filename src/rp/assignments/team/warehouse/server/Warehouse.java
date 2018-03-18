@@ -1,5 +1,6 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,6 @@ public class Warehouse {
     /** The robots in the warehouse */
     private Set<Robot> robots;
 
-    /** Array of RobotInfo for all known robots */
-    private RobotInfo[] knownRobots;
-
     /** Instance of the controller class */
     private Controller controller;
 
@@ -30,8 +28,6 @@ public class Warehouse {
         this.running = true;
         this.robots = new HashSet<>();
         this.workingOnJobs = new HashSet<>();
-
-        this.knownRobots = RobotInfo.values();
     }
 
     /**
@@ -114,7 +110,31 @@ public class Warehouse {
      * @return Set of RobotInfo for known robots.
      */
     public RobotInfo[] getKnownRobots() {
-        return this.knownRobots;
+        return RobotInfo.values();
+    }
+    
+    /**
+     * Get set of online robots' RobotInfo.
+     *
+     * @return Set of online robots' RobotInfo.
+     */
+    public Set<RobotInfo> getOnlineRobots() {
+        return this.getRobots().stream()
+                .map(r -> r.getRobotInfo())
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Get set of offline robots' RobotInfo.
+     *
+     * @return Set of offline robots' RobotInfo.
+     */
+    public Set<RobotInfo> getOfflineRobots() {
+        Set<RobotInfo> onlineRobots = this.getOnlineRobots();
+ 
+        return Arrays.asList(this.getKnownRobots()).stream()
+                .filter(r -> !onlineRobots.contains(r))
+                .collect(Collectors.toSet());
     }
 
     /**

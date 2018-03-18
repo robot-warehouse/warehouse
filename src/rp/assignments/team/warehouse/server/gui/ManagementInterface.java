@@ -2,6 +2,7 @@ package rp.assignments.team.warehouse.server.gui;
 
 import java.awt.*;
 import java.io.File;
+import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -169,7 +170,7 @@ public class ManagementInterface {
         // region RightPane
         JButton btnConnectRobot = new JButton("Connect Robot");
         btnConnectRobot.addActionListener(event -> {
-            RobotInfo[] offlineRobots = this.controller.getOfflineRobots();
+            RobotInfo[] offlineRobots = this.controller.getOfflineRobots().toArray(new RobotInfo[0]);
             if (offlineRobots.length == 0) {
                 JOptionPane.showMessageDialog(this.frame, "We've run out of robots to connect to!");
             } else {
