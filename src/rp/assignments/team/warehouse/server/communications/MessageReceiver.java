@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.Robot;
+import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
 public class MessageReceiver extends Thread {
@@ -19,7 +20,7 @@ public class MessageReceiver extends Thread {
     private final static Logger logger = LogManager.getLogger(MessageReceiver.class);
     
     private Robot robot;
-
+    
     private DataInputStream fromRobot;
 
     /**
@@ -53,6 +54,15 @@ public class MessageReceiver extends Thread {
                     	this.robot.setHasFinishedJob(true);
                     case DISCONNECT:
                     	logger.info("Receiver thread ending");
+                    	break;
+                    case SEND_FACING:
+                    	try {
+                    		Facing facing = Facing.valueOf(fromRobot.readUTF());
+                    		robot.setCurrentFacingDirection(facing);
+                    	}
+                    	catch(IllegalArgumentException e) {
+                    		logger.error("Robot attempted to send it's direction, but it sent an invalid direction ");
+                    	}                    	
                     	break;
                     default:
                         logger.warn("Robot set unrecognised command");
