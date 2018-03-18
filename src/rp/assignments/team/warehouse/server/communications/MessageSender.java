@@ -10,6 +10,7 @@ import java.util.concurrent.BlockingQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.Instruction;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
@@ -47,6 +48,7 @@ public class MessageSender extends Thread {
         this.orders = new ArrayList<>(orders);
         logger.info("Received orders: " + orderString());
     }
+    
 
     @Override
     public void run() {
@@ -62,6 +64,8 @@ public class MessageSender extends Thread {
                         this.sendCancellation();
                         break;
                     case DISCONNECT:
+                    	this.disconnect();
+                    	break;
                     default:
                         logger.warn("Unrecognised command send to MessageSender");
                         break;
@@ -104,6 +108,8 @@ public class MessageSender extends Thread {
     	toRobot.writeUTF(Integer.toString(picks));
     	toRobot.flush();
     }
+    
+    
     
     public void disconnect() throws IOException {
     	toRobot.writeUTF(Command.DISCONNECT.toString());
