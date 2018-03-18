@@ -1,0 +1,3 @@
+[submodule "WarehouseAssignmentShared"]
+	path = WarehouseAssignmentShared
+	url = git@git.cs.bham.ac.uk:rp-3.4/WarehouseAssignmentShared.git
