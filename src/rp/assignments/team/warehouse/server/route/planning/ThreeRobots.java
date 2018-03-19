@@ -1,21 +1,22 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
 import java.util.ArrayList;
-
 import rp.assignments.team.warehouse.server.Location;
 
 public class ThreeRobots {
 
 	static ArrayList<State> findPath(ArrayList<State> l1, ArrayList<State> l2, State start, State goal) {
-
+		// Stores the route for third robot.
 		ArrayList<State> l3 = new ArrayList<State>();
+		// used to store the original route when the robot moves to the nearest possible
+		// location.
 		ArrayList<State> temporary = new ArrayList<State>();
 		l3 = AStar.findPath(start, goal, Data.getObstacles());
 		System.out.println(l3 + "b4");
 
 		ArrayList<State> obs3 = new ArrayList<State>();
 		obs3 = Data.obstacles;
-				
+
 		l3 = swapAndGoalCheck(l1, l2, start, goal, l3, obs3);
 
 		l3 = collisionCheck(l1, l2, start, goal, l3, obs3);
@@ -23,14 +24,20 @@ public class ThreeRobots {
 		return l3;
 	}
 
-	static ArrayList<State> collisionCheck(ArrayList<State> l1, ArrayList<State> l2, State start, State goal, ArrayList<State> l3,
-			ArrayList<State> obs3) {
+	static ArrayList<State> collisionCheck(ArrayList<State> l1, ArrayList<State> l2, State start, State goal,
+			ArrayList<State> l3, ArrayList<State> obs3) {
 		int i = 0;
-		while (i < Math.max(l3.size(), l1.size())) {
+		// loops through all three lists checking for collisions.
+		while (i < l3.size()) {
+			// to keep track of if we ever need to reroute.
 			boolean reroute = true;
+			// the location of first robot
 			State loc1;
+			// the location of second robot
 			State loc2;
+			// the location of third robot
 			State loc3;
+
 			if (i < l1.size())
 				loc1 = l1.get(i);
 			else
@@ -43,20 +50,27 @@ public class ThreeRobots {
 				loc3 = l3.get(i);
 			else
 				loc3 = null;
+
 			State prev;
-			if (i > 0) {
+			if (i > 0 && i < l3.size()) {
 				prev = l3.get(i - 1);
-			} else
+			} else {
 				prev = loc3;
-		
-			
+			}
+
+			// the third robot waits if first and third robot have the same location and if
+			// it's waiting would not affect the second robot.
 			if (loc1.equals(loc3) && !loc2.equals(prev)) {
 				l3.add(i - 1, prev);
 				reroute = false;
-			} else if (loc2.equals(loc3) && !loc1.equals(prev)) {
+			} // the third robot waits if second and third robot have the same location and if
+				// it's waiting would not affect the first robot.
+			else if (loc2.equals(loc3) && !loc1.equals(prev)) {
 				l3.add(i - 1, prev);
 				reroute = false;
-			} else if (loc1.equals(loc3)) {
+			} // if waiting at the current position is blocking other robot's route move to a
+				// neighbouring conflict-free position.
+			else if (loc1.equals(loc3)) {
 				ArrayList<State> neighbours = new ArrayList<>();
 				neighbours = loc3.getNeighbours(start, goal);
 				for (State each : neighbours) {
@@ -67,7 +81,9 @@ public class ThreeRobots {
 						break;
 					}
 				}
-			} else if(loc2.equals(loc3)) {
+			} // if waiting at the current position is blocking other robot's route move to a
+				// neighbouring conflict-free position.
+			else if (loc2.equals(loc3)) {
 				ArrayList<State> neighbours = new ArrayList<>();
 				neighbours = loc3.getNeighbours(start, goal);
 				for (State each : neighbours) {
@@ -78,26 +94,27 @@ public class ThreeRobots {
 						break;
 					}
 				}
-			} else if(reroute){
+			} // if no neighbouring conflict-free location is found, reroute
+			else if (reroute) {
 				obs3.add(loc3);
-				if(AStar.findPath(start, goal,obs3) != null ) {
-				l3 = AStar.findPath(start, goal,obs3);
-				l3 = swapAndGoalCheck(l1, l2, start, goal, l3, obs3);
-				i = 0;
-				}
-				else {
+				if (AStar.findPath(start, goal, obs3) != null) {
+					l3 = AStar.findPath(start, goal, obs3);
+					l3 = swapAndGoalCheck(l1, l2, start, goal, l3, obs3);
+					// go through the collision check from the beginning.
+					i = 0;
+				} else {
 					// indefinite wait
 					for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
 						l3 = AStar.findPath(start, l3.get(l3.indexOf(l1.get(l1.size() - 1)) - k), obs3);
 					}
-					
+
 				}
-					
+
 			}
 
 			i++;
 		}
-		
+
 		return l3;
 	}
 
@@ -112,6 +129,7 @@ public class ThreeRobots {
 			switch (n) {
 
 			case 1:
+				// checks if the goal position of the first robot could be an obstacle
 				if (l3.size() > l1.size()) {
 					if (l3.subList(l1.size(), l3.size() - 1).contains(l1.get(l1.size() - 1))) {
 						System.out.println("first goal is an obstacle");
@@ -128,9 +146,10 @@ public class ThreeRobots {
 				}
 
 			case 2:
+				// checks if the goal position of the second robot could be an obstacle
 				if (l3.size() > l2.size()) {
 					if (l3.subList(l2.size(), l3.size() - 1).contains(l2.get(l2.size() - 1))) {
-						System.out.println("first goal is an obstacle");
+						System.out.println("second goal is an obstacle");
 						obs3.add(l2.get(l2.size() - 1));
 						if (AStar.findPath(start, goal, obs3) != null)
 							l3 = AStar.findPath(start, goal, obs3);
@@ -144,6 +163,7 @@ public class ThreeRobots {
 				}
 
 			case 3:
+				// checks if the first and third robot are swapping locations anywhere
 				int i = 0;
 				while (i < l3.size() - 1) {
 					for (j = 0; j < l1.size() - 1; j++) {
@@ -152,7 +172,7 @@ public class ThreeRobots {
 						State loc2a = l1.get(j);
 						State loc1b = l3.get(i + 1);
 						State loc2b = l1.get(j + 1);
-
+						// if they swap check if there is space to step aside.
 						if (swapped(loc1a, loc1b, loc2a, loc2b)) {
 							System.out.println("swapped 1");
 							if (!Data.singleRow.contains(loc1a)) {
@@ -166,7 +186,9 @@ public class ThreeRobots {
 										break;
 									}
 								}
-							} else {
+							} // if there is no place to step aside, reroute with that particular location as
+								// an obstacle.
+							else {
 								if (!loc1a.equals(start) && !loc1a.equals(goal))
 									obs3.add(loc1a);
 								else if (!loc1b.equals(start) && !loc1b.equals(goal))
@@ -180,7 +202,11 @@ public class ThreeRobots {
 									}
 								}
 								System.out.println(l3);
+								// dont delete this obstacle because we want this to be considered if there is a
+								// need to reroute due to swapping with second robot.
 								// obs3.remove(obs3.size() - 1);
+								// restart the loop and recheck for swapping because we have got a new route
+								// now.
 								i = 0;
 								j = 0;
 							}
@@ -191,6 +217,7 @@ public class ThreeRobots {
 				}
 
 			case 4:
+				// similarly, check if the second and third robot swap positions anywhere
 				check = false;
 				i = 0;
 				while (i < l3.size() - 1) {
@@ -218,11 +245,12 @@ public class ThreeRobots {
 									obs3.add(loc1b);
 								if (AStar.findPath(start, goal, obs3) != null)
 									l3 = AStar.findPath(start, goal, obs3);
-								else{
+								else {
+									// indefinite wait
 									for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
 										l3 = AStar.findPath(start, l3.get(l3.indexOf(goal) - k), obs3);
 									}
-								}	
+								}
 								check = true;
 								counter = 0;
 								// obs3.remove(obs3.size() - 1);
@@ -235,9 +263,10 @@ public class ThreeRobots {
 					i++;
 				}
 			case 5:
+				// resolves an infinite loop of rerouting by rerouting till the nearest possible
+				// collision free position.
 				if (counter >= 3) {
-
-					System.out.println("inside counter if");
+					// stores the original route.
 					temporary = l3;
 					l3.clear();
 					for (State each : temporary) {
@@ -246,6 +275,8 @@ public class ThreeRobots {
 						} else
 							break;
 					}
+					// if this loop does not create a new route, delete the last location (helps to
+					// get rid of the infinite loop)
 					if (l3.size() == temporary.size()) {
 						l3.remove(l3.size() - 1);
 					}
