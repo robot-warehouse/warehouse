@@ -1,10 +1,21 @@
 package rp.assignments.team.warehouse.server.gui;
 
-import java.awt.*;
+import java.awt.Font;
 import java.io.File;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import rp.assignments.team.warehouse.server.Controller;
 import rp.assignments.team.warehouse.server.Location;
@@ -16,367 +27,371 @@ import rp.assignments.team.warehouse.shared.Facing;
 
 public class ManagementInterface {
 
-    private final int WINDOW_HEIGHT = 510;
-    private final int WINDOW_WIDTH = 800;
-    private final int WINDOW_START_POS = 100;
-    private final int BUTTON_HEIGHT = 25;
-    private final int BUTTON_WIDTH_WIDE = 153;
-    private final int BUTTON_WIDTH_NARROW = 100;
-    private final int LABEL_HEIGHT = 40;
-    private final int LABEL_WIDTH = 155;
-    private final int LABEL_WIDTH_WIDE = 400;
-    private final int TABLE_WIDTH = 345;
+	private final int WINDOW_HEIGHT = 510;
+	private final int WINDOW_WIDTH = 800;
+	private final int WINDOW_START_POS = 100;
+	private final int BUTTON_HEIGHT = 25;
+	private final int BUTTON_WIDTH_WIDE = 153;
+	private final int LABEL_HEIGHT = 40;
+	private final int LABEL_WIDTH = 155;
+	private final int LABEL_WIDTH_WIDE = 400;
 
-    private final int Y_TOP = 60;
+	private Controller controller;
+	private JFrame frame;
+	private JTable tblOnlineRobots;
+	private JTable tblCurrentJobs;
 
-    private final int PANE_LEFT_X = 20;
-    private final int PANE_MIDDLE_X = 200;
-    private final int PANE_RIGHT_X = 425;
+	private File baseDirectory = new File("./input");
+	private JTable table;
+	private JTextField textField;
 
-    private Controller controller;
-    private JFrame frame;
-    private JTable tblOnlineRobots;
-    private JTable tblCurrentJobs;
-    
-    private File baseDirectory = new File("./input");
+	/**
+	 * Create the application.
+	 */
+	public ManagementInterface(Controller controller) {
+		this.controller = controller;
+		initialize();
+		this.frame.setVisible(true);
+	}
 
-    /**
-     * Create the application.
-     */
-    public ManagementInterface(Controller controller) {
-        this.controller = controller;
-        initialize();
-        this.frame.setVisible(true);
-    }
+	// test method for gui
+	public static void main(String[] args) {
+		new ManagementInterface(new Controller(new Warehouse()));
+	}
 
-    // test method for gui
-    public static void main(String[] args) {
-        new ManagementInterface(new Controller(new Warehouse()));
-    }
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		this.frame = new JFrame();
+		this.frame.setBounds(WINDOW_START_POS, WINDOW_START_POS, WINDOW_WIDTH, WINDOW_HEIGHT);
+		this.frame.setTitle("Team 3.4 - Warehouse Management System");
+		this.frame.setResizable(false);
+		this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		this.frame.getContentPane().setLayout(null);
 
-    /**
-     * Initialize the contents of the frame.
-     */
-    private void initialize() {
-        this.frame = new JFrame();
-        this.frame.setBounds(WINDOW_START_POS, WINDOW_START_POS, WINDOW_WIDTH, WINDOW_HEIGHT);
-        this.frame.setTitle("Team 3.4 - Warehouse Management System");
-        this.frame.setResizable(false);
-        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.frame.getContentPane().setLayout(null);
+		JLabel lblTitle = new JLabel("Warehouse Management Interface");
+		lblTitle.setBounds(23, 10, LABEL_WIDTH_WIDE, LABEL_HEIGHT);
+		lblTitle.setHorizontalAlignment(JLabel.CENTER);
+		lblTitle.setFont(new Font(null, Font.PLAIN, 21));
+		this.frame.getContentPane().add(lblTitle);
 
-        JLabel lblTitle = new JLabel("Warehouse Management Interface");
-        lblTitle.setBounds((WINDOW_WIDTH / 2) - (LABEL_WIDTH_WIDE / 2), 10, LABEL_WIDTH_WIDE, LABEL_HEIGHT);
-        lblTitle.setHorizontalAlignment(JLabel.CENTER);
-        lblTitle.setFont(new Font(null, Font.PLAIN, 21));
-        this.frame.getContentPane().add(lblTitle);
+		// region LeftPane
+		JButton btnUploadCancellationsFile = new JButton("Upload Cancellations");
+		btnUploadCancellationsFile.addActionListener(event -> {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(this.baseDirectory);
+			int returnVal = fileChooser.showOpenDialog(this.frame);
 
-        // region LeftPane
-        JButton btnUploadCancellationsFile = new JButton("Upload Cancellations");
-        btnUploadCancellationsFile.addActionListener(event -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(this.baseDirectory);
-            int returnVal = fileChooser.showOpenDialog(this.frame);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				if (!controller.setCancellationsFile(fileChooser.getSelectedFile())) {
+					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
+				}
+			}
+		});
+		btnUploadCancellationsFile.setBounds(12, 238, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+		this.frame.getContentPane().add(btnUploadCancellationsFile);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                if (!controller.setCancellationsFile(fileChooser.getSelectedFile())) {
-                    JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-                }
-            }
-        });
-        btnUploadCancellationsFile.setBounds(PANE_LEFT_X, Y_TOP, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnUploadCancellationsFile);
+		JButton btnUploadDropsFile = new JButton("Upload Drops");
+		btnUploadDropsFile.addActionListener(event -> {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(this.baseDirectory);
+			int returnVal = fileChooser.showOpenDialog(this.frame);
 
-        JButton btnUploadDropsFile = new JButton("Upload Drops");
-        btnUploadDropsFile.addActionListener(event -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(this.baseDirectory);
-            int returnVal = fileChooser.showOpenDialog(this.frame);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				if (!controller.setDropsFile(fileChooser.getSelectedFile())) {
+					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
+				}
+			}
+		});
+		btnUploadDropsFile.setBounds(12, 200, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+		this.frame.getContentPane().add(btnUploadDropsFile);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                if (!controller.setDropsFile(fileChooser.getSelectedFile())) {
-                    JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-                }
-            }
-        });
-        btnUploadDropsFile.setBounds(PANE_LEFT_X, getYBelow(btnUploadCancellationsFile), BUTTON_WIDTH_WIDE,
-                BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnUploadDropsFile);
+		JButton btnUploadItemsFile = new JButton("Upload Items");
+		btnUploadItemsFile.addActionListener(event -> {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(this.baseDirectory);
+			int returnVal = fileChooser.showOpenDialog(this.frame);
 
-        JButton btnUploadItemsFile = new JButton("Upload Items");
-        btnUploadItemsFile.addActionListener(event -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(this.baseDirectory);
-            int returnVal = fileChooser.showOpenDialog(this.frame);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				if (!controller.setItemsFile(fileChooser.getSelectedFile())) {
+					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
+				}
+			}
+		});
+		btnUploadItemsFile.setBounds(12, 162, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+		this.frame.getContentPane().add(btnUploadItemsFile);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                if (!controller.setItemsFile(fileChooser.getSelectedFile())) {
-                    JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-                }
-            }
-        });
-        btnUploadItemsFile.setBounds(PANE_LEFT_X, getYBelow(btnUploadDropsFile), BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnUploadItemsFile);
+		JButton btnUploadJobsFile = new JButton("Upload Jobs");
+		btnUploadJobsFile.addActionListener(event -> {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(this.baseDirectory);
+			int returnVal = fileChooser.showOpenDialog(this.frame);
 
-        JButton btnUploadJobsFile = new JButton("Upload Jobs");
-        btnUploadJobsFile.addActionListener(event -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(this.baseDirectory);
-            int returnVal = fileChooser.showOpenDialog(this.frame);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				if (!this.controller.setJobsFile(fileChooser.getSelectedFile())) {
+					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
+				}
+			}
+		});
+		btnUploadJobsFile.setBounds(12, 124, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+		this.frame.getContentPane().add(btnUploadJobsFile);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                if (!this.controller.setJobsFile(fileChooser.getSelectedFile())) {
-                    JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-                }
-            }
-        });
-        btnUploadJobsFile.setBounds(PANE_LEFT_X, getYBelow(btnUploadItemsFile), BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnUploadJobsFile);
+		JButton btnUploadLocationsFile = new JButton("Upload Locations");
+		btnUploadLocationsFile.addActionListener(event -> {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(this.baseDirectory);
+			int returnVal = fileChooser.showOpenDialog(this.frame);
 
-        JButton btnUploadLocationsFile = new JButton("Upload Locations");
-        btnUploadLocationsFile.addActionListener(event -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(this.baseDirectory);
-            int returnVal = fileChooser.showOpenDialog(this.frame);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				if (!this.controller.setLocationsFile(fileChooser.getSelectedFile())) {
+					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
+				}
+			}
+		});
+		btnUploadLocationsFile.setBounds(12, 86, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+		this.frame.getContentPane().add(btnUploadLocationsFile);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                if (!this.controller.setLocationsFile(fileChooser.getSelectedFile())) {
-                    JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-                }
-            }
-        });
-        btnUploadLocationsFile.setBounds(PANE_LEFT_X, getYBelow(btnUploadJobsFile), BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnUploadLocationsFile);
+		JButton btnImportFiles = new JButton("Import Files");
+		btnImportFiles.addActionListener(event -> this.controller.importFiles());
+		btnImportFiles.setBounds(12, 276, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT * 2);
+		this.frame.getContentPane().add(btnImportFiles);
+		// endregion
 
-        JButton btnImportFiles = new JButton("Import Files");
-        btnImportFiles.addActionListener(event -> this.controller.importFiles());
-        btnImportFiles.setBounds(PANE_LEFT_X, getYBelow(btnUploadLocationsFile) + 50, BUTTON_WIDTH_WIDE,
-                BUTTON_HEIGHT * 2);
-        this.frame.getContentPane().add(btnImportFiles);
-        // endregion
+		// region MiddlePane
+		JLabel lblLoadedJobs = new JLabel("Loaded Files");
+		lblLoadedJobs.setBounds(232, 63, 80, 18);
+		this.frame.getContentPane().add(lblLoadedJobs);
 
-        // region MiddlePane
-        JLabel lblLoadedJobs = new JLabel("Loaded Jobs");
-        lblLoadedJobs.setBounds(PANE_MIDDLE_X, Y_TOP, 80, 18);
-        this.frame.getContentPane().add(lblLoadedJobs);
+		JTable tblLoadedJobs = new JTable();
+		// TODO setup data connection
+		tblLoadedJobs.setBounds(173, 84, 201, 170);
+		this.frame.getContentPane().add(tblLoadedJobs);
+		// endregion
 
-        JTable tblLoadedJobs = new JTable();
-        // TODO setup data connection
-        tblLoadedJobs.setBounds(PANE_MIDDLE_X, getYBelow(lblLoadedJobs), 200, 220);
-        this.frame.getContentPane().add(tblLoadedJobs);
-        // endregion
+		// region RightPane
+		JButton btnConnectRobot = new JButton("Connect Robot");
+		btnConnectRobot.addActionListener(event -> {
+			RobotInfo[] offlineRobots = this.controller.getOfflineRobots().toArray(new RobotInfo[0]);
+			if (offlineRobots.length == 0) {
+				JOptionPane.showMessageDialog(this.frame, "We've run out of robots to connect to!");
+			} else {
+				RobotInfo robotInfo = (RobotInfo) JOptionPane.showInputDialog(this.frame,
+						"Select a robot to connect to", "Connect Robot", JOptionPane.PLAIN_MESSAGE, new ImageIcon(),
+						offlineRobots, offlineRobots[0]);
 
-        // region RightPane
-        JButton btnConnectRobot = new JButton("Connect Robot");
-        btnConnectRobot.addActionListener(event -> {
-            RobotInfo[] offlineRobots = this.controller.getOfflineRobots().toArray(new RobotInfo[0]);
-            if (offlineRobots.length == 0) {
-                JOptionPane.showMessageDialog(this.frame, "We've run out of robots to connect to!");
-            } else {
-                RobotInfo robotInfo = (RobotInfo) JOptionPane.showInputDialog(
-                        this.frame,
-                        "Select a robot to connect to",
-                        "Connect Robot",
-                        JOptionPane.PLAIN_MESSAGE,
-                        new ImageIcon(),
-                        offlineRobots,
-                        offlineRobots[0]);
+				if (robotInfo != null) {
+					Integer x = (Integer) JOptionPane.showInputDialog(this.frame, "Select x start position", "Select x",
+							JOptionPane.PLAIN_MESSAGE, new ImageIcon(),
+							getOrderedIntArray(Location.MIN_X, Location.MAX_X), Location.MIN_X);
 
-                if (robotInfo != null) {
-                    Integer x = (Integer) JOptionPane.showInputDialog(
-                            this.frame,
-                            "Select x start position",
-                            "Select x",
-                            JOptionPane.PLAIN_MESSAGE,
-                            new ImageIcon(),
-                            getOrderedIntArray(Location.MIN_X, Location.MAX_X),
-                            Location.MIN_X);
+					if (x != null) {
+						Integer y = (Integer) JOptionPane.showInputDialog(this.frame, "Select y start position",
+								"Select y", JOptionPane.PLAIN_MESSAGE, new ImageIcon(),
+								getOrderedIntArray(Location.MIN_Y, Location.MAX_Y), Location.MIN_Y);
 
-                    if (x != null) {
-                        Integer y = (Integer) JOptionPane.showInputDialog(
-                                this.frame,
-                                "Select y start position",
-                                "Select y",
-                                JOptionPane.PLAIN_MESSAGE,
-                                new ImageIcon(),
-                                getOrderedIntArray(Location.MIN_Y, Location.MAX_Y),
-                                Location.MIN_Y);
+						if (y != null) {
+							Facing facingDirection = (Facing) JOptionPane.showInputDialog(this.frame,
+									"Select facing direction", "Select facing", JOptionPane.PLAIN_MESSAGE,
+									new ImageIcon(), Facing.values(), Facing.NORTH);
 
-                        if (y != null) {
-                            Facing facingDirection = (Facing) JOptionPane.showInputDialog(
-                                    this.frame,
-                                    "Select facing direction",
-                                    "Select facing",
-                                    JOptionPane.PLAIN_MESSAGE,
-                                    new ImageIcon(),
-                                    Facing.values(),
-                                    Facing.NORTH);
+							if (facingDirection != null) {
+								if (!this.controller.connectRobot(robotInfo, new Location(x, y), facingDirection)) {
+									JOptionPane.showMessageDialog(this.frame, "Failed to connect to robot.");
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+		btnConnectRobot.setBounds(458, 114, 132, 25);
+		this.frame.getContentPane().add(btnConnectRobot);
 
-                            if (facingDirection != null) {
-                                if (!this.controller.connectRobot(robotInfo, new Location(x, y), facingDirection)) {
-                                    JOptionPane.showMessageDialog(this.frame, "Failed to connect to robot.");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        btnConnectRobot.setBounds(PANE_RIGHT_X, Y_TOP, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnConnectRobot);
+		JButton btnDisconnectRobot = new JButton("Disconnect Robot");
+		btnDisconnectRobot.addActionListener(event -> {
+			if (!this.tblOnlineRobots.getSelectionModel().isSelectionEmpty()) {
+				this.tblOnlineRobots.setRowSelectionAllowed(false); // supposed
+																	// to lock
+																	// selection
+																	// while
+																	// robot is
+																	// being
+																	// disconnected
+				this.controller.disconnectRobot(
+						(String) this.tblOnlineRobots.getValueAt(this.tblOnlineRobots.getSelectedRow(), 0));
+				this.tblOnlineRobots.setRowSelectionAllowed(true);
+			}
+		});
+		btnDisconnectRobot.setBounds(602, 114, 140, 25);
+		this.frame.getContentPane().add(btnDisconnectRobot);
 
-        JButton btnDisconnectRobot = new JButton("Disconnect Robot");
-        btnDisconnectRobot.addActionListener(event -> {
-            if (!this.tblOnlineRobots.getSelectionModel().isSelectionEmpty()) {
-                this.tblOnlineRobots.setRowSelectionAllowed(false); // supposed to lock selection while robot is being disconnected
-                this.controller.disconnectRobot((String) this.tblOnlineRobots.getValueAt(this.tblOnlineRobots.getSelectedRow(), 0));
-                this.tblOnlineRobots.setRowSelectionAllowed(true);
-            }
-        });
-        btnDisconnectRobot.setBounds(PANE_RIGHT_X + TABLE_WIDTH - BUTTON_WIDTH_WIDE, Y_TOP, BUTTON_WIDTH_WIDE,
-                BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnDisconnectRobot);
+		JLabel lblOnlineRobots = new JLabel("Online Robots");
+		lblOnlineRobots.setBounds(425, 0, LABEL_WIDTH, LABEL_HEIGHT);
+		this.frame.getContentPane().add(lblOnlineRobots);
 
-        JLabel lblOnlineRobots = new JLabel("Online Robots");
-        lblOnlineRobots.setBounds(PANE_RIGHT_X, getYBelow(btnConnectRobot) - 10, LABEL_WIDTH, LABEL_HEIGHT);
-        this.frame.getContentPane().add(lblOnlineRobots);
+		this.tblOnlineRobots = new JTable();
+		this.tblOnlineRobots.setBounds(425, 41, 345, 60);
+		this.frame.getContentPane().add(this.tblOnlineRobots);
 
-        this.tblOnlineRobots = new JTable();
-        this.tblOnlineRobots.setBounds(PANE_RIGHT_X, getYBelow(lblOnlineRobots) - 15, TABLE_WIDTH, 80);
-        this.frame.add(this.tblOnlineRobots);
+		JLabel lblCurrentJobs = new JLabel("Completed Jobs");
+		lblCurrentJobs.setBounds(425, 286, LABEL_WIDTH, LABEL_HEIGHT);
+		this.frame.getContentPane().add(lblCurrentJobs);
 
-        JLabel lblCurrentJobs = new JLabel("Current Jobs");
-        lblCurrentJobs.setBounds(PANE_RIGHT_X, getYBelow(tblOnlineRobots) - 10, LABEL_WIDTH, LABEL_HEIGHT);
-        this.frame.getContentPane().add(lblCurrentJobs);
+		this.tblCurrentJobs = new JTable(new JobTableModel());
+		this.tblCurrentJobs.setBounds(425, 178, 345, 96);
+		this.frame.getContentPane().add(this.tblCurrentJobs);
 
-        this.tblCurrentJobs = new JTable(new JobTableModel());
-        this.tblCurrentJobs.setBounds(PANE_RIGHT_X, getYBelow(lblCurrentJobs) - 15, TABLE_WIDTH, 200);
-        this.frame.getContentPane().add(this.tblCurrentJobs);
+		JButton btnCancelJob = new JButton("Cancel Job");
+		btnCancelJob.addActionListener(event -> {
+			if (tblCurrentJobs.getSelectionModel().isSelectionEmpty()) {
+				JOptionPane.showMessageDialog(this.frame, "Please select a job to cancel");
+			} else {
+				int index = tblCurrentJobs.getSelectedRow();
+				Job job = getJobFromCurrentJobsTable(index);
+				this.controller.cancelJob(job);
+			}
+		});
+		btnCancelJob.setBounds(458, 432, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+		this.frame.getContentPane().add(btnCancelJob);
+		// endregion
 
-        JButton btnCancelJob = new JButton("Cancel Job");
-        btnCancelJob.addActionListener(event -> {
-            if (tblCurrentJobs.getSelectionModel().isSelectionEmpty()) {
-                JOptionPane.showMessageDialog(this.frame, "Please select a job to cancel");
-            } else {
-                int index = tblCurrentJobs.getSelectedRow();
-                Job job = getJobFromCurrentJobsTable(index);
-                this.controller.cancelJob(job);
-            }
-        });
-        btnCancelJob.setBounds(PANE_RIGHT_X + (TABLE_WIDTH / 2) - (BUTTON_WIDTH_WIDE / 2), getYBelow(tblCurrentJobs),
-                BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnCancelJob);
-        // endregion
+		// region bottomPanel
+		JButton btnStartWarehouse = new JButton("Start Warehouse");
+		btnStartWarehouse.addActionListener(event -> this.controller.startApplication());
+		btnStartWarehouse.setBounds(196, 267, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+		this.frame.getContentPane().add(btnStartWarehouse);
 
-        // region bottomPanel
-        JButton btnStartWarehouse = new JButton("Start Warehouse");
-        btnStartWarehouse.addActionListener(event -> this.controller.startApplication());
-        btnStartWarehouse.setBounds(PANE_MIDDLE_X + 20, 350, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnStartWarehouse);
+		JButton btnShutdown = new JButton("Shutdown");
+		btnShutdown.addActionListener(event -> {
+			if (JOptionPane.showConfirmDialog(this.frame, "Are you sure you want to shutdown and exit the program?",
+					"Confirm Shutdown", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+				this.controller.shutdown();
+			}
+		});
+		btnShutdown.setBounds(217, 305, 113, 25);
+		this.frame.getContentPane().add(btnShutdown);
 
-        JButton btnShutdown = new JButton("Shutdown");
-        btnShutdown.addActionListener(event -> {
-            if (JOptionPane.showConfirmDialog(this.frame, "Are you sure you want to shutdown and exit the program?",
-                    "Confirm Shutdown", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
-                this.controller.shutdown();
-            }
-        });
-        btnShutdown.setBounds(PANE_MIDDLE_X + 50, getYBelow(btnStartWarehouse), BUTTON_WIDTH_NARROW, BUTTON_HEIGHT);
-        this.frame.getContentPane().add(btnShutdown);
-        // endregion
+		JSeparator separator = new JSeparator();
+		separator.setBounds(12, 48, 400, 2);
+		frame.getContentPane().add(separator);
 
-        // TODO create RobotTableModel, take JobTableModel as example
-        // TODO create updates for RobotTableModel
-    }
+		table = new JTable((TableModel) null);
+		table.setBounds(425, 323, 216, 96);
+		frame.getContentPane().add(table);
 
-    //region PublicMethodsForController
+		JLabel lblNewLabel = new JLabel("Current Jobs");
+		lblNewLabel.setBounds(425, 138, 155, 40);
+		frame.getContentPane().add(lblNewLabel);
 
-    /**
-     * Adds a connected robot to the online robots table.
-     *
-     * @param robot The robot to add to the table
-     */
-    public void addRobotToTable(Robot robot) {
-        ((DefaultTableModel) this.tblOnlineRobots.getModel()).addRow(
-                new Object[]{
-                        robot.getName(),
-                        robot.getCurrentLocation(),
-                        robot.getCurrentPicks(),
-                        robot.getCurrentFacingDirection(),
-                        robot.getCurrentWeight()});
-    }
+		JLabel lblTotalScore = new JLabel("Total Score");
+		lblTotalScore.setBounds(663, 294, 96, 25);
+		frame.getContentPane().add(lblTotalScore);
 
-    /**
-     * Updates the information of a robot on the online robots table in the GUI.
-     *
-     * @param robot The robot to update
-     */
-    public void updateRobotInRobotTable(Robot robot) {
-        // TODO
-    }
+		textField = new JTextField();
+		textField.setBounds(666, 323, 104, 96);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		// endregion
 
-    /**
-     * Remove the selected robot from the robot table in the GUI.
-     */
-    public void removeRobotFromTable() {
-        this.tblOnlineRobots.remove(this.tblOnlineRobots.getSelectedRow());
-    }
+		// TODO create RobotTableModel, take JobTableModel as example
+		// TODO create updates for RobotTableModel
 
-    /**
-     * Add a job to the current jobs table in the GUI.
-     *
-     * @param job The job to add to the table.
-     */
-    public void addJobToCurrentJobsTable(Job job) {
-        JobTableModel model = (JobTableModel) this.tblCurrentJobs.getModel();
-        model.addRow(job);
-    }
+	}
 
-    /**
-     * Get a job from the current jobs table in the GUI.
-     *
-     * @param rowIndex The row index of the job.
-     */
-    public Job getJobFromCurrentJobsTable(int rowIndex) {
-        return ((JobTableModel) this.tblCurrentJobs.getModel()).getRow(rowIndex);
-    }
+	// region PublicMethodsForController
 
-    /**
-     * Remove a job from the current jobs table in the GUI.
-     *
-     * @param job The job to remove from the table.
-     */
-    public void removeJobFromCurrentJobsTable(Job job) {
-        JobTableModel model = (JobTableModel) this.tblCurrentJobs.getModel();
-        model.removeRow(job);
-    }
+	/**
+	 * Adds a connected robot to the online robots table.
+	 *
+	 * @param robot
+	 *            The robot to add to the table
+	 */
+	public void addRobotToTable(Robot robot) {
+		((DefaultTableModel) this.tblOnlineRobots.getModel())
+				.addRow(new Object[] { robot.getName(), robot.getCurrentLocation(), robot.getCurrentPicks(),
+						robot.getCurrentFacingDirection(), robot.getCurrentWeight() });
+	}
 
-    //endregion
+	/**
+	 * Updates the information of a robot on the online robots table in the GUI.
+	 *
+	 * @param robot
+	 *            The robot to update
+	 */
+	public void updateRobotInRobotTable(Robot robot) {
+		// TODO
+	}
 
-    /**
-     * Gets a Y value 10 pixels below the bottom of the passed component
-     *
-     * @param component The component to get the Y value underneath
-     * @return int
-     */
-    private int getYBelow(JComponent component) {
-        return component.getY() + component.getHeight() + 10;
-    }
+	/**
+	 * Remove the selected robot from the robot table in the GUI.
+	 */
+	public void removeRobotFromTable() {
+		this.tblOnlineRobots.remove(this.tblOnlineRobots.getSelectedRow());
+	}
 
-    /**
-     * Makes array consisting of numbers ascending from minValue to maxValue (e.g. [0, 1, 2, 3, 4])
-     *
-     * @param minValue Value to start array from
-     * @param maxValue Value to end array at
-     * @return Integer array
-     */
-    private Integer[] getOrderedIntArray(int minValue, int maxValue) {
-        Integer[] array = new Integer[maxValue - minValue + 1];
+	/**
+	 * Add a job to the current jobs table in the GUI.
+	 *
+	 * @param job
+	 *            The job to add to the table.
+	 */
+	public void addJobToCurrentJobsTable(Job job) {
+		JobTableModel model = (JobTableModel) this.tblCurrentJobs.getModel();
+		model.addRow(job);
+	}
 
-        for (int i = minValue; i <= maxValue; i++) {
-            array[i] = minValue + i;
-        }
+	/**
+	 * Get a job from the current jobs table in the GUI.
+	 *
+	 * @param rowIndex
+	 *            The row index of the job.
+	 */
+	public Job getJobFromCurrentJobsTable(int rowIndex) {
+		return ((JobTableModel) this.tblCurrentJobs.getModel()).getRow(rowIndex);
+	}
 
-        return array;
-    }
+	/**
+	 * Remove a job from the current jobs table in the GUI.
+	 *
+	 * @param job
+	 *            The job to remove from the table.
+	 */
+	public void removeJobFromCurrentJobsTable(Job job) {
+		JobTableModel model = (JobTableModel) this.tblCurrentJobs.getModel();
+		model.removeRow(job);
+	}
+
+	// endregion
+
+	/**
+	 * Gets a Y value 10 pixels below the bottom of the passed component
+	 *
+	 * @param component
+	 *            The component to get the Y value underneath
+	 * @return int
+	 */
+	private int getYBelow(JComponent component) {
+		return component.getY() + component.getHeight() + 10;
+	}
+
+	/**
+	 * Makes array consisting of numbers ascending from minValue to maxValue
+	 * (e.g. [0, 1, 2, 3, 4])
+	 *
+	 * @param minValue
+	 *            Value to start array from
+	 * @param maxValue
+	 *            Value to end array at
+	 * @return Integer array
+	 */
+	private Integer[] getOrderedIntArray(int minValue, int maxValue) {
+		Integer[] array = new Integer[maxValue - minValue + 1];
+
+		for (int i = minValue; i <= maxValue; i++) {
+			array[i] = minValue + i;
+		}
+
+		return array;
+	}
 }
