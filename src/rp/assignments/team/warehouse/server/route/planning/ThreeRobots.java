@@ -15,12 +15,87 @@ public class ThreeRobots {
 
 		ArrayList<State> obs3 = new ArrayList<State>();
 		obs3 = Data.obstacles;
-		int counter = 0;
-		int j = 0;
+		
 		int arrayIndex;
+		l3 = swapAndGoalCheck(l1, l2, start, goal, l3, obs3);
+
+		l3 = collisionCheck(l1, l2, start, goal, l3, obs3);
+
+		return l3;
+	}
+
+	static ArrayList<State> collisionCheck(ArrayList<State> l1, ArrayList<State> l2, State start, State goal, ArrayList<State> l3,
+			ArrayList<State> obs3) {
+		int i = 0;
+		while (i < Math.max(l3.size(), l1.size())) {
+			boolean reroute = true;
+			State loc1;
+			State loc2;
+			State loc3;
+			if (i < l1.size())
+				loc1 = l1.get(i);
+			else
+				loc1 = null;
+			if (i < l2.size())
+				loc2 = l2.get(i);
+			else
+				loc2 = null;
+			if (i < l3.size())
+				loc3 = l3.get(i);
+			else
+				loc3 = null;
+			State prev;
+			if (i > 0) {
+				prev = l3.get(i - 1);
+			} else
+				prev = loc3;
+		
+			
+			if (loc1.equals(loc3) && !loc2.equals(prev)) {
+				l3.add(i - 1, prev);
+				reroute = false;
+			} else if (loc2.equals(loc3) && !loc1.equals(prev)) {
+				l3.add(i - 1, prev);
+				reroute = false;
+			} else if (loc1.equals(loc3)) {
+				ArrayList<State> neighbours = new ArrayList<>();
+				neighbours = loc3.getNeighbours(start, goal);
+				for (State each : neighbours) {
+					if (!loc2.equals(each) && !obs3.contains(each)) {
+						l3.add(i - 1, each);
+						l3.add(i, loc3);
+						reroute = false;
+						break;
+					}
+				}
+			} else if(loc2.equals(loc3)) {
+				ArrayList<State> neighbours = new ArrayList<>();
+				neighbours = loc3.getNeighbours(start, goal);
+				for (State each : neighbours) {
+					if (!loc1.equals(each) && !obs3.contains(each)) {
+						l3.add(i - 1, each);
+						l3.add(i, loc3);
+						reroute = false;
+						break;
+					}
+				}
+			} else if(reroute){
+				
+			}
+
+			i++;
+		}
+		
+		return l3;
+	}
+
+	static ArrayList<State> swapAndGoalCheck(ArrayList<State> l1, ArrayList<State> l2, State start, State goal,
+			ArrayList<State> l3, ArrayList<State> obs3) {
+		ArrayList<State> temporary;
 		boolean check = true;
 		int n = 1;
-
+		int counter = 0;
+		int j = 0;
 		while (check) {
 			switch (n) {
 
@@ -170,47 +245,6 @@ public class ThreeRobots {
 			}
 			counter++;
 		}
-
-		int i = 0;
-		while (i < Math.max(l3.size(), l1.size())) {
-			State loc1;
-			State loc2;
-			State loc3;
-			if (i < l1.size())
-				loc1 = l1.get(i);
-			else
-				loc1 = null;
-			if (i < l2.size())
-				loc2 = l2.get(i);
-			else
-				loc2 = null;
-			if (i < l3.size())
-				loc3 = l3.get(i);
-			else
-				loc3 = null;
-			State prev;
-			if (i > 0) {
-				prev = l3.get(i - 1);
-			} else
-				prev = loc3;
-			if (loc1.equals(loc3) && !loc2.equals(prev)) {
-				l3.add(i - 1, prev);
-			} else if (loc2.equals(loc3) && !loc1.equals(prev)) {
-				l3.add(i - 1, prev);
-			} else if (loc1.equals(loc3)) {
-				ArrayList<State> neighbours = new ArrayList<>();
-				neighbours = loc3.getNeighbours(start, goal);
-				for (State each : neighbours) {
-					if (!loc2.equals(each)) {
-						l3.add(i - 1, each);
-
-					}
-				}
-			}
-
-			i++;
-		}
-
 		return l3;
 	}
 
