@@ -1,5 +1,6 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.List;
 import java.util.Set;
 
 import rp.assignments.team.warehouse.server.job.Job;
@@ -17,6 +18,9 @@ public class ServerThread extends Thread {
     
     /** The pick assigner */
     private IPickAssigner pickAssigner;
+    
+    /** The index of the next drop location */
+    private int dropIndex = 0;
 
     /**
      * @param warehouse The Warehouse.
@@ -49,6 +53,16 @@ public class ServerThread extends Thread {
         // return getWorkingOnJobs().stream()
         //     .anyMatch(j -> j.hasAvailablePicks());
     }
+    
+    private Location getNextDropLocation() {
+        List<Location> dropLocations = this.warehouse.getDropLocations();
+
+        if (this.dropIndex >= dropLocations.size()) {
+            this.dropIndex = 0;
+        }
+
+        return dropLocations.get(dropIndex++);
+    }
 
     @Override
     public void run() {
@@ -58,6 +72,8 @@ public class ServerThread extends Thread {
                     // TODO add another job to working on
                     if (jobSelector.hasNext()) {
                         Job newJob = this.jobSelector.next();
+                        newJob.setDropLocation(getNextDropLocation());
+
                         pickAssigner.addPicks(newJob.getAvailablePicks());
                         this.warehouse.addWorkingOnJob(newJob);
                     } else {

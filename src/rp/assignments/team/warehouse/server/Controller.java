@@ -40,7 +40,10 @@ public class Controller {
     private File dropsFile;
 
     /** Set of all imported jobs. */
-    private Set<Job> importedJobs;
+    private Set<Job> jobs;
+    
+    /** Set of all imported drop location */
+    private Set<Location> dropLocations;
 
     /** The job selector */
     private IJobSelector jobSelector;
@@ -119,7 +122,8 @@ public class Controller {
         Importer importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
         importer.parse();
 
-        this.importedJobs = importer.getJobs();
+        this.jobs = importer.getJobs();
+        this.dropLocations = importer.getDrops();
 
         this.startable = true;
     }
@@ -129,9 +133,9 @@ public class Controller {
      */
     public void startApplication() {
         if (this.startable) {
-            assert importedJobs != null;
+            assert jobs != null;
 
-            jobSelector = new PriorityJobSelector(importedJobs);
+            jobSelector = new PriorityJobSelector(jobs);
 
             Thread server = new ServerThread(this.warehouse, jobSelector);
             server.start();
@@ -208,6 +212,15 @@ public class Controller {
      */
     public Set<RobotInfo> getOfflineRobots() {
         return this.warehouse.getOfflineRobots();
+    }
+    
+    /**
+     * Get the drop locations.
+     *
+     * @return Set of drop locations.
+     */
+    public Set<Location> getDropLocations() {
+        return this.dropLocations;
     }
 
     /**

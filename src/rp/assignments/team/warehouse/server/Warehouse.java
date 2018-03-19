@@ -1,7 +1,9 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,6 +24,9 @@ public class Warehouse {
 
     /** Instance of the controller class */
     private Controller controller;
+    
+    /** List of drop locations */
+    private List<Location> dropLocations;
 
     public Warehouse() {
         this.running = true;
@@ -142,6 +147,19 @@ public class Warehouse {
      */
     public Map<String, Location> getRobotLocations() {
         return robots.stream().collect(Collectors.toMap(Robot::getName, Robot::getCurrentLocation));
+    }
+    
+    /**
+     * Get list of drop locations.
+     *
+     * @return List of drop locations.
+     */
+    public List<Location> getDropLocations() {
+        if (this.dropLocations == null) {
+            this.dropLocations = new ArrayList<>(this.controller.getDropLocations());
+        }
+        
+        return this.dropLocations;
     }
 
     /**

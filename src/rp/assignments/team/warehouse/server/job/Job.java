@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import rp.assignments.team.warehouse.server.Location;
+
 public class Job implements IIDed, IPrioritised, IRewardable {
 
     private final int id;
@@ -16,6 +18,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     private boolean previouslyCancelled;
     private List<Pick> availablePicks;
     private int completedPickCount;
+    private Location dropLocation;
 
     /**
      * @param id The job id.
@@ -221,6 +224,24 @@ public class Job implements IIDed, IPrioritised, IRewardable {
         }
 
         return picks;
+    }
+    
+    /**
+     * Get the drop location for the job.
+     *
+     * @return The drop location for the job.
+     */
+    public Location getDropLocation() {
+        return this.dropLocation;
+    }
+    
+    /**
+     * Set the drop location for the job.
+     *
+     * @param location The drop location for the job.
+     */
+    public void setDropLocation(Location location) {
+        this.dropLocation = location;
     }
 
     @Override
