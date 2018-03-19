@@ -1,7 +1,7 @@
 package rp.assignments.team.warehouse.server.job.assignment;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -46,11 +46,16 @@ public class AuctionPickAssigner implements IPickAssigner {
     @Override
     public Pick next() {
         if (hasNext()) {
-            Set<Bidder> availableBidders = this.bidders.stream().filter(x -> x.isAvailable())
-                    .collect(Collectors.toCollection(HashSet::new));
+            Pick pick = this.picks.peek();
+
+            // Get bidders which either don't have any picks or have picks which are for the same job & item as the next pick
+            // Sort bidders so that we give more picks of the same job & item to the same one
+            List<Bidder> availableBidders = this.bidders.stream()
+                .filter(x -> x.isAvailable(pick))
+                .sorted((x, y) -> Integer.compare(x.getCurrentPicks().size(), y.getCurrentPicks().size()))
+                .collect(Collectors.toCollection(ArrayList::new));
 
             if (availableBidders.size() > 0) {
-                Pick pick = this.picks.peek();
 
                 assert pick != null;
 

@@ -2,8 +2,8 @@ package rp.assignments.team.warehouse.server.job.assignment;
 
 import static org.mockito.Mockito.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +18,7 @@ public class PickAuctionerTest {
     private static Pick pick;
     private static Bidder bidder0, bidder1;
 
-    private static Set<Bidder> bidders;
+    private static List<Bidder> bidders;
 
     private PickAuctioner auctioner;
 
@@ -28,13 +28,13 @@ public class PickAuctionerTest {
         when(pick.getReward()).thenReturn(10.0f);
 
         bidder0 = mock(Robot.class);
-        when(bidder0.isAvailable()).thenReturn(true);
+        when(bidder0.isAvailable(pick)).thenReturn(true);
         when(bidder0.getBid(pick)).thenReturn(50);
         bidder1 = mock(Robot.class);
-        when(bidder1.isAvailable()).thenReturn(true);
+        when(bidder1.isAvailable(pick)).thenReturn(true);
         when(bidder1.getBid(pick)).thenReturn(30);
 
-        bidders = new HashSet<Bidder>();
+        bidders = new ArrayList<Bidder>();
         bidders.add(bidder0);
         bidders.add(bidder1);
     }

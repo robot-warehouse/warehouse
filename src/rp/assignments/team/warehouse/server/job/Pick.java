@@ -72,7 +72,7 @@ public class Pick implements IRewardable {
 
     /**
      * Get the location to drop the item off.
-     * 
+     *
      * @return The drop location.
      * @see Job#getDropLocation()
      */
@@ -82,7 +82,7 @@ public class Pick implements IRewardable {
 
     /**
      * Check if the item has been picked from the pick location.
-     * 
+     *
      * @return True if the item has been picked.
      */
     public boolean isPicked() {
@@ -115,6 +115,16 @@ public class Pick implements IRewardable {
 
         this.completed = true;
         this.job.pickCompleted(this);
+    }
+
+    /**
+     * Check if a pick has the same job and item as this one.
+     *
+     * @param pick The pick to compare with.
+     * @return True if the pick has the same job and item as this pick.
+     */
+    public boolean isSameJobAndItem(Pick pick) {
+        return this.getJob().equals(pick.getJob()) && this.getItem().equals(pick.getItem());
     }
 
 }

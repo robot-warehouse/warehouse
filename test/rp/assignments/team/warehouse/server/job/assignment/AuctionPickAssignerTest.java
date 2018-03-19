@@ -78,13 +78,13 @@ public class AuctionPickAssignerTest {
         picks.add(pick2);
 
         bidder0 = mock(Robot.class);
-        when(bidder0.isAvailable()).thenReturn(true);
+        when(bidder0.isAvailable(any(Pick.class))).thenReturn(true);
         when(bidder0.getBid(pick0)).thenReturn(50);
         when(bidder0.getBid(pick1)).thenReturn(30);
         when(bidder0.getBid(pick2)).thenReturn(10);
         when(bidder0.getName()).thenReturn("Bidder0");
         bidder1 = mock(Robot.class);
-        when(bidder1.isAvailable()).thenReturn(true);
+        when(bidder1.isAvailable(any(Pick.class))).thenReturn(true);
         when(bidder1.getBid(pick0)).thenReturn(80);
         when(bidder1.getBid(pick1)).thenReturn(20);
         when(bidder1.getBid(pick2)).thenReturn(Integer.MAX_VALUE);

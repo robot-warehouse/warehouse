@@ -14,9 +14,10 @@ public interface Picker {
     /**
      * Is the picker available to be assigned a pick.
      *
+     * @param pick The pick which is about to be assigned.
      * @return True if the picker can take a new pick.
      */
-    public boolean isAvailable();
+    public boolean isAvailable(Pick pick);
 
     /**
      * Assign a new pick to the picker.

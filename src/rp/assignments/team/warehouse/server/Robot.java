@@ -202,8 +202,8 @@ public class Robot implements Picker, Bidder {
     }
 
     @Override
-    public boolean isAvailable() {
-        return this.getCurrentWeight() < MAX_WEIGHT;
+    public boolean isAvailable(Pick pick) {
+        return (this.currentPicks.size() == 0 || this.currentPicks.stream().anyMatch(p -> p.isSameJobAndItem(pick))) && this.getCurrentWeight() < MAX_WEIGHT;
     }
 
     /**

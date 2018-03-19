@@ -1,19 +1,19 @@
 package rp.assignments.team.warehouse.server.job.assignment;
 
-import java.util.Set;
+import java.util.List;
 
 import rp.assignments.team.warehouse.server.job.Pick;
 
 public class PickAuctioner {
 
     private final Pick pick;
-    private final Set<Bidder> bidders;
+    private final List<Bidder> bidders;
 
     /**
      * @param pick The pick to assign
      * @param bidders The available bidders
      */
-    public PickAuctioner(Pick pick, Set<Bidder> bidders) {
+    public PickAuctioner(Pick pick, List<Bidder> bidders) {
         super();
         this.pick = pick;
         this.bidders = bidders;
