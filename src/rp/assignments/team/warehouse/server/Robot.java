@@ -29,7 +29,7 @@ public class Robot implements Picker, Bidder {
     private Set<Pick> currentPicks;
 
     private boolean hasComputedInstructionsForPick;
-    
+
     private boolean hasFinishedJob;
 
     /** The communication interface with the robot. */
@@ -140,7 +140,7 @@ public class Robot implements Picker, Bidder {
     public void setHasComputedInstructionsForPick(boolean hasComputedInstructionsForPick) {
         this.hasComputedInstructionsForPick = hasComputedInstructionsForPick;
     }
-    
+
     /**
      * Returns whether the robot has completed it's current job
      *
@@ -149,7 +149,7 @@ public class Robot implements Picker, Bidder {
     public boolean hasFinishedJob() {
         return this.hasFinishedJob;
     }
-    
+
     /**
      * Sets whether the robot has completed it's current job
      *
@@ -261,8 +261,7 @@ public class Robot implements Picker, Bidder {
         boolean hadPicks = this.currentPicks.removeIf(p -> p.getJob().equals(job));
 
         if (hadPicks) {
-            // This robot was affected
-            // TODO cancel current movement if affected by the job cancellation
+            this.communicationsManager.sendCancellation();
         }
     }
 
