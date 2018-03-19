@@ -28,17 +28,17 @@ public class RobotThread extends Thread {
 	@Override
     public void run() {
     	while (commsManager.isConnected()) {
-            // TODO update location on robot object
-            // TODO check if robot is finished with job
-            // TODO possibly add some reconnect code
-            // TODO send cancellation order
-    		if (robot.getCurrentPicks() != null && !robot.hasComputedInstructionsForPick()) {
-    			ArrayList<Location> path = AStar.findPath(robot.getCurrentLocation(), ((Pick)robot.getCurrentPicks().toArray()[0]).getPickLocation());
+    		if (robot.getCurrentPicks() != null && robot.getRoute().isEmpty()) {
+    		    Location goalLocation = (Pick) robot.getCurrentPicks()
+    		    
+    			ArrayList<Location> path = RoutePlanning.findPath(robot.getCurrentLocation(), ((Pick)robot.getCurrentPicks().toArray()[0]).getPickLocation());
     			ArrayList<Instruction> instructions = RouteExecution.convertCoordinatesToInstructions(robot.getCurrentFacingDirection(), path);
 
+    			if (path.get(path.size() - 1).equals(other))
+    			
     			commsManager.sendOrders(instructions);
-
-    			robot.setHasComputedInstructionsForPick(true);
+    			
+			    robot.setRoute(path);
     		}
     	}
     }
