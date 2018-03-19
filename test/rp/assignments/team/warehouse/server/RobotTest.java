@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.shared.Facing;
 
 public class RobotTest {
@@ -76,8 +77,9 @@ public class RobotTest {
     }
     
     @Test
-    public void isAvailableShouldBeInitiallyTrue() {
-        Assert.assertTrue(robot.isAvailable());
+    public void isAvailableShouldBeInitiallyTrueRegardlessOfPick() {
+        Pick pick = mock(Pick.class);
+        Assert.assertTrue(robot.isAvailable(pick));
     }
     
     @Test
