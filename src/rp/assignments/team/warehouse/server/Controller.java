@@ -10,6 +10,7 @@ import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
+import rp.assignments.team.warehouse.server.route.planning.RoutePlanning;
 
 // TODO
 public class Controller {
@@ -40,12 +41,15 @@ public class Controller {
     /** The job selector */
     private IJobSelector jobSelector;
 
+    private RoutePlanning routePlanner;
+
     /**
      * @param warehouse The Warehouse.
      */
     public Controller(Warehouse warehouse) {
         this.warehouse = warehouse;
         this.startable = false;
+        this.routePlanner = new RoutePlanning();
     }
 
     /**
@@ -144,7 +148,7 @@ public class Controller {
     public boolean connectRobot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
     	Robot robot = new Robot(robotInfo, currentLocation, currentFacingDirection);
 
-    	if (robot.connect()) {
+    	if (robot.connect(this.routePlanner)) {
     		this.warehouse.addRobot(robot);
     		this.managementInterface.addRobotToTable(robot);
     		return true;
