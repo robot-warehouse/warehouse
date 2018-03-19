@@ -12,6 +12,7 @@ import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.assignment.Bidder;
 import rp.assignments.team.warehouse.server.job.assignment.Picker;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
+import rp.assignments.team.warehouse.server.route.planning.RoutePlanning;
 
 public class Robot implements Picker, Bidder {
 
@@ -74,7 +75,7 @@ public class Robot implements Picker, Bidder {
      * @return The robot's location.
      */
     public Location getCurrentLocation() {
-        return currentLocation;
+        return this.currentLocation;
     }
 
     /**
@@ -125,16 +126,34 @@ public class Robot implements Picker, Bidder {
     }
 
     /**
+     * Get the location of the current item
+     *
+     * @return The pick location
+     */
+    public Location getCurrentPickLocation() {
+        return this.currentPickLocation;
+    }
+
+    /**
+     * Get the location to drop off the items at
+     *
+     * @return The dropoff location
+     */
+    public Location getDropoffLocation() {
+        return ((Pick) this.currentPicks.toArray()[0]).getDropLocation();
+    }
+
+    /**
      * Setup the bluetooth connection to the robot.
      *
      * @return True if successfully connected.
      */
-    public boolean connect() {
+    public boolean connect(RoutePlanning routePlanner) {
     	this.communicationsManager = new CommunicationsManager(this.robotInfo);
         this.communicationsManager.startServer();
 
     	if (this.communicationsManager.isConnected()) {
-    		(new RobotThread(this, this.communicationsManager)).start();
+    		(new RobotThread(this, this.communicationsManager, routePlanner)).start();
     		return true;
     	}
 
@@ -191,7 +210,7 @@ public class Robot implements Picker, Bidder {
         assert this.currentPicks != null;
 
         this.currentPicks.add(pick);
-        this.currentPickLocation = 
+        this.currentPickLocation = pick.getPickLocation();
 
         logger.trace("Adding pick to robot %s.", this.getName());
 
