@@ -9,27 +9,63 @@ public class ThreeRobots {
 	static ArrayList<State> findPath(ArrayList<State> l1, ArrayList<State> l2, State start, State goal) {
 
 		ArrayList<State> l3 = new ArrayList<State>();
+		ArrayList<State> temporary = new ArrayList<State>();
 		l3 = AStar.findPath(start, goal, Data.getObstacles());
 		System.out.println(l3 + "b4");
 
 		ArrayList<State> obs3 = new ArrayList<State>();
 		obs3 = Data.obstacles;
-		
+		int counter = 0;
+		int j = 0;
+		int arrayIndex;
 		boolean check = true;
 		int n = 1;
+
 		while (check) {
 			switch (n) {
 
 			case 1:
+				if (l3.size() > l1.size()) {
+					if (l3.subList(l1.size(), l3.size() - 1).contains(l1.get(l1.size() - 1))) {
+						System.out.println("first goal is an obstacle");
+						obs3.add(l1.get(l1.size() - 1));
+						if (AStar.findPath(start, goal, obs3) != null)
+							l3 = AStar.findPath(start, goal, obs3);
+						else {
+							// indefinite wait
+							for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
+								l3 = AStar.findPath(start, l3.get(l3.indexOf(l1.get(l1.size() - 1)) - k), obs3);
+							}
+						}
+					}
+				}
+
+			case 2:
+				if (l3.size() > l2.size()) {
+					if (l3.subList(l2.size(), l3.size() - 1).contains(l2.get(l2.size() - 1))) {
+						System.out.println("first goal is an obstacle");
+						obs3.add(l2.get(l2.size() - 1));
+						if (AStar.findPath(start, goal, obs3) != null)
+							l3 = AStar.findPath(start, goal, obs3);
+						else {
+							// indefinite wait
+							for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
+								l3 = AStar.findPath(start, l3.get(l3.indexOf(l2.get(l2.size() - 1)) - k), obs3);
+							}
+						}
+					}
+				}
+
+			case 3:
 				int i = 0;
 				while (i < l3.size() - 1) {
-					for (int j = 0; j < l1.size() - 1; j++) {
+					for (j = 0; j < l1.size() - 1; j++) {
 
 						State loc1a = l3.get(i);
 						State loc2a = l1.get(j);
 						State loc1b = l3.get(i + 1);
 						State loc2b = l1.get(j + 1);
-						
+
 						if (swapped(loc1a, loc1b, loc2a, loc2b)) {
 							System.out.println("swapped 1");
 							if (!Data.singleRow.contains(loc1a)) {
@@ -61,11 +97,11 @@ public class ThreeRobots {
 					i++;
 				}
 
-			case 2:
+			case 4:
 				check = false;
 				i = 0;
 				while (i < l3.size() - 1) {
-					for (int j = 0; j < l2.size() - 1; j++) {
+					for (j = 0; j < l2.size() - 1; j++) {
 
 						State loc1a = l3.get(i);
 						State loc2a = l2.get(j);
@@ -89,6 +125,7 @@ public class ThreeRobots {
 									obs3.add(loc1b);
 								l3 = AStar.findPath(start, goal, obs3);
 								check = true;
+								counter = 0;
 								// obs3.remove(obs3.size() - 1);
 								i = 0;
 								j = 0;
@@ -98,7 +135,28 @@ public class ThreeRobots {
 					}
 					i++;
 				}
+			case 5:
+				if (counter >= 3) {
+
+					System.out.println("inside counter if");
+					temporary = l3;
+					l3.clear();
+					for (State each : temporary) {
+						if (!Data.singleRow.contains(each) && !obs3.contains(each)) {
+							l3.add(each);
+						} else
+							break;
+					}
+					if (l3.size() == temporary.size()) {
+						l3.remove(l3.size() - 1);
+					}
+
+					counter = 0;
+					i = 0;
+					j = 0;
+				}
 			}
+			counter++;
 		}
 
 		int i = 0;
@@ -106,36 +164,37 @@ public class ThreeRobots {
 			State loc1;
 			State loc2;
 			State loc3;
-			if(i<l1.size())
-			 loc1 = l1.get(i);
+			if (i < l1.size())
+				loc1 = l1.get(i);
 			else
 				loc1 = null;
-			if(i<l2.size())
-			 loc2 = l2.get(i);
+			if (i < l2.size())
+				loc2 = l2.get(i);
 			else
 				loc2 = null;
-			if(i<l2.size())
-			 loc3 = l3.get(i);
+			if (i < l3.size())
+				loc3 = l3.get(i);
 			else
 				loc3 = null;
-			State temp;
+			State prev;
 			if (i > 0) {
-				temp = l3.get(i - 1);
+				prev = l3.get(i - 1);
 			} else
-				temp = loc3;
-			if (loc1.equals(loc3) && !loc2.equals(temp)) {
-				l3.add(i - 1, temp);
-			} else if (loc2.equals(loc3) && !loc1.equals(temp)) {
-				l3.add(i - 1, temp);
+				prev = loc3;
+			if (loc1.equals(loc3) && !loc2.equals(prev)) {
+				l3.add(i - 1, prev);
+			} else if (loc2.equals(loc3) && !loc1.equals(prev)) {
+				l3.add(i - 1, prev);
 			}
+			
 			i++;
 		}
 
-		
 		return l3;
 	}
 
 	public static boolean swapped(Location loc1a, Location loc1b, Location loc2a, Location loc2b) {
 		return loc1a.equals(loc2b) && loc1b.equals(loc2a);
 	}
+
 }

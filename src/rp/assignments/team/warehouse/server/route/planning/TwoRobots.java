@@ -20,7 +20,14 @@ public class TwoRobots {
 		
 		obs2 = Data.getObstacles();
 		
-		System.out.println("before");
+		if(l2.size()>l1.size()) {
+			if(l2.subList(l1.size(),l2.size()-1).contains(l1.get(l1.size()-1))) {
+				System.out.println("goal is an obstacle");
+				obs2.add(l1.get(l1.size()-1));
+				l2 = AStar.findPath(start, goal,obs2);
+			}
+		}
+		
 		
 		int i = 0;
 		while (i < l2.size() - 1) {
