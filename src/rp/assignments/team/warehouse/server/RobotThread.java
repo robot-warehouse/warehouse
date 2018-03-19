@@ -1,10 +1,8 @@
 package rp.assignments.team.warehouse.server;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rp.assignments.team.warehouse.server.communications.CommunicationsManager;
-import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
 import rp.assignments.team.warehouse.shared.Instruction;
@@ -15,40 +13,59 @@ public class RobotThread extends Thread {
     private Robot robot;
 
     /** The communication interface with the robot. */
-    private CommunicationsManager commsManager;
+    private CommunicationsManager communicationsManager;
 
     /**
      * @param robot The robot the thread is for.
-     * @param commsManager The communication interface with the robot.
+     * @param communicationsManager The communication interface with the robot.
      */
-    public RobotThread(Robot robot, CommunicationsManager commsManager) {
+    public RobotThread(Robot robot, CommunicationsManager communicationsManager) {
         this.robot = robot;
-        this.commsManager = commsManager;
+        this.communicationsManager = communicationsManager;
     }
 
     @Override
     public void run() {
-        while (commsManager.isConnected()) {
+        while (this.communicationsManager.isConnected()) {
+            if (this.robot.isJobCancelled()) {
+                this.communicationsManager.sendCancellation();
+                this.robot.clearCurrentPicks();
+            }
 
-            // TODO check if robot is finished with job
-            // TODO possibly add some reconnect code
-            // TODO send cancellation order
+            if (this.robot.hasFinishedJob() ) {
+                this.robot.setHasFinishedPickup(false);
+                this.robot.setHasFinishedDropOff(false);
+                this.robot.clearCurrentPicks();
+            }
 
-            if (robot.getCurrentPicks() != null && !robot.hasComputedInstructionsForPick()) {
-                List<Location> path = AStar.findPath(
-                    robot.getCurrentLocation(), ((Pick) robot.getCurrentPicks().toArray()[0]).getPickLocation()
-                );
+            if (this.robot.getCurrentPicks() != null && this.robot.getCurrentRoute().isEmpty()) {
+                List<Location> path;
 
+                if (!this.robot.hasFinishedPickup()) {
+                    path = AStar.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentPickLocation());
+                } else if (!this.robot.hasFinishedDropOff()){
+                    path = AStar.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentDropLocation());
+                } else {
+                    continue; // should never be reached here but wanted to be more explicit with if logic
+                }
+
+                // path cannot be found to goal node currently so wait around
                 if (path == null) {
                     continue;
                 }
 
-                ArrayList<Instruction> instructions = RouteExecution.convertCoordinatesToInstructions(
-                    robot.getCurrentFacingDirection(), path);
+                List<Instruction> instructions = RouteExecution.convertCoordinatesToInstructions(
+                    this.robot.getCurrentFacingDirection(), path);
 
-                commsManager.sendOrders(instructions);
+                Location lastLocationInPath = path.get(path.size() - 1);
+                if (lastLocationInPath.equals(this.robot.getCurrentPickLocation())) {
+                    instructions.add(Instruction.PICKUP);
+                } else if (lastLocationInPath.equals(this.robot.getCurrentDropLocation())) {
+                    instructions.add(Instruction.DROPOFF);
+                }
 
-                robot.setHasComputedInstructionsForPick(true);
+                this.communicationsManager.sendOrders(instructions);
+                this.robot.setCurrentRoute(path);
             }
         }
     }

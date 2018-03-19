@@ -1,6 +1,8 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +18,11 @@ import rp.assignments.team.warehouse.shared.Facing;
 
 public class Robot implements Picker, Bidder {
 
+    /** The maximum weight the robot can carry */
+    public static float MAX_WEIGHT = 50.0f;
+
+    private static Logger logger = LogManager.getLogger(Robot.class);
+
     /** The robot's information */
     private RobotInfo robotInfo;
 
@@ -25,20 +32,29 @@ public class Robot implements Picker, Bidder {
     /** The direction the robot is facing in the warehouse */
     private Facing currentFacingDirection;
 
+    /** The current route being taken by the robot */
+    private List<Location> currentRoute;
+
     /** The picks the robot is assigned */
     private Set<Pick> currentPicks;
 
-    private boolean hasComputedInstructionsForPick;
+    /** The location of the set of items to pickup */
+    private Location currentPickLocation;
 
-    private boolean hasFinishedJob;
+    /** The location to drop the items at */
+    private Location currentDropLocation;
+
+    /** Whether the current job has been cancelled */
+    private boolean isJobCancelled;
+
+    /** Whether the robot has finished picking up the assigned items */
+    private boolean hasFinishedPickup;
+
+    /** Whether the robot has finished dropping off the items exc */
+    private boolean hasFinishedDropOff;
 
     /** The communication interface with the robot. */
     private CommunicationsManager communicationsManager;
-
-    private static Logger logger = LogManager.getLogger(Robot.class);
-
-    /** The maximum weight the robot can carry */
-    public static float MAX_WEIGHT = 50.0f;
 
     /**
      * @param robotInfo The robot's information.
@@ -50,28 +66,52 @@ public class Robot implements Picker, Bidder {
         assert currentLocation != null;
         assert currentFacingDirection != null;
 
-    	this.robotInfo = robotInfo;
+        this.robotInfo = robotInfo;
         this.currentLocation = currentLocation;
         this.currentFacingDirection = currentFacingDirection;
-        this.currentPicks = new HashSet<Pick>();
+
+        this.currentPicks = new HashSet<>();
+        this.currentRoute = new ArrayList<>();
+        this.hasFinishedDropOff = false;
+        this.hasFinishedPickup = false;
+        this.isJobCancelled = false;
     }
 
-	/**
-	 * Get the name of the robot.
-	 *
-	 * @return The name of the robot.
-	 */
+    /**
+     * Get the name of the robot.
+     *
+     * @return The name of the robot.
+     */
+    @Override
     public String getName() {
         return this.robotInfo.getName();
     }
 
-    /**
-     * Get the address of the robot for bluetooth communications.
-     *
-     * @return The bluetooth address of the robot.
-     */
-    public String getAddress() {
-        return this.robotInfo.getAddress();
+    @Override
+    public boolean isAvailable(Pick pick) {
+        return (this.currentPicks.size() == 0 || this.currentPicks.stream().anyMatch(
+            p -> p.isSameJobAndItem(pick))) && this.getCurrentWeight() < MAX_WEIGHT;
+    }
+
+    @Override
+    public void assignPick(Pick pick) {
+        assert this.currentPicks != null;
+
+        this.currentPicks.add(pick);
+        this.currentPickLocation = pick.getPickLocation();
+        this.currentDropLocation = pick.getDropLocation();
+        logger.trace("Adding pick to robot %s.", this.getName());
+
+        // TODO this needs updating for having a set of picks
+    }
+
+    @Override
+    public int getBid(Pick pick) {
+        if (this.getCurrentWeight() + pick.getWeight() <= MAX_WEIGHT) {
+            return AStar.findDistance(this.getCurrentLocation(), pick.getPickLocation());
+        } else {
+            return Integer.MAX_VALUE;
+        }
     }
 
     /**
@@ -81,6 +121,15 @@ public class Robot implements Picker, Bidder {
      */
     public RobotInfo getRobotInfo() {
         return this.robotInfo;
+    }
+
+    /**
+     * Get the address of the robot for bluetooth communications.
+     *
+     * @return The bluetooth address of the robot.
+     */
+    public String getAddress() {
+        return this.robotInfo.getAddress();
     }
 
     /**
@@ -100,6 +149,8 @@ public class Robot implements Picker, Bidder {
     public void setCurrentLocation(Location currentLocation) {
         assert currentLocation != null;
 
+        this.currentRoute.removeIf(l -> l.equals(currentLocation));
+
         this.currentLocation = currentLocation;
     }
 
@@ -109,7 +160,7 @@ public class Robot implements Picker, Bidder {
      * @return The direction the robot is facing.
      */
     public Facing getCurrentFacingDirection() {
-    	return currentFacingDirection;
+        return currentFacingDirection;
     }
 
     /**
@@ -120,43 +171,25 @@ public class Robot implements Picker, Bidder {
     public void setCurrentFacingDirection(Facing currentFacingDirection) {
         assert currentFacingDirection != null;
 
-    	this.currentFacingDirection = currentFacingDirection;
+        this.currentFacingDirection = currentFacingDirection;
     }
 
     /**
-     * Returns whether the robot has already computed the route for the current pick
+     * Gets the current route of the robot
      *
-     * @return true/false
+     * @return The current route of the robot
      */
-    public boolean hasComputedInstructionsForPick() {
-        return hasComputedInstructionsForPick;
+    public List<Location> getCurrentRoute() {
+        return currentRoute;
     }
 
     /**
-     * Sets whether the robot has already computed the route for the current pick
+     * Sets the current route for the robot
      *
-     * @param hasComputedInstructionsForPick true/false
+     * @param currentRoute The route of the robot
      */
-    public void setHasComputedInstructionsForPick(boolean hasComputedInstructionsForPick) {
-        this.hasComputedInstructionsForPick = hasComputedInstructionsForPick;
-    }
-
-    /**
-     * Returns whether the robot has completed it's current job
-     *
-     * @return true/false
-     */
-    public boolean hasFinishedJob() {
-        return this.hasFinishedJob;
-    }
-
-    /**
-     * Sets whether the robot has completed it's current job
-     *
-     * @param hasFinishedJob true/false
-     */
-    public void setHasFinishedJob(boolean hasFinishedJob) {
-        this.hasFinishedJob = hasFinishedJob;
+    public void setCurrentRoute(List<Location> currentRoute) {
+        this.currentRoute = currentRoute;
     }
 
     /**
@@ -165,7 +198,93 @@ public class Robot implements Picker, Bidder {
      * @return The picks the robot is working on.
      */
     public Set<Pick> getCurrentPicks() {
-    	return currentPicks;
+        return currentPicks;
+    }
+
+    /**
+     * Gets the current pick up location for the set of picks
+     *
+     * @return pickup location
+     */
+    public Location getCurrentPickLocation() {
+        return this.currentPickLocation;
+    }
+
+    /**
+     * Gets the current drop off location for the pick
+     *
+     * @return drop location
+     */
+    public Location getCurrentDropLocation() {
+        return this.currentDropLocation;
+    }
+
+    /**
+     * Gets whether the current job has been cancelled
+     *
+     * @return true/false
+     */
+    public boolean isJobCancelled() {
+        return this.isJobCancelled;
+    }
+
+    /**
+     * Whether the robot has finished it's pickup off of items
+     *
+     * @return true/false
+     */
+    public boolean hasFinishedPickup() {
+        return this.hasFinishedPickup;
+    }
+
+    /**
+     * Sets whether the robot has finished it's pickup of items
+     *
+     * @param hasFinishedPickup well has it?
+     */
+    public void setHasFinishedPickup(boolean hasFinishedPickup) {
+        this.hasFinishedPickup = hasFinishedPickup;
+    }
+
+    /**
+     * Whether the robot has finished it's drop off of items
+     *
+     * @return true/false
+     */
+    public boolean hasFinishedDropOff() {
+        return this.hasFinishedDropOff;
+    }
+
+    /**
+     * Sets whether the robot has finished it's drop off of items
+     *
+     * @param hasFinishedDropOff well has it?
+     */
+    public void setHasFinishedDropOff(boolean hasFinishedDropOff) {
+        this.hasFinishedDropOff = hasFinishedDropOff;
+    }
+
+    /**
+     * Returns whether the robot has completed it's current job
+     *
+     * @return true/false
+     */
+    public boolean hasFinishedJob() {
+        return this.hasFinishedPickup() && this.hasFinishedDropOff();
+    }
+
+    /**
+     * Advances the robot's state to the next stage
+     */
+    public void finishedJob() {
+        if (!this.hasFinishedPickup() && !this.hasFinishedDropOff()) {
+            this.setHasFinishedPickup(true);
+        } else if (this.hasFinishedPickup() && !this.hasFinishedDropOff()) {
+            this.setHasFinishedDropOff(true);
+        }
+
+        // checks this state is never reached
+        assert !(this.hasFinishedDropOff() && !this.hasFinishedPickup());
     }
 
     /**
@@ -174,15 +293,15 @@ public class Robot implements Picker, Bidder {
      * @return True if successfully connected.
      */
     public boolean connect() {
-    	this.communicationsManager = new CommunicationsManager(this);
+        this.communicationsManager = new CommunicationsManager(this);
         this.communicationsManager.startServer();
 
-    	if (this.communicationsManager.isConnected()) {
-    		(new RobotThread(this, this.communicationsManager)).start();
-    		return true;
-    	}
+        if (this.communicationsManager.isConnected()) {
+            (new RobotThread(this, this.communicationsManager)).start();
+            return true;
+        }
 
-    	return false;
+        return false;
     }
 
     /**
@@ -201,21 +320,13 @@ public class Robot implements Picker, Bidder {
         return this.communicationsManager.isConnected();
     }
 
-    @Override
-    public boolean isAvailable(Pick pick) {
-        return (this.currentPicks.size() == 0 || this.currentPicks.stream().anyMatch(p -> p.isSameJobAndItem(pick))) && this.getCurrentWeight() < MAX_WEIGHT;
-    }
-
     /**
      * Get the current weight of the robot.
      *
      * @return The weight the robot is carrying.
      */
     public float getCurrentWeight() {
-        return (float) this.currentPicks.stream()
-            .filter(Pick::isPicked)
-            .mapToDouble(Pick::getWeight)
-            .sum();
+        return (float) this.currentPicks.stream().filter(Pick::isPicked).mapToDouble(Pick::getWeight).sum();
     }
 
     /**
@@ -225,30 +336,7 @@ public class Robot implements Picker, Bidder {
      * @return The number of items to take at this location.
      */
     public int getNumPicksAtLocation(Location location) {
-        return (int) this.currentPicks.stream()
-            .filter(p -> location.equals(p.getPickLocation()))
-            .count();
-    }
-
-    @Override
-    public void assignPick(Pick pick) {
-        assert this.currentPicks != null;
-
-        this.currentPicks.add(pick);
-
-        logger.trace("Adding pick to robot %s.", this.getName());
-
-        // TODO this needs updating for having a set of picks
-        setHasComputedInstructionsForPick(false); // this might need to be before the line above
-    }
-
-    @Override
-    public int getBid(Pick pick) {
-        if (this.getCurrentWeight() + pick.getWeight() <= MAX_WEIGHT) {
-            return AStar.findDistance(this.getCurrentLocation(), pick.getPickLocation());
-        } else {
-            return Integer.MAX_VALUE;
-        }
+        return (int) this.currentPicks.stream().filter(p -> location.equals(p.getPickLocation())).count();
     }
 
     /**
@@ -261,8 +349,14 @@ public class Robot implements Picker, Bidder {
         boolean hadPicks = this.currentPicks.removeIf(p -> p.getJob().equals(job));
 
         if (hadPicks) {
-            this.communicationsManager.sendCancellation();
+            this.isJobCancelled = true;
         }
     }
 
+    /**
+     * Clears the current pick so that a new one can be picked up
+     */
+    public void clearCurrentPicks() {
+        this.currentPicks = new HashSet<>();
+    }
 }
