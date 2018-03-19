@@ -34,7 +34,6 @@ public class RouteExecutionTest {
             {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
-                add(Instruction.STOP);
             }
         };
 
@@ -66,7 +65,6 @@ public class RouteExecutionTest {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
-                add(Instruction.STOP);
             }
         };
 
@@ -116,7 +114,6 @@ public class RouteExecutionTest {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
-                add(Instruction.STOP);
             }
         };
         assertEquals(expected, output);
