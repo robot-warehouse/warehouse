@@ -26,8 +26,9 @@ public class Robot implements Picker, Bidder {
 
     /** The picks the robot is assigned */
     private Set<Pick> currentPicks;
-
-    private boolean hasComputedInstructionsForPick;
+    
+    /** The location of the pick */
+    private Location currentPickLocation;
 
     /** The communication interface with the robot. */
     private CommunicationsManager communicationsManager;
@@ -114,14 +115,6 @@ public class Robot implements Picker, Bidder {
     	this.currentFacingDirection = currentFacingDirection;
     }
 
-    public boolean hasComputedInstructionsForPick() {
-    	return hasComputedInstructionsForPick;
-    }
-
-    public void setHasComputedInstructionsForPick(boolean hasIt) {
-    	hasComputedInstructionsForPick = hasIt;
-    }
-
     /**
      * Get the picks the robot is currently working on.
      *
@@ -198,6 +191,7 @@ public class Robot implements Picker, Bidder {
         assert this.currentPicks != null;
 
         this.currentPicks.add(pick);
+        this.currentPickLocation = 
 
         logger.trace("Adding pick to robot %s.", this.getName());
 
