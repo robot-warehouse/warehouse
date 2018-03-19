@@ -71,6 +71,16 @@ public class Pick implements IRewardable {
     }
 
     /**
+     * Get the location to drop the item off.
+     * 
+     * @return The drop location.
+     * @see Job#getDropLocation()
+     */
+    public Location getDropLocation() {
+        return this.getJob().getDropLocation();
+    }
+
+    /**
      * Check if the item has been picked from the pick location.
      * 
      * @return True if the item has been picked.
