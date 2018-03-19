@@ -10,7 +10,6 @@ import java.util.concurrent.BlockingQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.Instruction;
 import rp.assignments.team.warehouse.shared.communications.Command;
 

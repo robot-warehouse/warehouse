@@ -2,7 +2,6 @@ package rp.assignments.team.warehouse.server.gui;
 
 import java.awt.*;
 import java.io.File;
-import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
