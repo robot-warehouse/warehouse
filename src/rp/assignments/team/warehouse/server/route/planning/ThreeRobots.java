@@ -15,8 +15,7 @@ public class ThreeRobots {
 
 		ArrayList<State> obs3 = new ArrayList<State>();
 		obs3 = Data.obstacles;
-		
-		int arrayIndex;
+				
 		l3 = swapAndGoalCheck(l1, l2, start, goal, l3, obs3);
 
 		l3 = collisionCheck(l1, l2, start, goal, l3, obs3);
@@ -80,7 +79,20 @@ public class ThreeRobots {
 					}
 				}
 			} else if(reroute){
-				
+				obs3.add(loc3);
+				if(AStar.findPath(start, goal,obs3) != null ) {
+				l3 = AStar.findPath(start, goal,obs3);
+				l3 = swapAndGoalCheck(l1, l2, start, goal, l3, obs3);
+				i = 0;
+				}
+				else {
+					// indefinite wait
+					for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
+						l3 = AStar.findPath(start, l3.get(l3.indexOf(l1.get(l1.size() - 1)) - k), obs3);
+					}
+					
+				}
+					
 			}
 
 			i++;
