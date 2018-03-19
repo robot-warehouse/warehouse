@@ -8,17 +8,13 @@ import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.junit.runners.Suite.SuiteClasses;
 
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.job.Item;
