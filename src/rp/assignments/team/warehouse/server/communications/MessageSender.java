@@ -94,7 +94,6 @@ public class MessageSender extends Thread {
         }
         for (Instruction order : orders) {
             toRobot.writeUTF(order.toString());
-            toRobot.flush();
         }
         toRobot.writeUTF("-1");
         toRobot.flush();
