@@ -85,7 +85,13 @@ public class ThreeRobots {
 								else if (!loc1b.equals(start) && !loc1b.equals(goal))
 									obs3.add(loc1b);
 								System.out.println("Rerouting..");
-								l3 = AStar.findPath(start, goal, obs3);
+								if (AStar.findPath(start, goal, obs3) != null)
+									l3 = AStar.findPath(start, goal, obs3);
+								else {
+									for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
+										l3 = AStar.findPath(start, l3.get(l3.indexOf(goal) - k), obs3);
+									}
+								}
 								System.out.println(l3);
 								// obs3.remove(obs3.size() - 1);
 								i = 0;
@@ -123,7 +129,13 @@ public class ThreeRobots {
 									obs3.add(loc1a);
 								else if (!loc1b.equals(start) && !loc1b.equals(goal))
 									obs3.add(loc1b);
-								l3 = AStar.findPath(start, goal, obs3);
+								if (AStar.findPath(start, goal, obs3) != null)
+									l3 = AStar.findPath(start, goal, obs3);
+								else{
+									for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
+										l3 = AStar.findPath(start, l3.get(l3.indexOf(goal) - k), obs3);
+									}
+								}	
 								check = true;
 								counter = 0;
 								// obs3.remove(obs3.size() - 1);
@@ -185,8 +197,17 @@ public class ThreeRobots {
 				l3.add(i - 1, prev);
 			} else if (loc2.equals(loc3) && !loc1.equals(prev)) {
 				l3.add(i - 1, prev);
+			} else if (loc1.equals(loc3)) {
+				ArrayList<State> neighbours = new ArrayList<>();
+				neighbours = loc3.getNeighbours(start, goal);
+				for (State each : neighbours) {
+					if (!loc2.equals(each)) {
+						l3.add(i - 1, each);
+
+					}
+				}
 			}
-			
+
 			i++;
 		}
 

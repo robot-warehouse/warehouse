@@ -6,8 +6,8 @@ import rp.assignments.team.warehouse.server.Location;
 
 public class RoutePlanning {
 
-	public static ArrayList<State> findPath(Location start, Location goal, ArrayList<State> obstacles) {
-		return AStar.findPath(start, goal, obstacles);
+	public static ArrayList<State> findPath(Location start, Location goal) {
+		return AStar.findPath(start, goal);
 	}
 	
 	public static ArrayList<State> findPath(ArrayList<State> l1, State start, State goal){

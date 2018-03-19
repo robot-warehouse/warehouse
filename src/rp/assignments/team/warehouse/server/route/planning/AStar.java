@@ -80,6 +80,67 @@ public class AStar {
             }
         }
     }
+    
+    public static ArrayList<State> findPath(Location start, Location goal) {
+        logger.info("Entering the findPath method");
+        ArrayList<State> open = new ArrayList<>(); // Stores nodes available for visiting.
+        ArrayList<State> closed = new ArrayList<>(); // Stores already visited nodes
+
+        State startState = new State(start);
+        State goalState = new State(goal);
+
+        // Throw exception if either the start node or the goal node are invalid.
+        if (!startState.isValidLocation() || !goalState.isValidLocation()) {
+            logger.fatal("Invalid start/goal node passed to findPath");
+            throw new IllegalArgumentException("Invalid start/goal node.");
+        }
+        
+        if (Data.obstacles.contains(startState) || Data.obstacles.contains(goalState)) {
+            logger.error("Obstacle located in start/goal node passed to findPath");
+        	return null;
+        }
+
+        while (true) {
+            State current;
+
+            if (open.size() == 0) {
+                current = startState;
+            } else {
+                current = findSmallestF(open);
+            }
+
+            open.remove(current);
+            closed.add(current);
+
+            // If the current node is the goal node we need to stop.
+            if (current.equals(goalState)) {
+                logger.info("Route found, returning from the method.");
+                return getPath(current, startState);
+            }
+
+            // Get all (at most four) neighbours of the current node.
+            ArrayList<State> neighbours = current.getNeighbours(startState, goalState);
+
+            for (State neighbour : neighbours) {
+                // If any neighbour is an obstacle or if it has already been visited, move to
+                // the next node.
+                if (Data.obstacles.contains(neighbour) || closed.contains(neighbour)) {
+                    continue;
+                }
+
+                // If the node is not in the open list or if the g value is lesser than the
+                // current g value
+                if (!open.contains(neighbour) || startState.getDistance(neighbour) < neighbour.getDistanceFromStart()) {
+                    neighbour.setTotalWeight(); // set the f value
+                    neighbour.setParent(current); // set the current node as it's parent
+
+                    if (!open.contains(neighbour)) {
+                        open.add(neighbour); // add the node to the open list
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Get the distance of the generated A* path between start and goal.
