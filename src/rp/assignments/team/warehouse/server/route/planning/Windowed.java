@@ -1,6 +1,5 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rp.assignments.team.warehouse.server.Location;
@@ -29,12 +28,12 @@ public class Windowed {
 
 		int i = 0;
 		while (i < list1.size() - 1) {
-			for (int j = 0; j < list1.size() - 1; j++) {
+			for (int j = 0; j < list2.size() - 1; j++) {
 
 				State firstRobotsFirstLocation = (State) list1.get(i);
-				State secondRobotsFirstLocation = (State) list1.get(j);
+				State secondRobotsFirstLocation = (State) list2.get(j);
 				State firstRobotsSecondLocation = (State) list1.get(i + 1);
-				State secondRobotsSecondLocation = (State) list1.get(j + 1);
+				State secondRobotsSecondLocation = (State) list2.get(j + 1);
 				// checks if the robots are swapping positions anywhere.
 				if (swapped(firstRobotsFirstLocation, firstRobotsSecondLocation, secondRobotsFirstLocation,
 						secondRobotsSecondLocation)) {
@@ -105,18 +104,18 @@ public class Windowed {
 			for (int j = 0; j < list1.size() - 1; j++) {
 
 				State firstRobotsFirstLocation = (State) list1.get(i);
-				State thirdRobotsFirstLocation = (State) list1.get(j);
+				State thirdRobotsFirstLocation = (State) list3.get(j);
 				State firstRobotsSecondLocation = (State) list1.get(i + 1);
-				State thirdRobotsSecondLocation = (State) list1.get(j + 1);
+				State thirdRobotsSecondLocation = (State) list3.get(j + 1);
 				// checks if the robots are swapping positions anywhere.
 				if (swapped(firstRobotsFirstLocation, firstRobotsSecondLocation, thirdRobotsFirstLocation,
 						thirdRobotsSecondLocation)) {
 					obstacles.add(firstRobotsFirstLocation);
-					list2 = AStar.findPath(start, goal, obstacles);
-					if (list2 == null) {
-						return list2;
+					list3 = AStar.findPath(start, goal, obstacles);
+					if (list3 == null) {
+						return list3;
 					} else
-						list2 = resize(list2);
+						list3 = resize(list3);
 					i = 0;
 					j = 0;
 				}
@@ -129,19 +128,19 @@ public class Windowed {
 		while (i < list1.size() - 1) {
 			for (int j = 0; j < list1.size() - 1; j++) {
 
-				State secondRobotsFirstLocation = (State) list1.get(i);
-				State thirdRobotsFirstLocation = (State) list1.get(j);
-				State secondRobotsSecondLocation = (State) list1.get(i + 1);
-				State thirdRobotsSecondLocation = (State) list1.get(j + 1);
+				State secondRobotsFirstLocation = (State) list2.get(i);
+				State thirdRobotsFirstLocation = (State) list3.get(j);
+				State secondRobotsSecondLocation = (State) list2.get(i + 1);
+				State thirdRobotsSecondLocation = (State) list3.get(j + 1);
 				// checks if the robots are swapping positions anywhere.
 				if (swapped(secondRobotsFirstLocation, secondRobotsSecondLocation, thirdRobotsFirstLocation,
 						thirdRobotsSecondLocation)) {
 					obstacles.add(secondRobotsFirstLocation);
-					list2 = AStar.findPath(start, goal, obstacles);
-					if (list2 == null) {
-						return list2;
+					list3 = AStar.findPath(start, goal, obstacles);
+					if (list3 == null) {
+						return list3;
 					} else
-						list2 = resize(list2);
+						list3 = resize(list3);
 					i = 0;
 					j = 0;
 				}
