@@ -47,7 +47,6 @@ public class MessageSender extends Thread {
         this.orders = new ArrayList<>(orders);
         logger.info("Received orders: " + orderString());
     }
-    
 
     @Override
     public void run() {
@@ -63,8 +62,8 @@ public class MessageSender extends Thread {
                         this.sendCancellation();
                         break;
                     case DISCONNECT:
-                    	this.disconnect();
-                    	break;
+                        this.disconnect();
+                        break;
                     default:
                         logger.warn("Unrecognised command send to MessageSender");
                         break;
@@ -118,9 +117,9 @@ public class MessageSender extends Thread {
      * @throws IOException In case of error with connection
      */
     public void sendNumberOfPicks(int picks) throws IOException {
-    	toRobot.writeUTF(Command.SEND_PICKS.toString());
-    	toRobot.writeUTF(Integer.toString(picks));
-    	toRobot.flush();
+        toRobot.writeUTF(Command.SEND_PICKS.toString());
+        toRobot.writeUTF(Integer.toString(picks));
+        toRobot.flush();
     }
 
     /**
@@ -129,8 +128,8 @@ public class MessageSender extends Thread {
      * @throws IOException In case of error with connection
      */
     public void disconnect() throws IOException {
-    	toRobot.writeUTF(Command.DISCONNECT.toString());
-    	toRobot.flush();
+        toRobot.writeUTF(Command.DISCONNECT.toString());
+        toRobot.flush();
     }
 
 }

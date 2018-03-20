@@ -27,12 +27,12 @@ public class CommunicationsManager {
     private MessageSender sender;
     private MessageReceiver receiver;
     private Robot robot;
-    
+
     private NXTInfo nxtInf;
     private NXTComm communicator;
-    
+
     private BlockingQueue<Command> commands;
-    
+
     private boolean connected;
 
     /**
@@ -48,17 +48,17 @@ public class CommunicationsManager {
         logger.info("Initialising communications with " + name + " address " + address + ".");
         this.nxtInf = new NXTInfo(NXTCommFactory.BLUETOOTH, name, address);
         this.robot = robot;
-        
+
         try {
             this.connected = false;
             this.communicator = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-            
+
             if (communicator.open(nxtInf)) {
                 this.commands = new LinkedBlockingQueue<>();
                 this.sender = new MessageSender(communicator.getOutputStream(), commands);
                 this.receiver = new MessageReceiver(communicator.getInputStream(), robot);
                 this.connected = true;
-                
+
                 logger.info("Connected to robot " + nxtInf.name);
             }
         } catch (NXTCommException e) {
@@ -121,7 +121,8 @@ public class CommunicationsManager {
     /**
      * Send orders of where the robot should go
      *
-     * @param orders What operations the robot should perform to reach goal. See route execution
+     * @param orders What operations the robot should perform to reach goal. See
+     *            route execution
      */
     public void sendOrders(List<Instruction> orders) {
         sender.setOrders(orders);

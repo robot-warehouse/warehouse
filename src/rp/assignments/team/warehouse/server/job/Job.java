@@ -225,7 +225,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 
         return picks;
     }
-    
+
     /**
      * Get the drop location for the job.
      *
@@ -234,7 +234,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     public Location getDropLocation() {
         return this.dropLocation;
     }
-    
+
     /**
      * Set the drop location for the job.
      *

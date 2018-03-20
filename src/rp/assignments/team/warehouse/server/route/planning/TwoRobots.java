@@ -10,8 +10,8 @@ import rp.assignments.team.warehouse.server.Location;
 
 public class TwoRobots {
 
-	// ---------At the beginning---------
-	// priority is given to r1 and route is changed for r2
+    // ---------At the beginning---------
+    // priority is given to r1 and route is changed for r2
 
 //	private static void findPath(State start1, State goal1, State start2, State goal2, Boolean r1, Boolean r2) {
 //		long begin = System.currentTimeMillis();

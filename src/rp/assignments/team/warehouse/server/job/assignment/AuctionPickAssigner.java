@@ -66,7 +66,8 @@ public class AuctionPickAssigner implements IPickAssigner {
                 if (picker != null) {
                     this.picks.remove();
                     picker.assignPick(pick);
-                    logger.trace("Assigning pick for item {} in job {} to picker {}.", pick.getItem().getId(), pick.getJob().getId(), picker.getName());
+                    logger.trace("Assigning pick for item {} in job {} to picker {}.", pick.getItem().getId(),
+                            pick.getJob().getId(), picker.getName());
                     return pick;
                 } else {
                     logger.error("PickAuctioner auctioned pick to null picker.");

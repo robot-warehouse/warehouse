@@ -13,7 +13,7 @@ import rp.assignments.team.warehouse.shared.Instruction;
 
 public class BluetoothTest {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 //		CommunicationsManager manager = new CommunicationsManager();
 //		manager.startServer();
 //		ArrayList<Instruction> testOrders = new ArrayList<>();
@@ -39,8 +39,7 @@ public class BluetoothTest {
 //		while (!manager.getFinished()) {
 //
 //		}
-	
-		
-	}
+
+    }
 
 }

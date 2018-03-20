@@ -29,10 +29,10 @@ public class AStar {
         State goalState = new State(goal);
 
         List<State> obstacles = Data.getObstacles();
-        
+
         if (obstacles.contains(startState) || obstacles.contains(goalState)) {
             logger.error("Obstacle located in start/goal node passed to findPath");
-        	return null;
+            return null;
         }
 
         while (true) {

@@ -5,7 +5,7 @@ import java.util.Scanner;
 import rp.assignments.team.warehouse.server.RobotInfo;
 
 public class DisconnectTest {
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 //		System.out.println("Starting connection with " + RobotInfo.JOHNCENA.getName() + ".");
 //		CommunicationsManager manager = new CommunicationsManager(RobotInfo.JOHNCENA);
 //		Scanner scan = new Scanner(System.in);
@@ -26,5 +26,5 @@ public class DisconnectTest {
 //			}
 //		}
 //		scan.close();
-	}
+    }
 }

@@ -118,7 +118,7 @@ public class Item implements IIDed, IRewardable {
         if (n < 26)
             return String.valueOf(conv.charAt(n));
 
-        return toStringRadix26((int) n/26) + String.valueOf(conv.charAt(n%26));
+        return toStringRadix26((int) n / 26) + String.valueOf(conv.charAt(n % 26));
     }
 
     /**
