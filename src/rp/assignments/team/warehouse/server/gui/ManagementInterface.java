@@ -83,7 +83,11 @@ public class ManagementInterface {
 
 	// test method for gui
 	public static void main(String[] args) {
-		new ManagementInterface(new Controller(new Warehouse()));
+		Controller controller = new Controller(new Warehouse());
+
+		ManagementInterface managementInterface = new ManagementInterface(controller);
+
+		controller.setManagementInterface(managementInterface);
 	}
 
 	/**
@@ -356,7 +360,11 @@ public class ManagementInterface {
 	 */
 	public void addJobsToLoadedJobsTable(Set<Job> jobs) {
 		JobTableModel model = (JobTableModel) this.tblLoadedJobs.getModel();
-		jobs.forEach(job -> model.addRow(job));
+		jobs.forEach(job -> {
+			if (job != null) {
+				model.addRow(job);
+			}
+		});
 	}
 
 	/**

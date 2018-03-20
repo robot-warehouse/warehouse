@@ -13,159 +13,160 @@ import rp.assignments.team.warehouse.server.job.Job;
 // TODO what else is warehouse class going to hold?
 public class Warehouse {
 
-    /** True if the warehouse is running */
-    private boolean running;
+	/** True if the warehouse is running */
+	private boolean running;
 
-    /** The jobs being worked on */
-    private Set<Job> workingOnJobs;
+	/** The jobs being worked on */
+	private Set<Job> workingOnJobs;
 
-    /** The robots in the warehouse */
-    private Set<Robot> robots;
+	/** The robots in the warehouse */
+	private Set<Robot> robots;
 
-    /** Instance of the controller class */
-    private Controller controller;
-    
-    /** List of drop locations */
-    private List<Location> dropLocations;
+	/** Instance of the controller class */
+	private Controller controller;
 
-    public Warehouse() {
-        this.running = true;
-        this.robots = new HashSet<>();
-        this.workingOnJobs = new HashSet<>();
-    }
+	/** List of drop locations */
+	private List<Location> dropLocations;
 
-    /**
-     * Add the controller to the warehouse.
-     *
-     * @param controller The controller for the warehouse.
-     */
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
+	public Warehouse() {
+		this.running = true;
+		this.robots = new HashSet<>();
+		this.workingOnJobs = new HashSet<>();
+	}
 
-    /**
-     * Check if the warehouse running.
-     *
-     * @return True if the warehouse is running.
-     */
-    public boolean isRunning() {
-        return this.running;
-    }
+	/**
+	 * Add the controller to the warehouse.
+	 *
+	 * @param controller
+	 *            The controller for the warehouse.
+	 */
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
 
-    /**
-     * Add a job to the list of jobs currently being worked on.
-     *
-     * @param job The job which is now being worked on.
-     */
-    public void addWorkingOnJob(Job job) {
-    	this.workingOnJobs.add(job);
-    	this.controller.addJobToCurrentJobsTable(job);
-    }
+	/**
+	 * Check if the warehouse running.
+	 *
+	 * @return True if the warehouse is running.
+	 */
+	public boolean isRunning() {
+		return this.running;
+	}
 
-    /**
-     * Cancel a job which may or may not have work started on it.
-     *
-     * @param job The job to be cancelled.
-     */
-    public void cancelJob(Job job) {
-        if (this.workingOnJobs.contains(job)) {
-            // Uh-oh! Better find any affected robots...
-            robots.forEach(r -> r.jobCancelled(job));
+	/**
+	 * Add a job to the list of jobs currently being worked on.
+	 *
+	 * @param job
+	 *            The job which is now being worked on.
+	 */
+	public void addWorkingOnJob(Job job) {
+		this.workingOnJobs.add(job);
+		this.controller.addJobToCurrentJobsTable(job);
+	}
 
-            this.workingOnJobs.remove(job);
-        }
+	/**
+	 * Cancel a job which may or may not have work started on it.
+	 *
+	 * @param job
+	 *            The job to be cancelled.
+	 */
+	public void cancelJob(Job job) {
+		if (this.workingOnJobs.contains(job)) {
+			// Uh-oh! Better find any affected robots...
+			robots.forEach(r -> r.jobCancelled(job));
 
-        job.setCancelled();
-        this.controller.removeJobFromCurrentJobsTable(job);
-    }
+			this.workingOnJobs.remove(job);
+		}
 
-    /**
-     * Get the jobs currently being worked on.
-     *
-     * @return List of jobs being worked on.
-     */
-    public Set<Job> getWorkingOnJobs() {
-        return this.workingOnJobs;
-    }
+		job.setCancelled();
+		this.controller.removeJobFromCurrentJobsTable(job);
+	}
 
-    /**
-     * Add a robot to the warehouse.
-     *
-     * @param robot The robot to add.
-     */
-    public void addRobot(Robot robot) {
-        this.robots.add(robot);
-        this.controller.addRobotToCurrentRobotTable(robot);
-    }
+	/**
+	 * Get the jobs currently being worked on.
+	 *
+	 * @return List of jobs being worked on.
+	 */
+	public Set<Job> getWorkingOnJobs() {
+		return this.workingOnJobs;
+	}
 
-    /**
-     * Get the robots in the warehouse.
-     *
-     * @return Set of robots in the warehouse.
-     */
-    public Set<Robot> getRobots() {
-        return this.robots;
-    }
+	/**
+	 * Add a robot to the warehouse.
+	 *
+	 * @param robot
+	 *            The robot to add.
+	 */
+	public void addRobot(Robot robot) {
+		this.robots.add(robot);
+		this.controller.addRobotToCurrentRobotTable(robot);
+	}
 
-    /**
-     * Get information of all known robots.
-     *
-     * @return Set of RobotInfo for known robots.
-     */
-    public RobotInfo[] getKnownRobots() {
-        return RobotInfo.values();
-    }
+	/**
+	 * Get the robots in the warehouse.
+	 *
+	 * @return Set of robots in the warehouse.
+	 */
+	public Set<Robot> getRobots() {
+		return this.robots;
+	}
 
-    /**
-     * Get set of online robots' RobotInfo.
-     *
-     * @return Set of online robots' RobotInfo.
-     */
-    public Set<RobotInfo> getOnlineRobots() {
-        return this.getRobots().stream()
-                .map(Robot::getRobotInfo)
-                .collect(Collectors.toSet());
-    }
+	/**
+	 * Get information of all known robots.
+	 *
+	 * @return Set of RobotInfo for known robots.
+	 */
+	public RobotInfo[] getKnownRobots() {
+		return RobotInfo.values();
+	}
 
-    /**
-     * Get set of offline robots' RobotInfo.
-     *
-     * @return Set of offline robots' RobotInfo.
-     */
-    public Set<RobotInfo> getOfflineRobots() {
-        Set<RobotInfo> onlineRobots = this.getOnlineRobots();
+	/**
+	 * Get set of online robots' RobotInfo.
+	 *
+	 * @return Set of online robots' RobotInfo.
+	 */
+	public Set<RobotInfo> getOnlineRobots() {
+		return this.getRobots().stream().map(Robot::getRobotInfo).collect(Collectors.toSet());
+	}
 
-        return Arrays.stream(this.getKnownRobots())
-                .filter(r -> !onlineRobots.contains(r))
-                .collect(Collectors.toSet());
-    }
+	/**
+	 * Get set of offline robots' RobotInfo.
+	 *
+	 * @return Set of offline robots' RobotInfo.
+	 */
+	public Set<RobotInfo> getOfflineRobots() {
+		Set<RobotInfo> onlineRobots = this.getOnlineRobots();
 
-    /**
-     * Get a map of robot names mapped to their location in the warehouse.
-     *
-     * @return Map of robot names to locations
-     */
-    public Map<String, Location> getRobotLocations() {
-        return robots.stream().collect(Collectors.toMap(Robot::getName, Robot::getCurrentLocation));
-    }
-    
-    /**
-     * Get list of drop locations.
-     *
-     * @return List of drop locations.
-     */
-    public List<Location> getDropLocations() {
-        if (this.dropLocations == null) {
-            this.dropLocations = new ArrayList<>(this.controller.getDropLocations());
-        }
-        
-        return this.dropLocations;
-    }
+		return Arrays.stream(this.getKnownRobots()).filter(r -> !onlineRobots.contains(r)).collect(Collectors.toSet());
+	}
 
-    /**
-     * Shutdown the warehouse. Lights off!
-     */
-    public void shutdown() {
-        this.running = false;
-    }
+	/**
+	 * Get a map of robot names mapped to their location in the warehouse.
+	 *
+	 * @return Map of robot names to locations
+	 */
+	public Map<String, Location> getRobotLocations() {
+		return robots.stream().collect(Collectors.toMap(Robot::getName, Robot::getCurrentLocation));
+	}
+
+	/**
+	 * Get list of drop locations.
+	 *
+	 * @return List of drop locations.
+	 */
+	public List<Location> getDropLocations() {
+		if (this.dropLocations == null) {
+			this.dropLocations = new ArrayList<>(this.controller.getDropLocations());
+		}
+
+		return this.dropLocations;
+	}
+
+	/**
+	 * Shutdown the warehouse. Lights off!
+	 */
+	public void shutdown() {
+		this.running = false;
+		System.exit(1);
+	}
 }
