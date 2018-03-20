@@ -367,8 +367,8 @@ public class Robot implements Picker, Bidder {
      */
     public boolean dropPicks() {
         this.currentPicks.stream()
-            .filter(p -> p.isPicked())
-            .forEach(p -> p.setDropped());
+            .filter(Pick::isPicked)
+            .forEach(Pick::setDropped);
         return this.currentPicks.removeIf(p -> true);
     }
 
@@ -381,7 +381,7 @@ public class Robot implements Picker, Bidder {
     public boolean dropPicksForJob(Job job) {
         this.currentPicks.stream()
             .filter(p -> p.isPicked() && p.getJob().equals(job))
-            .forEach(p -> p.setDropped());
+            .forEach(Pick::setDropped);
         return this.currentPicks.removeIf(p -> p.getJob().equals(job));
     }
 
