@@ -24,8 +24,8 @@ public class RoutePlanning {
 
         List<List<Location>> currentRoutes = new ArrayList<>();
         robots.forEach(robot -> {
-            if (!robot.getRoute().isEmpty()) {
-                currentRoutes.add(robot.getRoute());
+            if (!robot.getCurrentRoute().isEmpty()) {
+                currentRoutes.add(robot.getCurrentRoute());
             } else {
                 obstacles.add(robot.getCurrentLocation());
             }
