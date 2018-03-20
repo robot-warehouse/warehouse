@@ -13,14 +13,14 @@ import org.junit.Test;
 import rp.assignments.team.warehouse.server.Robot;
 import rp.assignments.team.warehouse.server.job.Pick;
 
-public class PickAuctionerTest {
+public class PickAuctioneerTest {
 
     private static Pick pick;
     private static Bidder bidder0, bidder1;
 
     private static List<Bidder> bidders;
 
-    private PickAuctioner auctioner;
+    private PickAuctioneer auctioneer;
 
     @BeforeClass
     public static void setupBeforeClass() {
@@ -41,12 +41,12 @@ public class PickAuctionerTest {
 
     @Before
     public void setupBeforeEach() {
-        auctioner = new PickAuctioner(pick, bidders);
+        auctioneer = new PickAuctioneer(pick, bidders);
     }
 
     @Test
     public void auctionGivesPickToCorrectBidder() {
-        Assert.assertEquals(bidder1, auctioner.auction());
+        Assert.assertEquals(bidder1, auctioneer.auction());
     }
 
 }

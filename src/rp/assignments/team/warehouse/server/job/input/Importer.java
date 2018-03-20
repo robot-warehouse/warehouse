@@ -93,7 +93,7 @@ public class Importer {
     }
 
     private void parseLocations(BufferedReader locationsReader) throws IOException {
-        this.locations = new HashMap<Integer, Location>();
+        this.locations = new HashMap<>();
 
         Pattern locationPattern = Pattern.compile("^([0-9]+)\\s*,\\s*([0-9]+)\\s*,\\s*([a-z]+)$");
 
@@ -124,7 +124,7 @@ public class Importer {
     }
 
     private void parseItems(BufferedReader itemsReader) throws IOException {
-        this.items = new HashMap<Integer, Item>();
+        this.items = new HashMap<>();
 
         Pattern itemPattern = Pattern
                 .compile("^([a-z]+)\\s*,\\s*([0-9]+(?:\\.[0-9]+)?)\\s*,\\s*([0-9]+(?:\\.[0-9]+)?)$");
@@ -143,8 +143,8 @@ public class Importer {
             Location location = this.locations.get(id);
 
             if (location != null) {
-                if (!items.containsKey(id)) {
-                    items.put(id, new Item(id, reward, weight, location));
+                if (!this.items.containsKey(id)) {
+                    this.items.put(id, new Item(id, reward, weight, location));
                 } else {
                     logger.info("items file referenced item id {} multiple times", idString);
                 }
@@ -155,7 +155,7 @@ public class Importer {
     }
 
     private void parseJobs(BufferedReader jobsReader) throws IOException {
-        this.jobs = new HashMap<Integer, Job>();
+        this.jobs = new HashMap<>();
 
         // Standard regex: "^([0-9]+)(\\s*,\\s*([a-z]+)\\s*,\\s*([1-9][0-9]*))+$"
         // Use a better one that ensures items aren't referenced twice
@@ -180,8 +180,8 @@ public class Importer {
                 int itemId = Item.parseId(itemIdString);
                 int count = Integer.parseInt(parts[i + 1]);
 
-                if (items.containsKey(itemId)) {
-                    jobItems.add(new JobItem(items.get(itemId), count));
+                if (this.items.containsKey(itemId)) {
+                    jobItems.add(new JobItem(this.items.get(itemId), count));
                 } else {
                     logger.info("jobs file referenced unknown item id {} in job {}", itemIdString, id);
                 }
@@ -189,7 +189,7 @@ public class Importer {
                 i += 2;
             }
 
-            jobs.put(id, new Job(id, jobItems));
+            this.jobs.put(id, new Job(id, jobItems));
         }
     }
 
@@ -218,7 +218,7 @@ public class Importer {
     }
 
     private void parseDrops(BufferedReader dropsReader) throws IOException {
-        this.drops = new HashSet<Location>();
+        this.drops = new HashSet<>();
 
         Pattern dropPattern = Pattern.compile("^([0-9]+)\\s*,\\s*([0-9]+)$");
 
@@ -234,7 +234,7 @@ public class Importer {
 
             Location l = new Location(x, y);
 
-            if (!drops.add(l)) {
+            if (!this.drops.add(l)) {
                 logger.info("drops file referenced location {} multiple times", l);
             }
         }
@@ -257,7 +257,7 @@ public class Importer {
             throw new ImportNotFinishedException();
         }
 
-        return new HashSet<Job>(this.jobs.values());
+        return new HashSet<>(this.jobs.values());
     }
 
     public Set<Item> getItems() throws ImportNotFinishedException {
@@ -265,7 +265,7 @@ public class Importer {
             throw new ImportNotFinishedException();
         }
 
-        return new HashSet<Item>(this.items.values());
+        return new HashSet<>(this.items.values());
     }
 
     public Set<Location> getDrops() throws ImportNotFinishedException {

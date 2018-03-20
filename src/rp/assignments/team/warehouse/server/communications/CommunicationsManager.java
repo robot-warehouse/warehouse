@@ -56,11 +56,11 @@ public class CommunicationsManager {
 
             if (communicator.open(nxtInf)) {
                 this.commands = new LinkedBlockingQueue<>();
-                this.sender = new MessageSender(communicator.getOutputStream(), commands);
-                this.receiver = new MessageReceiver(communicator.getInputStream(), robot);
+                this.sender = new MessageSender(this.communicator.getOutputStream(), this.commands);
+                this.receiver = new MessageReceiver(this.communicator.getInputStream(), robot);
                 this.connected = true;
 
-                logger.info("Connected to robot " + nxtInf.name);
+                logger.info("Connected to robot " + this.nxtInf.name);
             }
         } catch (NXTCommException e) {
             logger.fatal("Could not connect to robot");
@@ -74,7 +74,7 @@ public class CommunicationsManager {
      */
     public boolean isConnected() {
         // should be called to check whether server is working before this class is used
-        return connected;
+        return this.connected;
     }
 
     /**
@@ -89,7 +89,6 @@ public class CommunicationsManager {
      * Disconnect from the robot.
      */
     public void stopServer() {
-        // TODO send shutdown command to robot
         commands.offer(Command.DISCONNECT);
         try {
             receiver.join();
@@ -101,7 +100,6 @@ public class CommunicationsManager {
             logger.error("Error disconnecting the server");
         }
         connected = false;
-        // TODO close sender and receiver threads
     }
 
     /**
@@ -152,7 +150,6 @@ public class CommunicationsManager {
         try {
             sender.sendNumberOfPicks(picks);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

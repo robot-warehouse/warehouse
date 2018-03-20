@@ -10,7 +10,6 @@ public class Server {
      * @param args Arguments passed to the program.
      */
     public static void main(String[] args) {
-        // TODO Setup and start server from here
         Warehouse warehouse = new Warehouse();
 
         Controller controller = new Controller(warehouse);

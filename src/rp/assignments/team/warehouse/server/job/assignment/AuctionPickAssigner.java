@@ -2,6 +2,7 @@ package rp.assignments.team.warehouse.server.job.assignment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -31,8 +32,8 @@ public class AuctionPickAssigner implements IPickAssigner {
      */
     public AuctionPickAssigner(List<Pick> picks, Set<Robot> robots) {
         super();
-        this.picks = new LinkedList<Pick>();
-        Collections.sort(picks, new CompareByRewardComparator());
+        this.picks = new LinkedList<>();
+        picks.sort(new CompareByRewardComparator());
         this.picks.addAll(picks);
         this.robots = robots;
     }
@@ -42,7 +43,7 @@ public class AuctionPickAssigner implements IPickAssigner {
      */
     public AuctionPickAssigner(Set<Robot> robots) {
         super();
-        this.picks = new LinkedList<Pick>();
+        this.picks = new LinkedList<>();
         this.robots = robots;
     }
 
@@ -55,16 +56,16 @@ public class AuctionPickAssigner implements IPickAssigner {
             // Sort bidders so that we give more picks of the same job & item to the same one
             List<Bidder> availableBidders = this.robots.stream()
                 .filter(x -> x.isAvailable(pick))
-                .sorted((x, y) -> Integer.compare(x.getCurrentPicks().size(), y.getCurrentPicks().size()))
+                .sorted(Comparator.comparingInt(x -> x.getCurrentPicks().size()))
                 .collect(Collectors.toCollection(ArrayList::new));
 
             if (availableBidders.size() > 0) {
 
                 assert pick != null;
 
-                PickAuctioner auctioner = new PickAuctioner(pick, availableBidders);
+                PickAuctioneer auctioneer = new PickAuctioneer(pick, availableBidders);
 
-                Picker picker = auctioner.auction();
+                Picker picker = auctioneer.auction();
 
                 if (picker != null) {
                     this.picks.remove();
@@ -73,7 +74,7 @@ public class AuctionPickAssigner implements IPickAssigner {
                             pick.getJob().getId(), picker.getName());
                     return pick;
                 } else {
-                    logger.error("PickAuctioner auctioned pick to null picker.");
+                    logger.error("PickAuctioneer auctioned pick to null picker.");
                 }
             }
         } else {
@@ -90,7 +91,7 @@ public class AuctionPickAssigner implements IPickAssigner {
 
     @Override
     public void addPicks(List<Pick> picks) {
-        Collections.sort(picks, new CompareByRewardComparator());
+        picks.sort(new CompareByRewardComparator());
 
         this.picks.addAll(picks);
     }

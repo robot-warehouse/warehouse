@@ -93,7 +93,7 @@ public class Pick implements IRewardable {
      * Set the pick as picked.
      */
     public void setPicked() {
-        assert this.picked == false;
+        assert !this.picked;
 
         this.picked = true;
     }
@@ -102,7 +102,7 @@ public class Pick implements IRewardable {
      * Set the pick as not picked. Drop the pick and set as if it was never picked.
      */
     public void setDropped() {
-        assert this.picked == true;
+        assert this.picked;
 
         this.picked = false;
     }
@@ -120,7 +120,7 @@ public class Pick implements IRewardable {
      * Set the pick as completed.
      */
     public void setCompleted() {
-        assert this.completed == false;
+        assert !this.completed;
 
         this.completed = true;
         this.job.pickCompleted(this);

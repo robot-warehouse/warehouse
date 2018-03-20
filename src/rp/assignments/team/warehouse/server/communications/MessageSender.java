@@ -53,7 +53,7 @@ public class MessageSender extends Thread {
     public void run() {
         while (true) {
             try {
-                Command command = commands.take();
+                Command command = this.commands.take();
                 logger.info("Received command " + command.toString());
                 switch (command) {
                     case SEND_ORDERS:

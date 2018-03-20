@@ -35,11 +35,11 @@ public class MessageReceiver extends Thread {
     public void run() {
         while (true) {
             try {
-                Command command = Command.strToCommand((fromRobot.readUTF()));
+                Command command = Command.strToCommand((this.fromRobot.readUTF()));
                 switch (command) {
                     case SEND_POSITION:
-                        int x = Integer.valueOf(fromRobot.readUTF()); // get x
-                        int y = Integer.valueOf(fromRobot.readUTF()); // get y
+                        int x = Integer.valueOf(this.fromRobot.readUTF()); // get x
+                        int y = Integer.valueOf(this.fromRobot.readUTF()); // get y
 
                         Location currentLocation = new Location(x, y);
                         this.robot.setCurrentLocation(currentLocation);
@@ -53,8 +53,8 @@ public class MessageReceiver extends Thread {
                         break;
                     case SEND_FACING:
                         try {
-                            Facing facing = Facing.valueOf(fromRobot.readUTF());
-                            robot.setCurrentFacingDirection(facing);
+                            Facing facing = Facing.valueOf(this.fromRobot.readUTF());
+                            this.robot.setCurrentFacingDirection(facing);
                         } catch (IllegalArgumentException e) {
                             logger.error("Robot attempted to send it's direction, but it sent an invalid direction ");
                         }
