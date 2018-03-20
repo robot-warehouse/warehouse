@@ -147,8 +147,7 @@ public class Controller {
 
 			jobSelector = new PriorityJobSelector(jobs);
 
-			Thread server = new ServerThread(this.warehouse, jobSelector);
-			server.start();
+			(new ServerThread(this.warehouse, jobSelector)).start();
 		}
 	}
 
