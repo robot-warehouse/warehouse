@@ -99,6 +99,15 @@ public class Pick implements IRewardable {
     }
 
     /**
+     * Set the pick as not picked. Drop the pick and set as if it was never picked.
+     */
+    public void setDropped() {
+        assert this.picked == true;
+
+        this.picked = false;
+    }
+
+    /**
      * Check if the pick has been completed.
      *
      * @return True if the item has been dropped off.

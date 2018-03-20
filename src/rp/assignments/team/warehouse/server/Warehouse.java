@@ -159,6 +159,15 @@ public class Warehouse {
     }
 
     /**
+     * Remove a robot from the warehouse.
+     *
+     * @param robot The robot to remove.
+     */
+    public void removeRobot(Robot robot) {
+        this.robots.remove(robot);
+    }
+
+    /**
      * Shutdown the warehouse. Lights off!
      */
     public void shutdown() {

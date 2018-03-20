@@ -152,7 +152,7 @@ public class Controller {
      * @param currentFacingDirection The robot's starting direction.
      * @return True if successfully connected & added.
      */
-    public boolean connectRobot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
+    public boolean addRobot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
         Robot robot = new Robot(robotInfo, currentLocation, currentFacingDirection);
 
         if (robot.connect()) {
@@ -167,13 +167,11 @@ public class Controller {
     /**
      * Remove a robot from the warehouse.
      *
-     * @param robotName The name of the robot to remove.
+     * @param robot The robot to remove.
      */
-    public void disconnectRobot(Robot robot) {
-        // TODO we need to safely disconnect the robot, preserving it's current
-        // job/pick if it had one and remove it from the warehouse list
-
-        robot.disconnect();
+    public void removeRobot(Robot robot) {
+        robot.removeFromWarehouse();
+        warehouse.removeRobot(robot);
 
         if (!robot.isConnected()) {
             this.managementInterface.removeRobotFromOnlineRobotsTable(robot);

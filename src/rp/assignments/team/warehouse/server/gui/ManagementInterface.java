@@ -200,14 +200,14 @@ public class ManagementInterface {
         // endregion
 
         // region RightPane
-        JButton btnConnectRobot = new JButton("Connect Robot");
-        btnConnectRobot.addActionListener(event -> {
+        JButton btnAddRobot = new JButton("Add Robot");
+        btnAddRobot.addActionListener(event -> {
             RobotInfo[] offlineRobots = this.controller.getOfflineRobots().toArray(new RobotInfo[0]);
             if (offlineRobots.length == 0) {
-                JOptionPane.showMessageDialog(this.frame, "We've run out of robots to connect to!");
+                JOptionPane.showMessageDialog(this.frame, "We've run out of robots to add!");
             } else {
                 RobotInfo robotInfo = (RobotInfo) JOptionPane.showInputDialog(this.frame,
-                        "Select a robot to connect to", "Connect Robot", JOptionPane.PLAIN_MESSAGE, new ImageIcon(),
+                        "Select a robot to add", "Add Robot", JOptionPane.PLAIN_MESSAGE, new ImageIcon(),
                         offlineRobots, offlineRobots[0]);
 
                 if (robotInfo != null) {
@@ -226,8 +226,8 @@ public class ManagementInterface {
                                     new ImageIcon(), Facing.values(), Facing.NORTH);
 
                             if (facingDirection != null) {
-                                if (!this.controller.connectRobot(robotInfo, new Location(x, y), facingDirection)) {
-                                    JOptionPane.showMessageDialog(this.frame, "Failed to connect to robot.");
+                                if (!this.controller.addRobot(robotInfo, new Location(x, y), facingDirection)) {
+                                    JOptionPane.showMessageDialog(this.frame, "Failed to add robot.");
                                 }
                             }
                         }
@@ -235,20 +235,20 @@ public class ManagementInterface {
                 }
             }
         });
-        btnConnectRobot.setBounds(458, 114, 132, 25);
-        this.frame.getContentPane().add(btnConnectRobot);
+        btnAddRobot.setBounds(458, 114, 132, 25);
+        this.frame.getContentPane().add(btnAddRobot);
 
-        JButton btnDisconnectRobot = new JButton("Disconnect Robot");
-        btnDisconnectRobot.addActionListener(event -> {
+        JButton btnRemoveRobot = new JButton("Remove Robot");
+        btnRemoveRobot.addActionListener(event -> {
             if (this.tblOnlineRobots.getSelectionModel().isSelectionEmpty()) {
-                JOptionPane.showMessageDialog(this.frame, "Please select a robot to disconnect");
+                JOptionPane.showMessageDialog(this.frame, "Please select a robot to remove");
             } else {
-                this.controller.disconnectRobot(((RobotTableModel) this.tblOnlineRobots.getModel())
+                this.controller.removeRobot(((RobotTableModel) this.tblOnlineRobots.getModel())
                         .getRow(this.tblOnlineRobots.getSelectedRow()));
             }
         });
-        btnDisconnectRobot.setBounds(602, 114, 140, 25);
-        this.frame.getContentPane().add(btnDisconnectRobot);
+        btnRemoveRobot.setBounds(602, 114, 140, 25);
+        this.frame.getContentPane().add(btnRemoveRobot);
 
         JLabel lblOnlineRobots = new JLabel("Online Robots");
         lblOnlineRobots.setBounds(425, 0, LABEL_WIDTH, LABEL_HEIGHT);

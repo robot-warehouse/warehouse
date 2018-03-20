@@ -17,30 +17,33 @@ import rp.assignments.team.warehouse.server.job.comparators.CompareByRewardCompa
 
 public class AuctionPickAssigner implements IPickAssigner {
 
+    /** Queue of picks to assign. */
     private Queue<Pick> picks;
-    private Set<Robot> bidders;
+
+    /** The robots in the warehouse. */
+    private Set<Robot> robots;
 
     private static final Logger logger = LogManager.getLogger(AuctionPickAssigner.class);
 
     /**
      * @param picks The initial picks for assignment.
-     * @param bidders The bidders for the auction.
+     * @param robots The bidders for the auction.
      */
-    public AuctionPickAssigner(List<Pick> picks, Set<Robot> bidders) {
+    public AuctionPickAssigner(List<Pick> picks, Set<Robot> robots) {
         super();
         this.picks = new LinkedList<Pick>();
         Collections.sort(picks, new CompareByRewardComparator());
         this.picks.addAll(picks);
-        this.bidders = bidders;
+        this.robots = robots;
     }
 
     /**
-     * @param bidders The bidders for the auction.
+     * @param robots The bidders for the auction.
      */
-    public AuctionPickAssigner(Set<Robot> bidders) {
+    public AuctionPickAssigner(Set<Robot> robots) {
         super();
         this.picks = new LinkedList<Pick>();
-        this.bidders = bidders;
+        this.robots = robots;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class AuctionPickAssigner implements IPickAssigner {
 
             // Get bidders which either don't have any picks or have picks which are for the same job & item as the next pick
             // Sort bidders so that we give more picks of the same job & item to the same one
-            List<Bidder> availableBidders = this.bidders.stream()
+            List<Bidder> availableBidders = this.robots.stream()
                 .filter(x -> x.isAvailable(pick))
                 .sorted((x, y) -> Integer.compare(x.getCurrentPicks().size(), y.getCurrentPicks().size()))
                 .collect(Collectors.toCollection(ArrayList::new));
