@@ -10,7 +10,7 @@ import javax.swing.table.TableModel;
 import rp.assignments.team.warehouse.server.job.Job;
 
 public class JobTableModel extends AbstractTableModel implements TableModel {
-    List<Job> jobs = new LinkedList<Job>();
+    private List<Job> jobs = new LinkedList<>();
 
     @Override
     public void addTableModelListener(TableModelListener l) {

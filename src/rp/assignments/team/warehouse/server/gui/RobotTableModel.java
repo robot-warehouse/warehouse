@@ -10,7 +10,7 @@ import javax.swing.table.TableModel;
 import rp.assignments.team.warehouse.server.Robot;
 
 public class RobotTableModel extends AbstractTableModel implements TableModel {
-    List<Robot> robots = new LinkedList<Robot>();
+    private List<Robot> robots = new LinkedList<>();
 
     @Override
     public void addTableModelListener(TableModelListener l) {
@@ -23,7 +23,7 @@ public class RobotTableModel extends AbstractTableModel implements TableModel {
             case 0:
                 return String.class;
             case 1:
-                return Integer.class;
+                return String.class;
             case 2:
                 return String.class;
             default:

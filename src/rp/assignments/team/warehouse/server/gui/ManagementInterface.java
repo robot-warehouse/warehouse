@@ -79,15 +79,19 @@ public class ManagementInterface {
         this.controller = controller;
         initialize();
         this.frame.setVisible(true);
-    }
 
-    // test method for gui
-    public static void main(String[] args) {
-        Controller controller = new Controller(new Warehouse());
-
-        ManagementInterface managementInterface = new ManagementInterface(controller);
-
-        controller.setManagementInterface(managementInterface);
+        // Table Updater
+        (new Thread(() -> {
+            while (true) {
+                ((JobTableModel) this.tblLoadedJobs.getModel()).fireTableDataChanged();
+                ((JobTableModel) this.tblCurrentJobs.getModel()).fireTableDataChanged();
+                ((JobTableModel) this.tblCompletedJobs.getModel()).fireTableDataChanged();
+                ((RobotTableModel) this.tblOnlineRobots.getModel()).fireTableDataChanged();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {}
+            }
+        })).start();
     }
 
     /**
@@ -317,8 +321,6 @@ public class ManagementInterface {
         this.lblTotalScore.setBounds(141, 397, 122, 60);
         frame.getContentPane().add(this.lblTotalScore);
         // endregion
-
-        // TODO create updates for RobotTableModel
     }
 
     // region PublicMethodsForController
@@ -331,15 +333,6 @@ public class ManagementInterface {
     public void addRobotToOnlineRobotsTable(Robot robot) {
         RobotTableModel model = (RobotTableModel) this.tblOnlineRobots.getModel();
         model.addRow(robot);
-    }
-
-    /**
-     * Updates the information of a robot on the online robots table in the GUI.
-     *
-     * @param robot The robot to update
-     */
-    public void updateRobotInRobotTable(Robot robot) {
-        // TODO maybe we don't need this
     }
 
     /**
