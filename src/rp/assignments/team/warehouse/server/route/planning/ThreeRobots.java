@@ -1,31 +1,31 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import rp.assignments.team.warehouse.server.Location;
 
 public class ThreeRobots {
 
-	static ArrayList<State> findPath(ArrayList<State> l1, ArrayList<State> l2, State start, State goal) {
+	static List<Location> findPath(ArrayList<State> l1, ArrayList<State> l2, State start, State goal, List<Location> extraObstacles) {
 		// Stores the route for third robot.
-		ArrayList<State> l3 = new ArrayList<State>();
+		List<Location> l3 = new ArrayList<>();
 		// used to store the original route when the robot moves to the nearest possible
 		// location.
 		ArrayList<State> temporary = new ArrayList<State>();
-		l3 = AStar.findPath(start, goal, Data.getObstacles());
+		
+		l3 = AStar.findPath(start, goal, extraObstacles);
 		System.out.println(l3 + "b4");
 
-		ArrayList<State> obs3 = new ArrayList<State>();
-		obs3 = Data.obstacles;
+		l3 = swapAndGoalCheck(l1, l2, start, goal, l3, extraObstacles);
 
-		l3 = swapAndGoalCheck(l1, l2, start, goal, l3, obs3);
-
-		l3 = collisionCheck(l1, l2, start, goal, l3, obs3);
+		l3 = collisionCheck(l1, l2, start, goal, l3, extraObstacles);
 
 		return l3;
 	}
 
-	static ArrayList<State> collisionCheck(ArrayList<State> l1, ArrayList<State> l2, State start, State goal,
-			ArrayList<State> l3, ArrayList<State> obs3) {
+	static List<State> collisionCheck(List<State> l1, List<State> l2, State start, State goal,
+			List<State> l3, List<State> obs3) {
 		int i = 0;
 		// loops through all three lists checking for collisions.
 		while (i < l3.size()) {
@@ -71,7 +71,7 @@ public class ThreeRobots {
 			} // if waiting at the current position is blocking other robot's route move to a
 				// neighbouring conflict-free position.
 			else if (loc1.equals(loc3)) {
-				ArrayList<State> neighbours = new ArrayList<>();
+				List<State> neighbours = new ArrayList<>();
 				neighbours = loc3.getNeighbours(start, goal);
 				for (State each : neighbours) {
 					if (!loc2.equals(each) && !obs3.contains(each)) {
@@ -84,7 +84,7 @@ public class ThreeRobots {
 			} // if waiting at the current position is blocking other robot's route move to a
 				// neighbouring conflict-free position.
 			else if (loc2.equals(loc3)) {
-				ArrayList<State> neighbours = new ArrayList<>();
+				List<State> neighbours = new ArrayList<>();
 				neighbours = loc3.getNeighbours(start, goal);
 				for (State each : neighbours) {
 					if (!loc1.equals(each) && !obs3.contains(each)) {
@@ -118,8 +118,8 @@ public class ThreeRobots {
 		return l3;
 	}
 
-	static ArrayList<State> swapAndGoalCheck(ArrayList<State> l1, ArrayList<State> l2, State start, State goal,
-			ArrayList<State> l3, ArrayList<State> obs3) {
+	static List<Location> swapAndGoalCheck(List<Location> l1, List<Location> l2, State start, State goal,
+			List<Location> l3, List<Location> extraObstacles) {
 		ArrayList<State> temporary;
 		boolean check = true;
 		int n = 1;
@@ -133,13 +133,15 @@ public class ThreeRobots {
 				if (l3.size() > l1.size()) {
 					if (l3.subList(l1.size(), l3.size() - 1).contains(l1.get(l1.size() - 1))) {
 						System.out.println("first goal is an obstacle");
-						obs3.add(l1.get(l1.size() - 1));
-						if (AStar.findPath(start, goal, obs3) != null)
-							l3 = AStar.findPath(start, goal, obs3);
+						extraObstacles.add(l1.get(l1.size() - 1));
+						
+						List<Location> tempPath = AStar.findPath(start, goal, extraObstacles);
+						if (tempPath != null)
+							l3 = tempPath;
 						else {
 							// indefinite wait
-							for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
-								l3 = AStar.findPath(start, l3.get(l3.indexOf(l1.get(l1.size() - 1)) - k), obs3);
+							for (int k = 0; AStar.findPath(start, goal, extraObstacles) != null; k++) {
+								l3 = AStar.findPath(start, l3.get(l3.indexOf(l1.get(l1.size() - 1)) - k), extraObstacles);
 							}
 						}
 					}
@@ -150,13 +152,13 @@ public class ThreeRobots {
 				if (l3.size() > l2.size()) {
 					if (l3.subList(l2.size(), l3.size() - 1).contains(l2.get(l2.size() - 1))) {
 						System.out.println("second goal is an obstacle");
-						obs3.add(l2.get(l2.size() - 1));
-						if (AStar.findPath(start, goal, obs3) != null)
-							l3 = AStar.findPath(start, goal, obs3);
+						extraObstacles.add(l2.get(l2.size() - 1));
+						if (AStar.findPath(start, goal, extraObstacles) != null)
+							l3 = AStar.findPath(start, goal, extraObstacles);
 						else {
 							// indefinite wait
-							for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
-								l3 = AStar.findPath(start, l3.get(l3.indexOf(l2.get(l2.size() - 1)) - k), obs3);
+							for (int k = 0; AStar.findPath(start, goal, extraObstacles) != null; k++) {
+								l3 = AStar.findPath(start, l3.get(l3.indexOf(l2.get(l2.size() - 1)) - k), extraObstacles);
 							}
 						}
 					}
@@ -168,19 +170,19 @@ public class ThreeRobots {
 				while (i < l3.size() - 1) {
 					for (j = 0; j < l1.size() - 1; j++) {
 
-						State loc1a = l3.get(i);
-						State loc2a = l1.get(j);
-						State loc1b = l3.get(i + 1);
-						State loc2b = l1.get(j + 1);
+						State loc1a = (State) l3.get(i);
+						State loc2a = (State) l1.get(j);
+						State loc1b = (State) l3.get(i + 1);
+						State loc2b = (State) l1.get(j + 1);
 						// if they swap check if there is space to step aside.
 						if (swapped(loc1a, loc1b, loc2a, loc2b)) {
 							System.out.println("swapped 1");
-							if (!Data.singleRow.contains(loc1a)) {
+							if (!Data.getRow().contains(loc1a)) {
 								System.out.println(loc1a.toString());
 								System.out.println("check4");
-								ArrayList<State> neighbours = loc1a.getNeighbours(start, goal);
+								List<State> neighbours = loc1a.getNeighbours(start, goal);
 								for (State each : neighbours) {
-									if (!obs3.contains(each)) {
+									if (!extraObstacles.contains(each)) {
 										l3.add(i + 1, each);
 										l3.add(i + 2, loc1a);
 										break;
@@ -190,15 +192,15 @@ public class ThreeRobots {
 								// an obstacle.
 							else {
 								if (!loc1a.equals(start) && !loc1a.equals(goal))
-									obs3.add(loc1a);
+								    extraObstacles.add(loc1a);
 								else if (!loc1b.equals(start) && !loc1b.equals(goal))
-									obs3.add(loc1b);
+								    extraObstacles.add(loc1b);
 								System.out.println("Rerouting..");
-								if (AStar.findPath(start, goal, obs3) != null)
-									l3 = AStar.findPath(start, goal, obs3);
+								if (AStar.findPath(start, goal, extraObstacles) != null)
+									l3 = AStar.findPath(start, goal, extraObstacles);
 								else {
-									for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
-										l3 = AStar.findPath(start, l3.get(l3.indexOf(goal) - k), obs3);
+									for (int k = 0; AStar.findPath(start, goal, extraObstacles) != null; k++) {
+										l3 = AStar.findPath(start, l3.get(l3.indexOf(goal) - k), extraObstacles);
 									}
 								}
 								System.out.println(l3);
@@ -223,16 +225,16 @@ public class ThreeRobots {
 				while (i < l3.size() - 1) {
 					for (j = 0; j < l2.size() - 1; j++) {
 
-						State loc1a = l3.get(i);
-						State loc2a = l2.get(j);
-						State loc1b = l3.get(i + 1);
-						State loc2b = l2.get(j + 1);
+						State loc1a = (State) l3.get(i);
+						State loc2a = (State) l2.get(j);
+						State loc1b = (State) l3.get(i + 1);
+						State loc2b = (State) l2.get(j + 1);
 
 						if (swapped(loc1a, loc1b, loc2a, loc2b)) {
-							if (!Data.singleRow.contains(loc1a)) {
-								ArrayList<State> neighbours = loc1a.getNeighbours(start, goal);
+							if (!Data.getRow().contains(loc1a)) {
+								List<State> neighbours = loc1a.getNeighbours(start, goal);
 								for (State each : neighbours) {
-									if (!obs3.contains(each)) {
+									if (!extraObstacles.contains(each)) {
 										l3.add(i + 1, each);
 										l3.add(i + 2, loc1a);
 										break;
@@ -240,15 +242,15 @@ public class ThreeRobots {
 								}
 							} else {
 								if (!loc1a.equals(start) && !loc1a.equals(goal))
-									obs3.add(loc1a);
+								    extraObstacles.add(loc1a);
 								else if (!loc1b.equals(start) && !loc1b.equals(goal))
-									obs3.add(loc1b);
-								if (AStar.findPath(start, goal, obs3) != null)
-									l3 = AStar.findPath(start, goal, obs3);
+								    extraObstacles.add(loc1b);
+								if (AStar.findPath(start, goal, extraObstacles) != null)
+									l3 = AStar.findPath(start, goal, extraObstacles);
 								else {
 									// indefinite wait
-									for (int k = 0; AStar.findPath(start, goal, obs3) != null; k++) {
-										l3 = AStar.findPath(start, l3.get(l3.indexOf(goal) - k), obs3);
+									for (int k = 0; AStar.findPath(start, goal, extraObstacles) != null; k++) {
+										l3 = AStar.findPath(start, l3.get(l3.indexOf(goal) - k), extraObstacles);
 									}
 								}
 								check = true;
@@ -270,7 +272,7 @@ public class ThreeRobots {
 					temporary = l3;
 					l3.clear();
 					for (State each : temporary) {
-						if (!Data.singleRow.contains(each) && !obs3.contains(each)) {
+						if (!Data.getRow().contains(each) && !extraObstacles.contains(each)) {
 							l3.add(each);
 						} else
 							break;
