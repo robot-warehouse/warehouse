@@ -38,7 +38,7 @@ public class RobotThread extends Thread {
                 this.robot.clearCurrentPicks();
             }
 
-            if (this.robot.getCurrentPicks() != null && this.robot.getCurrentRoute().isEmpty()) {
+            if (!this.robot.getCurrentPicks().isEmpty() && this.robot.getCurrentRoute().isEmpty()) {
                 List<Location> path;
 
                 if (!this.robot.hasFinishedPickup()) {

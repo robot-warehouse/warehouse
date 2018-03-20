@@ -10,6 +10,7 @@ import java.util.concurrent.BlockingQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.Instruction;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
@@ -120,6 +121,20 @@ public class MessageSender extends Thread {
     public void sendNumberOfPicks(int picks) throws IOException {
     	toRobot.writeUTF(Command.SEND_PICKS.toString());
     	toRobot.writeUTF(Integer.toString(picks));
+    	toRobot.flush();
+    }
+    
+    public void sendLocation(int x, int y) throws IOException {
+    	toRobot.writeUTF(Command.SEND_POSITION.toString());
+    	toRobot.writeUTF(Integer.toString(x));
+    	toRobot.writeUTF(Integer.toString(y));
+    	toRobot.flush();
+    }
+    
+    public void sendFacing(Facing facing) throws IOException{
+    	toRobot.writeUTF(Command.SEND_FACING.toString());
+    	toRobot.writeUTF(facing.toString());
+    	System.out.println("Sent " + facing.toString());
     	toRobot.flush();
     }
 

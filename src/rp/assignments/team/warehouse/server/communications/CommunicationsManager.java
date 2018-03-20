@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import rp.assignments.team.warehouse.server.Robot;
+import rp.assignments.team.warehouse.shared.Facing;
 import rp.assignments.team.warehouse.shared.Instruction;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
@@ -127,6 +128,23 @@ public class CommunicationsManager {
         sender.setOrders(orders);
         commands.offer(Command.SEND_ORDERS);
 
+    }
+    
+    public void sendPostion(int x, int y) {
+    	try {
+    		sender.sendLocation(x, y);
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	
+    }
+    
+    public void sendFacing(Facing facing) {
+    	try {
+    		sender.sendFacing(facing);
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
     }
 
     public void sendNumOfPicks(int picks) {
