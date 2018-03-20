@@ -2,6 +2,8 @@ package rp.assignments.team.warehouse.server.gui;
 
 import java.awt.*;
 import java.io.File;
+import java.util.Set;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -338,10 +340,9 @@ public class ManagementInterface {
      *
      * @param robot The robot to add to the table
      */
-    public void addRobotToTable(Robot robot) {
-        ((DefaultTableModel) this.tblOnlineRobots.getModel()).addRow(
-            new Object[] {robot.getName(), robot.getCurrentLocation(), robot.getCurrentPicks(), robot
-                .getCurrentFacingDirection(), robot.getCurrentWeight()});
+    public void addRobotToTable(Robot robot) {        
+        RobotTableModel model = (RobotTableModel) this.tblOnlineRobots.getModel();
+        model.addRow(robot);
     }
 
     /**
@@ -350,14 +351,25 @@ public class ManagementInterface {
      * @param robot The robot to update
      */
     public void updateRobotInRobotTable(Robot robot) {
-        // TODO
+        // TODO maybe we don't need this 
     }
 
     /**
      * Remove the selected robot from the robot table in the GUI.
      */
-    public void removeRobotFromTable() {
-        this.tblOnlineRobots.remove(this.tblOnlineRobots.getSelectedRow());
+    public void removeRobotFromTable(Robot robot) {
+        RobotTableModel model = (RobotTableModel) this.tblOnlineRobots.getModel();
+        model.removeRow(robot);
+    }
+    
+    /**
+     * Adds a list of jobs to the loaded jobs table
+     *
+     * @param jobs The list of jobs
+     */
+    public void addJobsToLoadedJobsTable(Set<Job> jobs) {
+        JobTableModel model = (JobTableModel) this.tblLoadedJobs.getModel();
+        jobs.forEach(job -> model.addRow(job));
     }
 
     /**

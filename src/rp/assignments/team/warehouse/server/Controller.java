@@ -2,7 +2,6 @@ package rp.assignments.team.warehouse.server;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import rp.assignments.team.warehouse.server.gui.ManagementInterface;
@@ -12,7 +11,6 @@ import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
 import rp.assignments.team.warehouse.shared.Facing;
 
-// TODO
 public class Controller {
 
     /** Can the application be started? Set to true when all inputs have been dealt with. */
@@ -124,6 +122,8 @@ public class Controller {
 
         this.jobs = importer.getJobs();
         this.dropLocations = importer.getDrops();
+        
+        this.managementInterface.addJobsToLoadedJobsTable(jobs);
 
         this.startable = true;
     }
