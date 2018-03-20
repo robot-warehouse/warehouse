@@ -405,6 +405,13 @@ public class ManagementInterface {
         this.lblTotalScore.setText(String.valueOf(score));
     }
 
+    /**
+     * Announces to the user that all jobs have been completed
+     */
+    public void completedAllJobs() {
+        JOptionPane.showMessageDialog(this.frame, "All jobs have been completed!");
+    }
+
     // endregion
 
     /**

@@ -67,7 +67,7 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         while (this.warehouse.isRunning()) {
-            if (this.jobSelector != null && this.jobSelector.hasNext()) { // TODO be smarter
+            if (this.jobSelector != null && this.jobSelector.hasNext()) { // TODO be smarter (what does this mean I can't remember)
                 if (getWorkingOnJobs().size() <= 0 || !jobsHaveAvailablePicks()) {
                     // TODO add another job to working on
                     if (jobSelector.hasNext()) {
@@ -77,7 +77,7 @@ public class ServerThread extends Thread {
                         pickAssigner.addPicks(newJob.getAvailablePicks());
                         this.warehouse.addWorkingOnJob(newJob);
                     } else {
-                        // TODO No more jobs...do something
+                        this.warehouse.completedAllJobs();
                         return;
                     }
                 }

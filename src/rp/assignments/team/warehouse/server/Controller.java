@@ -252,4 +252,11 @@ public class Controller {
     public void removeJobFromCurrentJobsTable(Job job) {
         this.managementInterface.removeJobFromCurrentJobsTable(job);
     }
+
+    /**
+     * Announces to the user that all jobs have been completed
+     */
+    public void completedAllJobs() {
+        this.managementInterface.completedAllJobs();
+    }
 }

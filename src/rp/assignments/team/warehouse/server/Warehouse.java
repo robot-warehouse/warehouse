@@ -168,10 +168,18 @@ public class Warehouse {
     }
 
     /**
+     * Announces to the user that all jobs have been completed
+     */
+    public void completedAllJobs() {
+        this.running = false;
+        this.controller.completedAllJobs();
+    }
+
+    /**
      * Shutdown the warehouse. Lights off!
      */
     public void shutdown() {
         this.running = false;
-        System.exit(1);
+        System.exit(1); // bit iffy but sure
     }
 }
