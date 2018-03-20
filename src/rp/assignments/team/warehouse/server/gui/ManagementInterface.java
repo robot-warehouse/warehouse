@@ -186,8 +186,8 @@ public class ManagementInterface {
 		// endregion
 
 		// region MiddlePane
-		JLabel lblLoadedJobs = new JLabel("Loaded Files");
-		lblLoadedJobs.setBounds(232, 63, 80, 18);
+		JLabel lblLoadedJobs = new JLabel("Loaded Jobs");
+		lblLoadedJobs.setBounds(229, 63, 101, 18);
 		this.frame.getContentPane().add(lblLoadedJobs);
 
 		this.tblLoadedJobs = new JTable(new JobTableModel());
@@ -255,14 +255,14 @@ public class ManagementInterface {
 		this.frame.getContentPane().add(this.tblOnlineRobots);
 
 		JLabel lblCurrentJobs = new JLabel("Completed Jobs");
-		lblCurrentJobs.setBounds(425, 311, LABEL_WIDTH, LABEL_HEIGHT);
+		lblCurrentJobs.setBounds(425, 308, LABEL_WIDTH, LABEL_HEIGHT);
 		this.frame.getContentPane().add(lblCurrentJobs);
 
 		this.tblCurrentJobs = new JTable(new JobTableModel());
 		this.tblCurrentJobs.setBounds(425, 178, 345, 85);
 		this.frame.getContentPane().add(this.tblCurrentJobs);
 
-		JButton btnCancelJob = new JButton("Cancel a Job");
+		JButton btnCancelJob = new JButton("Cancel Job");
 		btnCancelJob.addActionListener(event -> {
 			if (tblCurrentJobs.getSelectionModel().isSelectionEmpty()) {
 				JOptionPane.showMessageDialog(this.frame, "Please select a job to cancel");
@@ -272,7 +272,7 @@ public class ManagementInterface {
 				this.controller.cancelJob(job);
 			}
 		});
-		btnCancelJob.setBounds(533, 276, 140, 25);
+		btnCancelJob.setBounds(530, 276, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
 		this.frame.getContentPane().add(btnCancelJob);
 		// endregion
 
