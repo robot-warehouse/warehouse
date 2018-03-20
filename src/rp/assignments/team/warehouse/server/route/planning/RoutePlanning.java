@@ -38,7 +38,7 @@ public class RoutePlanning {
                 return Windowed.findPath(currentRoutes.get(0), start, goal,
                                           obstacles);
             case 2:
-                return Windowed.findPath(currentRoutes.get(0), start, goal, obstacles);
+                return Windowed.findPath(currentRoutes.get(0), currentRoutes.get(1), start, goal, obstacles);
         }
 
         return null;
