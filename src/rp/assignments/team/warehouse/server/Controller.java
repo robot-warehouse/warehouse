@@ -167,19 +167,13 @@ public class Controller {
      *
      * @param robotName The name of the robot to remove.
      */
-    public void disconnectRobot(String robotName) {
+    public void disconnectRobot(Robot robot) {
         // TODO we need to safely disconnect the robot, preserving it's current job/pick if it had one and remove it from the warehouse list
 
-        Optional<Robot> optionalRobot = this.warehouse.getRobots().stream().filter(r -> r.getName().equals(robotName)).findFirst();
+        robot.disconnect();
 
-        if (optionalRobot.isPresent()) {
-            Robot robot = optionalRobot.get();
-
-            robot.disconnect();
-
-            if (!robot.isConnected()) {
-                this.managementInterface.removeRobotFromTable();
-            }
+        if (!robot.isConnected()) {
+            this.managementInterface.removeRobotFromTable();
         }
     }
 
