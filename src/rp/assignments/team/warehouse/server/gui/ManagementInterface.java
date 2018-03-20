@@ -340,7 +340,7 @@ public class ManagementInterface {
      *
      * @param robot The robot to add to the table
      */
-    public void addRobotToTable(Robot robot) {        
+    public void addRobotToOnlineRobotsTable(Robot robot) {
         RobotTableModel model = (RobotTableModel) this.tblOnlineRobots.getModel();
         model.addRow(robot);
     }
@@ -357,7 +357,7 @@ public class ManagementInterface {
     /**
      * Remove the selected robot from the robot table in the GUI.
      */
-    public void removeRobotFromTable(Robot robot) {
+    public void removeRobotFromOnlineRobotsTable(Robot robot) {
         RobotTableModel model = (RobotTableModel) this.tblOnlineRobots.getModel();
         model.removeRow(robot);
     }

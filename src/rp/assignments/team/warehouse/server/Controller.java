@@ -155,7 +155,7 @@ public class Controller {
 
     	if (robot.connect()) {
     		this.warehouse.addRobot(robot);
-    		this.managementInterface.addRobotToTable(robot);
+    		this.managementInterface.addRobotToOnlineRobotsTable(robot);
     		return true;
     	}
 
@@ -173,7 +173,7 @@ public class Controller {
         robot.disconnect();
 
         if (!robot.isConnected()) {
-            this.managementInterface.removeRobotFromTable();
+            this.managementInterface.removeRobotFromOnlineRobotsTable(robot);
         }
     }
 
@@ -230,14 +230,7 @@ public class Controller {
      * @param robot The robot to add to the table.
      */
     public void addRobotToCurrentRobotTable(Robot robot) {
-        this.managementInterface.addRobotToTable(robot);
-    }
-
-    /**
-     * Remove the selected robot from the robot table in the GUI.
-     */
-    public void removeRobotFromCurrentRobotTable() {
-        this.managementInterface.removeRobotFromTable();
+        this.managementInterface.addRobotToOnlineRobotsTable(robot);
     }
 
     /**
