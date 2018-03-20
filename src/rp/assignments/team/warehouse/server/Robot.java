@@ -89,8 +89,8 @@ public class Robot implements Picker, Bidder {
 
     @Override
     public boolean isAvailable(Pick pick) {
-        return (this.currentPicks.size() == 0 || this.currentPicks.stream().anyMatch(
-            p -> p.isSameJobAndItem(pick))) && this.getCurrentWeight() < MAX_WEIGHT;
+        return (this.currentPicks.size() == 0 || this.currentPicks.stream().anyMatch(p -> p.isSameJobAndItem(pick)))
+                && this.getCurrentWeight() < MAX_WEIGHT;
     }
 
     @Override
@@ -346,7 +346,7 @@ public class Robot implements Picker, Bidder {
      */
     public void jobCancelled(Job job) {
         // Drop any picks for the cancelled job
-        boolean hadPicks = this.currentPicks.removeIf(p -> p.getJob().equals(job));
+        boolean hadPicks = this.dropPicksForJob(job);;
 
         if (hadPicks) {
             this.isJobCancelled = true;
@@ -357,6 +357,40 @@ public class Robot implements Picker, Bidder {
      * Clears the current pick so that a new one can be picked up
      */
     public void clearCurrentPicks() {
-        this.currentPicks = new HashSet<>();
+        this.currentPicks.removeIf(p -> true);
     }
+
+    /**
+     * Drop & unassign all picks currently held.
+     *
+     * @return True if any pick was unassigned.
+     */
+    public boolean dropPicks() {
+        this.currentPicks.stream()
+            .filter(p -> p.isPicked())
+            .forEach(p -> p.setDropped());
+        return this.currentPicks.removeIf(p -> true);
+    }
+
+    /**
+     * Drop & unassgign any picks for the specified job.
+     *
+     * @param job Picks which belong to this job will be dropped.
+     * @return True if any pick was unassigned.
+     */
+    public boolean dropPicksForJob(Job job) {
+        this.currentPicks.stream()
+            .filter(p -> p.isPicked() && p.getJob().equals(job))
+            .forEach(p -> p.setDropped());
+        return this.currentPicks.removeIf(p -> p.getJob().equals(job));
+    }
+
+    /**
+     * Clean up the robot object when removed from the warehouse.
+     */
+    public void removeFromWarehouse() {
+        this.dropPicks();
+        this.disconnect();
+    }
+
 }

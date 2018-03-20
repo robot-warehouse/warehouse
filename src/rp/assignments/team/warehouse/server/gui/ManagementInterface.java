@@ -1,11 +1,18 @@
 package rp.assignments.team.warehouse.server.gui;
 
-import java.awt.*;
+import java.awt.Font;
 import java.io.File;
 import java.util.Set;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.WindowConstants;
 
 import rp.assignments.team.warehouse.server.Controller;
 import rp.assignments.team.warehouse.server.Location;
@@ -76,7 +83,11 @@ public class ManagementInterface {
 
     // test method for gui
     public static void main(String[] args) {
-        new ManagementInterface(new Controller(new Warehouse()));
+        Controller controller = new Controller(new Warehouse());
+
+        ManagementInterface managementInterface = new ManagementInterface(controller);
+
+        controller.setManagementInterface(managementInterface);
     }
 
     /**
@@ -179,8 +190,8 @@ public class ManagementInterface {
         // endregion
 
         // region MiddlePane
-        JLabel lblLoadedJobs = new JLabel("Loaded Files");
-        lblLoadedJobs.setBounds(232, 63, 80, 18);
+        JLabel lblLoadedJobs = new JLabel("Loaded Jobs");
+        lblLoadedJobs.setBounds(229, 63, 101, 18);
         this.frame.getContentPane().add(lblLoadedJobs);
 
         this.tblLoadedJobs = new JTable(new JobTableModel());
@@ -189,54 +200,34 @@ public class ManagementInterface {
         // endregion
 
         // region RightPane
-        JButton btnConnectRobot = new JButton("Connect Robot");
-        btnConnectRobot.addActionListener(event -> {
+        JButton btnAddRobot = new JButton("Add Robot");
+        btnAddRobot.addActionListener(event -> {
             RobotInfo[] offlineRobots = this.controller.getOfflineRobots().toArray(new RobotInfo[0]);
             if (offlineRobots.length == 0) {
-                JOptionPane.showMessageDialog(this.frame, "We've run out of robots to connect to!");
+                JOptionPane.showMessageDialog(this.frame, "We've run out of robots to add!");
             } else {
-                RobotInfo robotInfo = (RobotInfo) JOptionPane.showInputDialog(
-                    this.frame,
-                    "Select a robot to connect to",
-                    "Connect Robot",
-                    JOptionPane.PLAIN_MESSAGE,
-                    new ImageIcon(),
-                    offlineRobots,
-                    offlineRobots[0]);
+                RobotInfo robotInfo = (RobotInfo) JOptionPane.showInputDialog(this.frame,
+                        "Select a robot to add", "Add Robot", JOptionPane.PLAIN_MESSAGE, new ImageIcon(),
+                        offlineRobots, offlineRobots[0]);
 
                 if (robotInfo != null) {
-                    Integer x = (Integer) JOptionPane.showInputDialog(
-                        this.frame,
-                        "Select x start position",
-                        "Select x",
-                        JOptionPane.PLAIN_MESSAGE,
-                        new ImageIcon(),
-                        getOrderedIntArray(Location.MIN_X, Location.MAX_X),
-                        Location.MIN_X);
+                    Integer x = (Integer) JOptionPane.showInputDialog(this.frame, "Select x start position", "Select x",
+                            JOptionPane.PLAIN_MESSAGE, new ImageIcon(),
+                            getOrderedIntArray(Location.MIN_X, Location.MAX_X), Location.MIN_X);
 
                     if (x != null) {
-                        Integer y = (Integer) JOptionPane.showInputDialog(
-                            this.frame,
-                            "Select y start position",
-                            "Select y",
-                            JOptionPane.PLAIN_MESSAGE,
-                            new ImageIcon(),
-                            getOrderedIntArray(Location.MIN_Y, Location.MAX_Y),
-                            Location.MIN_Y);
+                        Integer y = (Integer) JOptionPane.showInputDialog(this.frame, "Select y start position",
+                                "Select y", JOptionPane.PLAIN_MESSAGE, new ImageIcon(),
+                                getOrderedIntArray(Location.MIN_Y, Location.MAX_Y), Location.MIN_Y);
 
                         if (y != null) {
-                            Facing facingDirection = (Facing) JOptionPane.showInputDialog(
-                                this.frame,
-                                "Select facing direction",
-                                "Select facing",
-                                JOptionPane.PLAIN_MESSAGE,
-                                new ImageIcon(),
-                                Facing.values(),
-                                Facing.NORTH);
+                            Facing facingDirection = (Facing) JOptionPane.showInputDialog(this.frame,
+                                    "Select facing direction", "Select facing", JOptionPane.PLAIN_MESSAGE,
+                                    new ImageIcon(), Facing.values(), Facing.NORTH);
 
                             if (facingDirection != null) {
-                                if (!this.controller.connectRobot(robotInfo, new Location(x, y), facingDirection)) {
-                                    JOptionPane.showMessageDialog(this.frame, "Failed to connect to robot.");
+                                if (!this.controller.addRobot(robotInfo, new Location(x, y), facingDirection)) {
+                                    JOptionPane.showMessageDialog(this.frame, "Failed to add robot.");
                                 }
                             }
                         }
@@ -244,20 +235,20 @@ public class ManagementInterface {
                 }
             }
         });
-        btnConnectRobot.setBounds(458, 114, 132, 25);
-        this.frame.getContentPane().add(btnConnectRobot);
+        btnAddRobot.setBounds(458, 114, 132, 25);
+        this.frame.getContentPane().add(btnAddRobot);
 
-        JButton btnDisconnectRobot = new JButton("Disconnect Robot");
-        btnDisconnectRobot.addActionListener(event -> {
+        JButton btnRemoveRobot = new JButton("Remove Robot");
+        btnRemoveRobot.addActionListener(event -> {
             if (this.tblOnlineRobots.getSelectionModel().isSelectionEmpty()) {
-                JOptionPane.showMessageDialog(this.frame, "Please select a robot to disconnect");
+                JOptionPane.showMessageDialog(this.frame, "Please select a robot to remove");
             } else {
-                this.controller.disconnectRobot(
-                    ((RobotTableModel) this.tblOnlineRobots.getModel()).getRow(this.tblOnlineRobots.getSelectedRow()));
+                this.controller.removeRobot(((RobotTableModel) this.tblOnlineRobots.getModel())
+                        .getRow(this.tblOnlineRobots.getSelectedRow()));
             }
         });
-        btnDisconnectRobot.setBounds(602, 114, 140, 25);
-        this.frame.getContentPane().add(btnDisconnectRobot);
+        btnRemoveRobot.setBounds(602, 114, 140, 25);
+        this.frame.getContentPane().add(btnRemoveRobot);
 
         JLabel lblOnlineRobots = new JLabel("Online Robots");
         lblOnlineRobots.setBounds(425, 0, LABEL_WIDTH, LABEL_HEIGHT);
@@ -268,11 +259,11 @@ public class ManagementInterface {
         this.frame.getContentPane().add(this.tblOnlineRobots);
 
         JLabel lblCurrentJobs = new JLabel("Completed Jobs");
-        lblCurrentJobs.setBounds(425, 286, LABEL_WIDTH, LABEL_HEIGHT);
+        lblCurrentJobs.setBounds(425, 308, LABEL_WIDTH, LABEL_HEIGHT);
         this.frame.getContentPane().add(lblCurrentJobs);
 
         this.tblCurrentJobs = new JTable(new JobTableModel());
-        this.tblCurrentJobs.setBounds(425, 178, 345, 96);
+        this.tblCurrentJobs.setBounds(425, 178, 345, 85);
         this.frame.getContentPane().add(this.tblCurrentJobs);
 
         JButton btnCancelJob = new JButton("Cancel Job");
@@ -285,7 +276,7 @@ public class ManagementInterface {
                 this.controller.cancelJob(job);
             }
         });
-        btnCancelJob.setBounds(458, 432, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+        btnCancelJob.setBounds(530, 276, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
         this.frame.getContentPane().add(btnCancelJob);
         // endregion
 
@@ -297,11 +288,8 @@ public class ManagementInterface {
 
         JButton btnShutdown = new JButton("Shutdown");
         btnShutdown.addActionListener(event -> {
-            if (JOptionPane.showConfirmDialog(
-                    this.frame,
-                    "Are you sure you want to shutdown and exit the program?",
-                    "Confirm Shutdown",
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+            if (JOptionPane.showConfirmDialog(this.frame, "Are you sure you want to shutdown and exit the program?",
+                    "Confirm Shutdown", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
                 this.controller.shutdown();
             }
         });
@@ -313,20 +301,20 @@ public class ManagementInterface {
         frame.getContentPane().add(separator);
 
         tblCompletedJobs = new JTable(null);
-        tblCompletedJobs.setBounds(425, 323, 216, 96);
+        tblCompletedJobs.setBounds(425, 346, 345, 77);
         frame.getContentPane().add(tblCompletedJobs);
 
         JLabel lblNewLabel = new JLabel("Current Jobs");
         lblNewLabel.setBounds(425, 138, 155, 40);
         frame.getContentPane().add(lblNewLabel);
 
-        JLabel lblTotalScore = new JLabel("Total Score");
-        lblTotalScore.setBounds(663, 294, 96, 25);
+        JLabel lblTotalScore = new JLabel("Grand Total Score");
+        lblTotalScore.setBounds(156, 375, 113, 25);
         frame.getContentPane().add(lblTotalScore);
 
         this.lblTotalScore = new JLabel("0");
         this.lblTotalScore.setHorizontalAlignment(JLabel.CENTER);
-        this.lblTotalScore.setBounds(666, 323, 104, 96);
+        this.lblTotalScore.setBounds(141, 397, 122, 60);
         frame.getContentPane().add(this.lblTotalScore);
         // endregion
 
@@ -340,7 +328,7 @@ public class ManagementInterface {
      *
      * @param robot The robot to add to the table
      */
-    public void addRobotToTable(Robot robot) {        
+    public void addRobotToOnlineRobotsTable(Robot robot) {
         RobotTableModel model = (RobotTableModel) this.tblOnlineRobots.getModel();
         model.addRow(robot);
     }
@@ -351,17 +339,17 @@ public class ManagementInterface {
      * @param robot The robot to update
      */
     public void updateRobotInRobotTable(Robot robot) {
-        // TODO maybe we don't need this 
+        // TODO maybe we don't need this
     }
 
     /**
      * Remove the selected robot from the robot table in the GUI.
      */
-    public void removeRobotFromTable(Robot robot) {
+    public void removeRobotFromOnlineRobotsTable(Robot robot) {
         RobotTableModel model = (RobotTableModel) this.tblOnlineRobots.getModel();
         model.removeRow(robot);
     }
-    
+
     /**
      * Adds a list of jobs to the loaded jobs table
      *
@@ -369,7 +357,11 @@ public class ManagementInterface {
      */
     public void addJobsToLoadedJobsTable(Set<Job> jobs) {
         JobTableModel model = (JobTableModel) this.tblLoadedJobs.getModel();
-        jobs.forEach(job -> model.addRow(job));
+        jobs.forEach(job -> {
+            if (job != null) {
+                model.addRow(job);
+            }
+        });
     }
 
     /**
@@ -423,7 +415,8 @@ public class ManagementInterface {
     // endregion
 
     /**
-     * Makes array consisting of numbers ascending from minValue to maxValue (e.g. [0, 1, 2, 3, 4])
+     * Makes array consisting of numbers ascending from minValue to maxValue (e.g.
+     * [0, 1, 2, 3, 4])
      *
      * @param minValue Value to start array from
      * @param maxValue Value to end array at

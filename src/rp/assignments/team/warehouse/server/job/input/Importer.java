@@ -118,7 +118,7 @@ public class Importer {
             if (!this.locations.containsKey(id)) {
                 this.locations.put(id, l);
             } else {
-               logger.info("locations file referenced item id {} in a new location ({}, {})", id, x, y);
+                logger.info("locations file referenced item id {} in a new location ({}, {})", id, x, y);
             }
         }
     }
@@ -249,8 +249,8 @@ public class Importer {
     }
 
     public boolean isDoneParsing() {
-		return this.doneParsing;
-	}
+        return this.doneParsing;
+    }
 
     public Set<Job> getJobs() throws ImportNotFinishedException {
         if (!this.doneParsing) {

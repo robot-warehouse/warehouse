@@ -24,7 +24,7 @@ public class Warehouse {
 
     /** Instance of the controller class */
     private Controller controller;
-    
+
     /** List of drop locations */
     private List<Location> dropLocations;
 
@@ -58,8 +58,8 @@ public class Warehouse {
      * @param job The job which is now being worked on.
      */
     public void addWorkingOnJob(Job job) {
-    	this.workingOnJobs.add(job);
-    	this.controller.addJobToCurrentJobsTable(job);
+        this.workingOnJobs.add(job);
+        this.controller.addJobToCurrentJobsTable(job);
     }
 
     /**
@@ -122,9 +122,7 @@ public class Warehouse {
      * @return Set of online robots' RobotInfo.
      */
     public Set<RobotInfo> getOnlineRobots() {
-        return this.getRobots().stream()
-                .map(Robot::getRobotInfo)
-                .collect(Collectors.toSet());
+        return this.getRobots().stream().map(Robot::getRobotInfo).collect(Collectors.toSet());
     }
 
     /**
@@ -135,9 +133,7 @@ public class Warehouse {
     public Set<RobotInfo> getOfflineRobots() {
         Set<RobotInfo> onlineRobots = this.getOnlineRobots();
 
-        return Arrays.stream(this.getKnownRobots())
-                .filter(r -> !onlineRobots.contains(r))
-                .collect(Collectors.toSet());
+        return Arrays.stream(this.getKnownRobots()).filter(r -> !onlineRobots.contains(r)).collect(Collectors.toSet());
     }
 
     /**
@@ -148,7 +144,7 @@ public class Warehouse {
     public Map<String, Location> getRobotLocations() {
         return robots.stream().collect(Collectors.toMap(Robot::getName, Robot::getCurrentLocation));
     }
-    
+
     /**
      * Get list of drop locations.
      *
@@ -158,8 +154,17 @@ public class Warehouse {
         if (this.dropLocations == null) {
             this.dropLocations = new ArrayList<>(this.controller.getDropLocations());
         }
-        
+
         return this.dropLocations;
+    }
+
+    /**
+     * Remove a robot from the warehouse.
+     *
+     * @param robot The robot to remove.
+     */
+    public void removeRobot(Robot robot) {
+        this.robots.remove(robot);
     }
 
     /**
@@ -167,5 +172,6 @@ public class Warehouse {
      */
     public void shutdown() {
         this.running = false;
+        System.exit(1);
     }
 }

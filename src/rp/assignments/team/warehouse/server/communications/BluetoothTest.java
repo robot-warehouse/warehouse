@@ -13,6 +13,7 @@ import rp.assignments.team.warehouse.shared.Instruction;
 
 public class BluetoothTest {
 
+
 	public static void main(String[] args) {
 		CommunicationsManager manager = new CommunicationsManager(
 				new Robot(RobotInfo.TRIHARD, new Location(0, 0), Facing.EAST));
@@ -33,5 +34,6 @@ public class BluetoothTest {
 		}
 
 	}
+
 
 }

@@ -12,13 +12,13 @@ public class ServerThread extends Thread {
 
     /** The Warehouse. */
     private Warehouse warehouse;
-    
+
     /** The job selector */
     private IJobSelector jobSelector;
-    
+
     /** The pick assigner */
     private IPickAssigner pickAssigner;
-    
+
     /** The index of the next drop location */
     private int dropIndex = 0;
 
@@ -53,7 +53,7 @@ public class ServerThread extends Thread {
         // return getWorkingOnJobs().stream()
         //     .anyMatch(j -> j.hasAvailablePicks());
     }
-    
+
     private Location getNextDropLocation() {
         List<Location> dropLocations = this.warehouse.getDropLocations();
 

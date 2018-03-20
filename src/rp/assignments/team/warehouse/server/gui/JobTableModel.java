@@ -87,17 +87,17 @@ public class JobTableModel extends AbstractTableModel implements TableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 
     }
-    
+
     public void addRow(Job job) {
         this.jobs.add(job);
         int index = this.jobs.indexOf(job);
         this.fireTableRowsInserted(index, index);
     }
-    
+
     public Job getRow(int rowIndex) {
         return this.jobs.get(rowIndex);
     }
-    
+
     public void removeRow(Job job) {
         int index = this.jobs.indexOf(job);
         this.jobs.remove(job);

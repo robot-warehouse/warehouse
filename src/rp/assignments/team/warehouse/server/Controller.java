@@ -13,33 +13,36 @@ import rp.assignments.team.warehouse.shared.Facing;
 
 public class Controller {
 
-    /** Can the application be started? Set to true when all inputs have been dealt with. */
+    /**
+     * Can the application be started? Set to true when all inputs have been
+     * dealt with.
+     */
     private boolean startable;
 
     /** The Warehouse. */
     private Warehouse warehouse;
-    
+
     /** The management interface GUI. */
     private ManagementInterface managementInterface;
 
     /** The file to import the jobs from. */
     private File jobsFile;
-    
+
     /** The file to import the cancellation history from. */
     private File cancellationsFile;
-    
+
     /** The file to import the item locations from. */
     private File locationsFile;
-    
+
     /** The file to import the items from. */
     private File itemsFile;
-    
+
     /** The file to import the drop locations from. */
     private File dropsFile;
 
     /** Set of all imported jobs. */
     private Set<Job> jobs;
-    
+
     /** Set of all imported drop location */
     private Set<Location> dropLocations;
 
@@ -122,7 +125,7 @@ public class Controller {
 
         this.jobs = importer.getJobs();
         this.dropLocations = importer.getDrops();
-        
+
         this.managementInterface.addJobsToLoadedJobsTable(jobs);
 
         this.startable = true;
@@ -137,8 +140,7 @@ public class Controller {
 
             jobSelector = new PriorityJobSelector(jobs);
 
-            Thread server = new ServerThread(this.warehouse, jobSelector);
-            server.start();
+            (new ServerThread(this.warehouse, jobSelector)).start();
         }
     }
 
@@ -150,30 +152,29 @@ public class Controller {
      * @param currentFacingDirection The robot's starting direction.
      * @return True if successfully connected & added.
      */
-    public boolean connectRobot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
-    	Robot robot = new Robot(robotInfo, currentLocation, currentFacingDirection);
+    public boolean addRobot(RobotInfo robotInfo, Location currentLocation, Facing currentFacingDirection) {
+        Robot robot = new Robot(robotInfo, currentLocation, currentFacingDirection);
 
-    	if (robot.connect()) {
-    		this.warehouse.addRobot(robot);
-    		this.managementInterface.addRobotToTable(robot);
-    		return true;
-    	}
+        if (robot.connect()) {
+            this.warehouse.addRobot(robot);
+            this.managementInterface.addRobotToOnlineRobotsTable(robot);
+            return true;
+        }
 
-    	return false;
+        return false;
     }
 
     /**
      * Remove a robot from the warehouse.
      *
-     * @param robotName The name of the robot to remove.
+     * @param robot The robot to remove.
      */
-    public void disconnectRobot(Robot robot) {
-        // TODO we need to safely disconnect the robot, preserving it's current job/pick if it had one and remove it from the warehouse list
-
-        robot.disconnect();
+    public void removeRobot(Robot robot) {
+        robot.removeFromWarehouse();
+        warehouse.removeRobot(robot);
 
         if (!robot.isConnected()) {
-            this.managementInterface.removeRobotFromTable();
+            this.managementInterface.removeRobotFromOnlineRobotsTable(robot);
         }
     }
 
@@ -183,7 +184,8 @@ public class Controller {
      * @param job The job to be cancelled.
      */
     public void cancelJob(Job job) {
-        // Remove job from the selector (may not do anything if we've already started the job)
+        // Remove job from the selector (may not do anything if we've already
+        // started the job)
         this.jobSelector.remove(job);
 
         // Notify the warehouse of the job cancellation
@@ -207,7 +209,7 @@ public class Controller {
     public Set<RobotInfo> getOfflineRobots() {
         return this.warehouse.getOfflineRobots();
     }
-    
+
     /**
      * Get the drop locations.
      *
@@ -230,14 +232,7 @@ public class Controller {
      * @param robot The robot to add to the table.
      */
     public void addRobotToCurrentRobotTable(Robot robot) {
-        this.managementInterface.addRobotToTable(robot);
-    }
-
-    /**
-     * Remove the selected robot from the robot table in the GUI.
-     */
-    public void removeRobotFromCurrentRobotTable() {
-        this.managementInterface.removeRobotFromTable();
+        this.managementInterface.addRobotToOnlineRobotsTable(robot);
     }
 
     /**

@@ -3,7 +3,7 @@ package rp.assignments.team.warehouse.server;
 import rp.assignments.team.warehouse.server.gui.ManagementInterface;
 
 public class Server {
-    
+
     /**
      * The start point of the application.
      *

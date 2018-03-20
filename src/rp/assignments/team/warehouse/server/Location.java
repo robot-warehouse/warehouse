@@ -51,7 +51,7 @@ public class Location {
     }
 
     public List<Location> getNeighbours() {
-        int[][] vectors = new int[][] { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+        int[][] vectors = new int[][] { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
         List<Location> neighbours = new ArrayList<>();
 
         for (int[] vector : vectors) {
