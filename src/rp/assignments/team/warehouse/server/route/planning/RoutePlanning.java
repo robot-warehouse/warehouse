@@ -33,12 +33,12 @@ public class RoutePlanning {
 
         switch (currentRoutes.size()) {
             case 0:
-                return AStar.findPath(start, goal, obstacles);
+                return Windowed.findPath(start, goal, obstacles);
             case 1:
-                return TwoRobots.findPath(currentRoutes.get(0).subList(2, currentRoutes.get(0).size()), start, goal,
+                return Windowed.findPath(currentRoutes.get(0), start, goal,
                                           obstacles);
             case 2:
-                return ThreeRobots.findPath(currentRoutes.get(0), currentRoutes.get(1), start, goal, obstacles);
+                return Windowed.findPath(currentRoutes.get(0), start, goal, obstacles);
         }
 
         return null;
