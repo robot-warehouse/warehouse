@@ -24,14 +24,11 @@ public class AStar {
      * @param goal The finish location.
      * @return List of the locations along the computed path.
      */
-    public static ArrayList<Location> findPath(Location start, Location goal, List<Location> extraObstacles) {
+    public static ArrayList<Location> findPath(Location start, Location goal, List<Location> obstacles) {
         logger.info("Entering the findPath method");
         List<State> open = new ArrayList<>(); // Stores nodes available for visiting.
         List<State> closed = new ArrayList<>(); // Stores already visited nodes
         
-        List<Location> obstacles = Data.getObstacles();
-        obstacles.addAll(extraObstacles);
-
         State startState = new State(start);
         State goalState = new State(goal);
 
@@ -65,7 +62,7 @@ public class AStar {
             }
 
             // Get all (at most four) neighbours of the current node.
-            ArrayList<State> neighbours = current.getNeighbours(startState, goalState);
+            List<State> neighbours = current.getNeighbours(startState, goalState);
 
             for (State neighbour : neighbours) {
                 // If any neighbour is an obstacle or if it has already been visited, move to
