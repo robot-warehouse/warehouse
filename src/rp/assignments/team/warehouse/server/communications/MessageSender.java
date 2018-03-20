@@ -10,7 +10,8 @@ import java.util.concurrent.BlockingQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import rp.assignments.team.warehouse.server.route.execution.Instruction;
+import rp.assignments.team.warehouse.shared.Facing;
+import rp.assignments.team.warehouse.shared.Instruction;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
 /**
@@ -52,7 +53,7 @@ public class MessageSender extends Thread {
     public void run() {
         while (true) {
             try {
-                Command command = commands.take();
+                Command command = this.commands.take();
                 logger.info("Received command " + command.toString());
                 switch (command) {
                     case SEND_ORDERS:
@@ -62,6 +63,8 @@ public class MessageSender extends Thread {
                         this.sendCancellation();
                         break;
                     case DISCONNECT:
+                        this.disconnect();
+                        break;
                     default:
                         logger.warn("Unrecognised command send to MessageSender");
                         break;
@@ -77,6 +80,11 @@ public class MessageSender extends Thread {
 
     }
 
+    /**
+     * Sends SEND_ORDERS command to robot
+     *
+     * @throws IOException
+     */
     public void sendOrders() throws IOException {
         // send a command to give new information
         toRobot.writeUTF(Command.SEND_ORDERS.toString());
@@ -86,28 +94,57 @@ public class MessageSender extends Thread {
         }
         for (Instruction order : orders) {
             toRobot.writeUTF(order.toString());
-            toRobot.flush();
         }
         toRobot.writeUTF("-1");
         toRobot.flush();
 
     }
 
+    /**
+     * Sends CANCEL command to robot cancelling the current job
+     *
+     * @throws IOException In case of error with connection
+     */
     public void sendCancellation() throws IOException {
         logger.info("Sending cancellation request to robot");
         toRobot.writeUTF(Command.CANCEL.toString());
         toRobot.flush();
     }
-    
+
+    /**
+     * Sends SEND_PICKS command to robot along with the number of picks
+     *
+     * @param picks The number of items to pickup
+     * @throws IOException In case of error with connection
+     */
     public void sendNumberOfPicks(int picks) throws IOException {
-    	toRobot.writeUTF(Command.SEND_PICKS.toString());
-    	toRobot.writeUTF(Integer.toString(picks));
+        toRobot.writeUTF(Command.SEND_PICKS.toString());
+        toRobot.writeUTF(Integer.toString(picks));
+        toRobot.flush();
+    }
+    
+    public void sendLocation(int x, int y) throws IOException {
+    	toRobot.writeUTF(Command.SEND_POSITION.toString());
+    	toRobot.writeUTF(Integer.toString(x));
+    	toRobot.writeUTF(Integer.toString(y));
     	toRobot.flush();
     }
     
-    public void disconnect() throws IOException {
-    	toRobot.writeUTF(Command.DISCONNECT.toString());
+    public void sendFacing(Facing facing) throws IOException{
+    	toRobot.writeUTF(Command.SEND_FACING.toString());
+    	toRobot.writeUTF(facing.toString());
+    	System.out.println("Sent " + facing.toString());
     	toRobot.flush();
+    }
+
+    /**
+     * Sends DISCONNECT command to robot
+     *
+     * @throws IOException In case of error with connection
+     */
+    public void disconnect() throws IOException {
+        toRobot.writeUTF(Command.DISCONNECT.toString());
+        toRobot.flush();
     }
 
 }

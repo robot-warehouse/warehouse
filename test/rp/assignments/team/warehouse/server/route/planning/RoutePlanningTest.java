@@ -1,37 +1,22 @@
 package rp.assignments.team.warehouse.server.route.planning;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import rp.assignments.team.warehouse.server.Location;
 
 public class RoutePlanningTest {
 
-    private static boolean assertionStatus;
-
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        assertionStatus = Location.class.desiredAssertionStatus();
-        Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), false);
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() {
-        Location.class.getClassLoader().setClassAssertionStatus(Location.class.getName(), assertionStatus);
-    }
-
     @Test
     public void simpleHorizontalTest() {
         // rudimentary horizontal tests.
-        ArrayList<Location> result1;
         Location start1 = new Location(0, 0);
         Location goal1 = new Location(5, 0);
-        result1 = AStar.findPath(start1, goal1);
-        ArrayList<Location> expected1 = new ArrayList<Location>() {
+        List<Location> result1 = AStar.findPath(start1, goal1);
+        List<State> expected1 = new ArrayList<State>() {
             {
                 add(new State(0, 0));
                 add(new State(1, 0));
@@ -47,10 +32,9 @@ public class RoutePlanningTest {
     @Test
     public void simpleVerticalTest() {
         // rudimentary vertical tests.
-        ArrayList<Location> result2;
         Location start2 = new Location(0, 0);
         Location goal2 = new Location(0, 5);
-        result2 = AStar.findPath(start2, goal2);
+        List<Location> result2 = AStar.findPath(start2, goal2);
         ArrayList<Location> expected2 = new ArrayList<Location>() {
             {
                 add(new State(0, 0));
@@ -64,37 +48,21 @@ public class RoutePlanningTest {
         Assert.assertEquals(expected2, result2);
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void startPosValidationTest() {
-        Location start3 = new Location(-1, 0);
-        Location goal3 = new Location(0, 5);
-        AStar.findPath(start3, goal3);
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void goalPosValidationTest() {
-        Location start4 = new Location(0, 5);
-        Location goal4 = new Location(-1, 0);
-        AStar.findPath(start4, goal4);
-    }
-
     @Test
     public void startPosIsObstacleTest() {
         // check if an obstacle is rejected as starting position
-        ArrayList<Location> result5;
         Location start5 = new Location(1, 2);
         Location goal5 = new Location(0, 5);
-        result5 = AStar.findPath(start5, goal5);
+        List<Location> result5 = AStar.findPath(start5, goal5);
         Assert.assertNull(result5);
     }
 
     @Test
     public void goalPosIsObstacleTest() {
         // check if an obstacle is rejected as goal position
-        ArrayList<Location> result6;
         Location start6 = new Location(0, 0);
         Location goal6 = new Location(1, 2);
-        result6 = AStar.findPath(start6, goal6);
+        List<Location> result6 = AStar.findPath(start6, goal6);
         Assert.assertNull(result6);
     }
 }

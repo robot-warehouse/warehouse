@@ -12,8 +12,8 @@ import rp.assignments.team.warehouse.server.Location;
 public class AStar {
 
     private final static Logger logger = LogManager.getLogger(AStar.class);
-    
-    public static ArrayList<Location> findPath(Location start, Location goal) {
+
+    public static List<Location> findPath(Location start, Location goal) {
         return findPath(start, goal, new ArrayList<>());
     }
 
@@ -24,11 +24,11 @@ public class AStar {
      * @param goal The finish location.
      * @return List of the locations along the computed path.
      */
-    public static ArrayList<Location> findPath(Location start, Location goal, List<Location> obstacles) {
+    public static List<Location> findPath(Location start, Location goal, List<Location> obstacles) {
         logger.info("Entering the findPath method");
         List<State> open = new ArrayList<>(); // Stores nodes available for visiting.
         List<State> closed = new ArrayList<>(); // Stores already visited nodes
-        
+
         State startState = new State(start);
         State goalState = new State(goal);
 
@@ -40,7 +40,7 @@ public class AStar {
         
         if (obstacles.contains(startState) || obstacles.contains(goalState)) {
             logger.error("Obstacle located in start/goal node passed to findPath");
-        	return null;
+            return null;
         }
 
         while (true) {
@@ -120,8 +120,8 @@ public class AStar {
      * @param start The starting node.
      * @return The path to the goal node
      */
-    private static ArrayList<Location> getPath(State current, State start) {
-        ArrayList<Location> path = new ArrayList<>();
+    private static List<Location> getPath(State current, State start) {
+        List<Location> path = new ArrayList<>();
         State node = current;
         path.add(current);
         while (!node.equals(start)) {

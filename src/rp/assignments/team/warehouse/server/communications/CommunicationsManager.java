@@ -13,10 +13,9 @@ import lejos.pc.comm.NXTInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import rp.assignments.team.warehouse.server.Location;
-import rp.assignments.team.warehouse.server.RobotInfo;
-import rp.assignments.team.warehouse.server.route.execution.Instruction;
-import rp.assignments.team.warehouse.server.route.planning.State;
+import rp.assignments.team.warehouse.server.Robot;
+import rp.assignments.team.warehouse.shared.Facing;
+import rp.assignments.team.warehouse.shared.Instruction;
 import rp.assignments.team.warehouse.shared.communications.Command;
 
 /**
@@ -26,36 +25,42 @@ public class CommunicationsManager {
 
     private final static Logger logger = LogManager.getLogger(CommunicationsManager.class);
 
-    private NXTInfo nxtInf;
-    private NXTComm communicator;
-    private BlockingQueue<Command> commands;
     private MessageSender sender;
     private MessageReceiver receiver;
+    private Robot robot;
+
+    private NXTInfo nxtInf;
+    private NXTComm communicator;
+
+    private BlockingQueue<Command> commands;
+
     private boolean connected;
 
     /**
      * Constructs a new instance of CommunicationsManager with the given robot
      * name/address.
      *
-     * @param robotInfo The robot's information.
+     * @param robot The robot the communications manager is connecting to
      */
-    public CommunicationsManager(RobotInfo robotInfo) {
-        assert robotInfo != null;
-
-        String name = robotInfo.getName();
-        String address = robotInfo.getAddress();
+    public CommunicationsManager(Robot robot) {
+        String name = robot.getRobotInfo().getName();
+        String address = robot.getRobotInfo().getAddress();
 
         logger.info("Initialising communications with " + name + " address " + address + ".");
         this.nxtInf = new NXTInfo(NXTCommFactory.BLUETOOTH, name, address);
+        this.robot = robot;
+
         try {
-            connected = false;
+            this.connected = false;
             this.communicator = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
+
             if (communicator.open(nxtInf)) {
-                logger.info("Connected to robot " + nxtInf.name);
-                commands = new LinkedBlockingQueue<>();
-                sender = new MessageSender(communicator.getOutputStream(), commands);
-                receiver = new MessageReceiver(communicator.getInputStream());
-                connected = true;
+                this.commands = new LinkedBlockingQueue<>();
+                this.sender = new MessageSender(this.communicator.getOutputStream(), this.commands);
+                this.receiver = new MessageReceiver(this.communicator.getInputStream(), robot);
+                this.connected = true;
+
+                logger.info("Connected to robot " + this.nxtInf.name);
             }
         } catch (NXTCommException e) {
             logger.fatal("Could not connect to robot");
@@ -69,21 +74,7 @@ public class CommunicationsManager {
      */
     public boolean isConnected() {
         // should be called to check whether server is working before this class is used
-        return connected;
-    }
-
-    /**
-     * Gets the state of the robot. Returns null if the robot has not given it's
-     * position yet.
-     * 
-     * @return The last position of the robot or null if unknown.
-     */
-    public Location getRobotLocation() {
-        return receiver.getLatestPosition();
-    }
-
-    public boolean getFinished() {
-        return receiver.getFinished();
+        return this.connected;
     }
 
     /**
@@ -98,7 +89,6 @@ public class CommunicationsManager {
      * Disconnect from the robot.
      */
     public void stopServer() {
-        // TODO send shutdown command to robot
         commands.offer(Command.DISCONNECT);
         try {
             receiver.join();
@@ -110,7 +100,6 @@ public class CommunicationsManager {
             logger.error("Error disconnecting the server");
         }
         connected = false;
-        // TODO close sender and receiver threads
     }
 
     /**
@@ -119,8 +108,8 @@ public class CommunicationsManager {
     public void reconnect() {
         try {
             if (communicator.open(nxtInf)) {
-                receiver = new MessageReceiver(communicator.getInputStream());
-                sender = new MessageSender(communicator.getOutputStream(), commands);
+                receiver = new MessageReceiver(communicator.getInputStream(), this.robot);
+                sender = new MessageSender(communicator.getOutputStream(), this.commands);
                 logger.info("Reconnected with " + nxtInf.name);
             }
         } catch (NXTCommException e) {
@@ -131,20 +120,36 @@ public class CommunicationsManager {
     /**
      * Send orders of where the robot should go
      *
-     * @param orders What operations the robot should perform to reach goal. See route execution
+     * @param orders What operations the robot should perform to reach goal. See
+     *            route execution
      */
     public void sendOrders(List<Instruction> orders) {
         sender.setOrders(orders);
-        receiver.setFinished(false);
         commands.offer(Command.SEND_ORDERS);
 
+    }
+    
+    public void sendPostion(int x, int y) {
+    	try {
+    		sender.sendLocation(x, y);
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	
+    }
+    
+    public void sendFacing(Facing facing) {
+    	try {
+    		sender.sendFacing(facing);
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
     }
 
     public void sendNumOfPicks(int picks) {
         try {
             sender.sendNumberOfPicks(picks);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

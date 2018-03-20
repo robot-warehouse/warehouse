@@ -1,5 +1,7 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,23 +22,21 @@ public class Warehouse {
     /** The robots in the warehouse */
     private Set<Robot> robots;
 
-    /** Any robots that aren't currently connected */
-    private RobotInfo[] offlineRobots;
-
     /** Instance of the controller class */
     private Controller controller;
+
+    /** List of drop locations */
+    private List<Location> dropLocations;
 
     public Warehouse() {
         this.running = true;
         this.robots = new HashSet<>();
         this.workingOnJobs = new HashSet<>();
-
-        this.offlineRobots = RobotInfo.values();
     }
 
     /**
      * Add the controller to the warehouse.
-     * 
+     *
      * @param controller The controller for the warehouse.
      */
     public void setController(Controller controller) {
@@ -58,8 +58,8 @@ public class Warehouse {
      * @param job The job which is now being worked on.
      */
     public void addWorkingOnJob(Job job) {
-    	this.workingOnJobs.add(job);
-    	this.controller.addJobToCurrentJobsTable(job);
+        this.workingOnJobs.add(job);
+        this.controller.addJobToCurrentJobsTable(job);
     }
 
     /**
@@ -70,8 +70,7 @@ public class Warehouse {
     public void cancelJob(Job job) {
         if (this.workingOnJobs.contains(job)) {
             // Uh-oh! Better find any affected robots...
-            robots.stream()
-                .forEach(r -> r.jobCancelled(job));
+            robots.forEach(r -> r.jobCancelled(job));
 
             this.workingOnJobs.remove(job);
         }
@@ -109,12 +108,32 @@ public class Warehouse {
     }
 
     /**
-     * Get the offline robots
+     * Get information of all known robots.
      *
-     * @return Set of robots not in the warehouse
+     * @return Set of RobotInfo for known robots.
      */
-    public RobotInfo[] getOfflineRobots() {
-        return this.offlineRobots;
+    public RobotInfo[] getKnownRobots() {
+        return RobotInfo.values();
+    }
+
+    /**
+     * Get set of online robots' RobotInfo.
+     *
+     * @return Set of online robots' RobotInfo.
+     */
+    public Set<RobotInfo> getOnlineRobots() {
+        return this.getRobots().stream().map(Robot::getRobotInfo).collect(Collectors.toSet());
+    }
+
+    /**
+     * Get set of offline robots' RobotInfo.
+     *
+     * @return Set of offline robots' RobotInfo.
+     */
+    public Set<RobotInfo> getOfflineRobots() {
+        Set<RobotInfo> onlineRobots = this.getOnlineRobots();
+
+        return Arrays.stream(this.getKnownRobots()).filter(r -> !onlineRobots.contains(r)).collect(Collectors.toSet());
     }
 
     /**
@@ -127,9 +146,40 @@ public class Warehouse {
     }
 
     /**
+     * Get list of drop locations.
+     *
+     * @return List of drop locations.
+     */
+    public List<Location> getDropLocations() {
+        if (this.dropLocations == null) {
+            this.dropLocations = new ArrayList<>(this.controller.getDropLocations());
+        }
+
+        return this.dropLocations;
+    }
+
+    /**
+     * Remove a robot from the warehouse.
+     *
+     * @param robot The robot to remove.
+     */
+    public void removeRobot(Robot robot) {
+        this.robots.remove(robot);
+    }
+
+    /**
+     * Announces to the user that all jobs have been completed
+     */
+    public void completedAllJobs() {
+        this.running = false;
+        this.controller.completedAllJobs();
+    }
+
+    /**
      * Shutdown the warehouse. Lights off!
      */
     public void shutdown() {
         this.running = false;
+        System.exit(1); // bit iffy but sure
     }
 }

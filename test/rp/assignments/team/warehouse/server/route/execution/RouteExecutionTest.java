@@ -1,15 +1,15 @@
 package rp.assignments.team.warehouse.server.route.execution;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
-import rp.assignments.team.warehouse.server.Facing;
 import rp.assignments.team.warehouse.server.Location;
-import rp.assignments.team.warehouse.server.route.execution.Instruction;
-import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
+import rp.assignments.team.warehouse.shared.Facing;
+import rp.assignments.team.warehouse.shared.Instruction;
+
+import static org.junit.Assert.assertEquals;
 
 public class RouteExecutionTest {
 
@@ -18,7 +18,7 @@ public class RouteExecutionTest {
     @Test
     public void simpleHorizontalTest() {
         // arrange
-        ArrayList<Location> testLocations = new ArrayList<Location>() {
+        List<Location> testRoute = new ArrayList<Location>() {
             {
                 add(new Location(0, 0));
                 add(new Location(1, 0));
@@ -27,15 +27,13 @@ public class RouteExecutionTest {
         };
 
         // act
-        ArrayList<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
-                testLocations);
+        List<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection, testRoute);
 
         // assert
-        ArrayList<Instruction> expected = new ArrayList<Instruction>() {
+        List<Instruction> expected = new ArrayList<Instruction>() {
             {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
-                add(Instruction.STOP);
             }
         };
 
@@ -45,7 +43,7 @@ public class RouteExecutionTest {
     @Test
     public void simpleVerticalTest() {
         // arrange
-        ArrayList<Location> testLocations = new ArrayList<Location>() {
+        List<Location> testRoute = new ArrayList<Location>() {
             {
                 add(new Location(0, 0));
                 add(new Location(0, 1));
@@ -57,18 +55,16 @@ public class RouteExecutionTest {
         };
 
         // act
-        ArrayList<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
-                testLocations);
+        List<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection, testRoute);
 
         // assert
-        ArrayList<Instruction> expected = new ArrayList<Instruction>() {
+        List<Instruction> expected = new ArrayList<Instruction>() {
             {
                 add(Instruction.LEFT);
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
-                add(Instruction.STOP);
             }
         };
 
@@ -78,7 +74,7 @@ public class RouteExecutionTest {
     @Test
     public void longerPathTest() {
         // arrange
-        ArrayList<Location> testLocations = new ArrayList<Location>() {
+        ArrayList<Location> testRoute = new ArrayList<Location>() {
             {
                 add(new Location(1, 0));
                 add(new Location(2, 0));
@@ -99,11 +95,10 @@ public class RouteExecutionTest {
         };
 
         // act
-        ArrayList<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection,
-                testLocations);
+        List<Instruction> output = RouteExecution.convertCoordinatesToInstructions(defaultFacingDirection, testRoute);
 
         // assert
-        ArrayList<Instruction> expected = new ArrayList<Instruction>() {
+        List<Instruction> expected = new ArrayList<Instruction>() {
             {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
@@ -119,7 +114,6 @@ public class RouteExecutionTest {
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
                 add(Instruction.FORWARDS);
-                add(Instruction.STOP);
             }
         };
         assertEquals(expected, output);

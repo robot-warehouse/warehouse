@@ -12,12 +12,15 @@ public class ServerThread extends Thread {
 
     /** The Warehouse. */
     private Warehouse warehouse;
-    
+
     /** The job selector */
     private IJobSelector jobSelector;
-    
+
     /** The pick assigner */
     private IPickAssigner pickAssigner;
+
+    /** The index of the next drop location */
+    private int dropIndex = 0;
 
     /**
      * @param warehouse The Warehouse.
@@ -51,18 +54,30 @@ public class ServerThread extends Thread {
         //     .anyMatch(j -> j.hasAvailablePicks());
     }
 
+    private Location getNextDropLocation() {
+        List<Location> dropLocations = this.warehouse.getDropLocations();
+
+        if (this.dropIndex >= dropLocations.size()) {
+            this.dropIndex = 0;
+        }
+
+        return dropLocations.get(dropIndex++);
+    }
+
     @Override
     public void run() {
         while (this.warehouse.isRunning()) {
-            if (this.jobSelector != null && this.jobSelector.hasNext()) { // TODO be smarter
+            if (this.jobSelector != null && this.jobSelector.hasNext()) { // TODO be smarter (what does this mean I can't remember)
                 if (getWorkingOnJobs().size() <= 0 || !jobsHaveAvailablePicks()) {
                     // TODO add another job to working on
                     if (jobSelector.hasNext()) {
                         Job newJob = this.jobSelector.next();
+                        newJob.setDropLocation(getNextDropLocation());
+
                         pickAssigner.addPicks(newJob.getAvailablePicks());
                         this.warehouse.addWorkingOnJob(newJob);
                     } else {
-                        // TODO No more jobs...do something
+                        this.warehouse.completedAllJobs();
                         return;
                     }
                 }

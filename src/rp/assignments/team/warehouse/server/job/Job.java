@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import rp.assignments.team.warehouse.server.Location;
+
 public class Job implements IIDed, IPrioritised, IRewardable {
 
     private final int id;
@@ -16,6 +18,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     private boolean previouslyCancelled;
     private List<Pick> availablePicks;
     private int completedPickCount;
+    private Location dropLocation;
 
     /**
      * @param id The job id.
@@ -23,6 +26,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
      */
     public Job(int id, List<JobItem> jobItems) {
         assert id >= 0;
+        assert jobItems != null;
 
         this.id = id;
         this.jobItems = jobItems;
@@ -116,12 +120,14 @@ public class Job implements IIDed, IPrioritised, IRewardable {
      */
     public void pickCompleted(Pick pick) {
         assert pick != null;
+        assert pick.getJob().equals(this);
         assert pick.isCompleted();
 
         if (!this.availablePicks.contains(pick)) {
             throw new IllegalArgumentException("Completed pick must belong to the job and not already be completed.");
         }
 
+        this.availablePicks.remove(pick);
         this.completedPickCount++;
     }
 
@@ -135,6 +141,15 @@ public class Job implements IIDed, IPrioritised, IRewardable {
         assert this.completedPickCount <= this.pickCount;
 
         return this.completedPickCount == this.pickCount;
+    }
+
+    /**
+     * Get the number of picks that have been completed.
+     *
+     * @return The number of picks completed.
+     */
+    public int getCompletedPickCount() {
+        return this.completedPickCount;
     }
 
     /**
@@ -209,6 +224,24 @@ public class Job implements IIDed, IPrioritised, IRewardable {
         }
 
         return picks;
+    }
+
+    /**
+     * Get the drop location for the job.
+     *
+     * @return The drop location for the job.
+     */
+    public Location getDropLocation() {
+        return this.dropLocation;
+    }
+
+    /**
+     * Set the drop location for the job.
+     *
+     * @param location The drop location for the job.
+     */
+    public void setDropLocation(Location location) {
+        this.dropLocation = location;
     }
 
     @Override

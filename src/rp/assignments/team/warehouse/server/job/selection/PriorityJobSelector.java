@@ -1,7 +1,5 @@
 package rp.assignments.team.warehouse.server.job.selection;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
@@ -17,7 +15,7 @@ public class PriorityJobSelector implements IJobSelector {
      * @param jobs A list of the jobs to be available for selection.
      */
     public PriorityJobSelector(Set<Job> jobs) {
-        Queue<Job> queue = new PriorityQueue<Job>(new CompareByPriorityComparator(false));
+        Queue<Job> queue = new PriorityQueue<>(new CompareByPriorityComparator(false));
         queue.addAll(jobs);
         this.jobs = queue;
     }
