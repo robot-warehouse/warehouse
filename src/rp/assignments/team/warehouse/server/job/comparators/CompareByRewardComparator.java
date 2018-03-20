@@ -9,7 +9,7 @@ public class CompareByRewardComparator implements Comparator<IRewardable> {
     private boolean ascending;
 
     public CompareByRewardComparator() {
-        this.ascending = true;
+        this.ascending = false;
     }
 
     public CompareByRewardComparator(boolean ascending) {

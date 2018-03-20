@@ -1,5 +1,8 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Location {
 
     /** The minimum x coordinate of the warehouse. */
@@ -21,7 +24,9 @@ public class Location {
      * @param y The y coordinate.
      */
     public Location(int x, int y) {
-        assert isValidLocation(x, y);
+        if (!isValidLocation(x, y)) {
+            throw new IllegalArgumentException("Cannot initialise Location with invalid coordinates.");
+        }
 
         this.x = x;
         this.y = y;
@@ -45,6 +50,22 @@ public class Location {
         return this.y;
     }
 
+    public List<Location> getNeighbours() {
+        int[][] vectors = new int[][] { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        List<Location> neighbours = new ArrayList<>();
+
+        for (int[] vector : vectors) {
+            int x = this.getX() + vector[0];
+            int y = this.getY() + vector[1];
+
+            if (Location.isValidLocation(x, y)) {
+                neighbours.add(new Location(x, y));
+            }
+        }
+
+        return neighbours;
+    }
+
     /**
      * Indicates if another location is equal to this one.
      *
@@ -53,6 +74,20 @@ public class Location {
      */
     public boolean equals(Location other) {
         return other != null && other.getX() == this.x && other.getY() == this.y;
+    }
+
+    /**
+     * Indicates if another location is equal to this one.
+     *
+     * @param other The location to compare with.
+     * @return True if other is the same location.
+     */
+    public boolean equals(Object other) {
+        if (other instanceof Location) {
+            return this.equals((Location) other);
+        }
+
+        return false;
     }
 
     /**

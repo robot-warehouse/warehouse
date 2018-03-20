@@ -3,14 +3,14 @@ package rp.assignments.team.warehouse.server.gui;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.table.AbstractTableModel;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import rp.assignments.team.warehouse.server.job.Job;
+import rp.assignments.team.warehouse.server.Robot;
 
-public class JobTableModel extends AbstractTableModel implements TableModel {
-    private List<Job> jobs = new LinkedList<>();
+public class RobotTableModel extends AbstractTableModel implements TableModel {
+    private List<Robot> robots = new LinkedList<>();
 
     @Override
     public void addTableModelListener(TableModelListener l) {
@@ -21,11 +21,11 @@ public class JobTableModel extends AbstractTableModel implements TableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return Integer.class;
+                return String.class;
             case 1:
-                return Integer.class;
+                return String.class;
             case 2:
-                return Float.class;
+                return String.class;
             default:
                 return null;
         }
@@ -40,24 +40,24 @@ public class JobTableModel extends AbstractTableModel implements TableModel {
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return "Job ID";
+                return "Robot Name";
             case 1:
-                return "Pick Count";
+                return "Current Location";
             case 2:
-                return "Reward";
+                return "Current Facing";
             default:
                 return null;
         }
     }
 
-    private static Object getColumnValue(Job job, int columnIndex) {
+    private static Object getColumnValue(Robot robot, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return job.getId();
+                return robot.getName();
             case 1:
-                return job.getPickCount();
+                return robot.getCurrentLocation();
             case 2:
-                return job.getReward();
+                return robot.getCurrentFacingDirection();
             default:
                 return null;
         }
@@ -65,12 +65,12 @@ public class JobTableModel extends AbstractTableModel implements TableModel {
 
     @Override
     public int getRowCount() {
-        return this.jobs.size();
+        return this.robots.size();
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return getColumnValue(this.jobs.get(rowIndex), columnIndex);
+        return getColumnValue(this.robots.get(rowIndex), columnIndex);
     }
 
     @Override
@@ -88,19 +88,19 @@ public class JobTableModel extends AbstractTableModel implements TableModel {
 
     }
 
-    public void addRow(Job job) {
-        this.jobs.add(job);
-        int index = this.jobs.indexOf(job);
+    public void addRow(Robot robot) {
+        this.robots.add(robot);
+        int index = this.robots.indexOf(robot);
         this.fireTableRowsInserted(index, index);
     }
 
-    public Job getRow(int rowIndex) {
-        return this.jobs.get(rowIndex);
+    public Robot getRow(int rowIndex) {
+        return this.robots.get(rowIndex);
     }
 
-    public void removeRow(Job job) {
-        int index = this.jobs.indexOf(job);
-        this.jobs.remove(job);
+    public void removeRow(Robot robot) {
+        int index = this.robots.indexOf(robot);
+        this.robots.remove(robot);
         this.fireTableRowsDeleted(index, index);
     }
 

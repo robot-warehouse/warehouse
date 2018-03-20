@@ -27,7 +27,7 @@ public class Data {
         add(new State(10, 2));
         add(new State(10, 3));
         add(new State(10, 4));
-        add(new State(10, 5));       
+        add(new State(10, 5));
     }};
 
     private static List<Location> singleRow = new ArrayList<Location>() {{
@@ -48,13 +48,12 @@ public class Data {
     	add(new State(11,6));
     	add(new State(10,0));
     }};
-    
+
     public static List<Location> getRow(){
     	return singleRow;
     }
-    
-    public static List<Location> getObstacles(){
-    	return obstacles;
-    }   
-    
+
+    public static List<Location> getObstacles() {
+        return obstacles;
+    }
 }

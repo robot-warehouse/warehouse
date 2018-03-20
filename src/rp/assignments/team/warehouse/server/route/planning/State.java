@@ -9,21 +9,21 @@ public class State extends Location {
 
     /**
      * The total weight of the node.
-     * 
+     *
      * @see #calculateTotalWeight(State, State)
      */
     private float totalWeight;
-    
+
     /**
      * The distance from the start node.
-     * 
+     *
      * @see #calculateG(State)
      */
     private float distanceFromStart;
-    
+
     /**
      * The h value for this node
-     * 
+     *
      * @see #calculateH(State)
      */
     private float heuristic;
@@ -72,7 +72,7 @@ public class State extends Location {
 
     /**
      * Set the total weight of this node.
-     * 
+     *
      * @see #getDistanceFromStart()
      * @see #getHeuristic()
      */
@@ -92,7 +92,7 @@ public class State extends Location {
 
     /**
      * Set the parent of this node.
-     * 
+     *
      * @param parent The parent of this node.
      */
     public void setParent(State parent) {
