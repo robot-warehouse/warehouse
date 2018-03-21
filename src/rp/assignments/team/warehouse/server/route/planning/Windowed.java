@@ -41,10 +41,12 @@ public class Windowed {
 					list2 = AStar.findPath(start, goal, obstacles);
 					if (list2 == null) {
 						return list2;
-					} else
+					} else {
 						list2 = resize(list2);
 					i = 0;
 					j = 0;
+					break;
+					}
 				}
 
 			}
@@ -68,6 +70,7 @@ public class Windowed {
 						list2 = resize(list2);
 						i = 0;
 						j = 0;
+						break;
 					}
 				}
 
@@ -80,6 +83,7 @@ public class Windowed {
 						list2 = resize(list2);
 						i = 0;
 						j = 0;
+						break;
 					}
 				}
 			}
@@ -94,14 +98,19 @@ public class Windowed {
 		assert (list2.size() < WINDOW);
 
 		List<Location> list3 = AStar.findPath(start, goal, obstacles);
+		
+		System.out.println("before" + list3);
 
-		if (list3 != null)
+		if (list3 != null) {
 			list3 = resize(list3);
+		}
+		else
+			return null;
 
 		// checks if the first and third robot are swapping locations anywhere
 		int i = 0;
 		while (i < list1.size() - 1) {
-			for (int j = 0; j < list1.size() - 1; j++) {
+			for (int j = 0; j < list3.size() - 1; j++) {
 
 				State firstRobotsFirstLocation = (State) list1.get(i);
 				State thirdRobotsFirstLocation = (State) list3.get(j);
@@ -114,19 +123,21 @@ public class Windowed {
 					list3 = AStar.findPath(start, goal, obstacles);
 					if (list3 == null) {
 						return list3;
-					} else
+					} else {
 						list3 = resize(list3);
 					i = 0;
 					j = 0;
+					break;
+					}
 				}
 
 			}
 			i++;
 		}
-
+		System.out.println("first swap check completed");
 		i = 0;
 		while (i < list1.size() - 1) {
-			for (int j = 0; j < list1.size() - 1; j++) {
+			for (int j = 0; j < list3.size() - 1; j++) {
 
 				State secondRobotsFirstLocation = (State) list2.get(i);
 				State thirdRobotsFirstLocation = (State) list3.get(j);
@@ -139,25 +150,33 @@ public class Windowed {
 					list3 = AStar.findPath(start, goal, obstacles);
 					if (list3 == null) {
 						return list3;
-					} else
+					} else {
 						list3 = resize(list3);
 					i = 0;
 					j = 0;
+					break;
+					}
 				}
 
 			}
 			i++;
 		}
-
+		System.out.println("second swap check completed");
+		int counter = 0;
+		System.out.println(list1);
+		System.out.println(list2);
+		System.out.println(list3);
 		for (i = 0; i < Math.max(list1.size(), list2.size()) - 1; i++) {
 			for (int j = 0; j < list3.size(); j++) {
-
+				System.out.println(counter++);
 				State firstRobotsFirstLocation;
 				State firstRobotsSecondLocation;
 				State secondRobotsFirstLocation;
 				State secondRobotsSecondLocation;
 
 				State thirdRobotsFirstLocation = (State) list3.get(j);
+			
+				
 				if (i + 1 < list1.size()) {
 					firstRobotsFirstLocation = (State) list1.get(i);
 					firstRobotsSecondLocation = (State) list1.get(i + 1);
@@ -168,6 +187,8 @@ public class Windowed {
 					firstRobotsFirstLocation = null;
 					firstRobotsSecondLocation = null;
 				}
+				
+				
 				if (i + 1 < list2.size()) {
 					secondRobotsFirstLocation = (State) list2.get(i);
 					secondRobotsSecondLocation = (State) list2.get(i + 1);
@@ -180,6 +201,8 @@ public class Windowed {
 					secondRobotsSecondLocation = null;
 				}
 				// reroutes or if not possible returns null
+				
+				
 				if (firstRobotsFirstLocation.equals(thirdRobotsFirstLocation)) {
 					obstacles.add(firstRobotsFirstLocation);
 					list3 = AStar.findPath(start, goal, obstacles);
@@ -189,6 +212,7 @@ public class Windowed {
 						list3 = resize(list3);
 						i = 0;
 						j = 0;
+						break;
 					}
 				}
 
@@ -201,6 +225,7 @@ public class Windowed {
 						list3 = resize(list3);
 						i = 0;
 						j = 0;
+						break;
 					}
 				}
 				
@@ -213,6 +238,7 @@ public class Windowed {
 						list3 = resize(list3);
 						i = 0;
 						j = 0;
+						break;
 					}
 				}
 
@@ -225,12 +251,13 @@ public class Windowed {
 						list3 = resize(list3);
 						i = 0;
 						j = 0;
+						break;
 					}
 				}
 				
 			}
 		}
-
+		System.out.println("here here");
 		return list3;
 	}
 
