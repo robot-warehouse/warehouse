@@ -26,6 +26,58 @@ public class Windowed {
 		if (list2 != null)
 			list2 = resize(list2);
 
+		int i;
+		list2 = swapCheckForTwoRobots(list1, start, goal, obstacles, list2);
+		if(list2 == null)
+			return list2;
+
+		for (i = 0; i < list1.size() - 1; i++) {
+			for (int j = 0; j < list2.size(); j++) {
+
+				State secondRobotsFirstLocation = (State) list2.get(j);
+				State firstRobotsFirstLocation = (State) list1.get(i);
+				State firstRobotsSecondLocation = (State) list1.get(i + 1);
+
+				// reroutes or if not possible returns null
+				if (firstRobotsFirstLocation.equals(secondRobotsFirstLocation)) {
+					obstacles.add(firstRobotsFirstLocation);
+					list2 = AStar.findPath(start, goal, obstacles);
+					if (list2 == null) {
+						return list2;
+					} else {
+						list2 = resize(list2);
+						list2 = swapCheckForTwoRobots(list1, start, goal, obstacles, list2);
+						if(list2==null)
+							return list2;
+						i = 0;
+						j = 0;
+						break;
+					}
+				}
+
+				else if (firstRobotsSecondLocation.equals(secondRobotsFirstLocation)) {
+					obstacles.add(firstRobotsSecondLocation);
+					list2 = AStar.findPath(start, goal, obstacles);
+					if (list2 == null) {
+						return list2;
+					} else {
+						list2 = resize(list2);
+						list2 = swapCheckForTwoRobots(list1, start, goal, obstacles, list2);
+						if(list2==null)
+							return list2;
+						i = 0;
+						j = 0;
+						break;
+					}
+				}
+			}
+		}
+
+		return list2;
+	}
+
+	private static List<Location> swapCheckForTwoRobots(List<Location> list1, Location start, Location goal,
+			List<Location> obstacles, List<Location> list2) {
 		int i = 0;
 		while (i < list1.size() - 1) {
 			for (int j = 0; j < list2.size() - 1; j++) {
@@ -52,43 +104,6 @@ public class Windowed {
 			}
 			i++;
 		}
-
-		for (i = 0; i < list1.size() - 1; i++) {
-			for (int j = 0; j < list2.size(); j++) {
-
-				State secondRobotsFirstLocation = (State) list2.get(j);
-				State firstRobotsFirstLocation = (State) list1.get(i);
-				State firstRobotsSecondLocation = (State) list1.get(i + 1);
-
-				// reroutes or if not possible returns null
-				if (firstRobotsFirstLocation.equals(secondRobotsFirstLocation)) {
-					obstacles.add(firstRobotsFirstLocation);
-					list2 = AStar.findPath(start, goal, obstacles);
-					if (list2 == null) {
-						return list2;
-					} else {
-						list2 = resize(list2);
-						i = 0;
-						j = 0;
-						break;
-					}
-				}
-
-				else if (firstRobotsSecondLocation.equals(secondRobotsFirstLocation)) {
-					obstacles.add(firstRobotsSecondLocation);
-					list2 = AStar.findPath(start, goal, obstacles);
-					if (list2 == null) {
-						return list2;
-					} else {
-						list2 = resize(list2);
-						i = 0;
-						j = 0;
-						break;
-					}
-				}
-			}
-		}
-
 		return list2;
 	}
 
@@ -218,32 +233,8 @@ public class Windowed {
 
 	private static List<Location> swapCheckForThreeRobots(List<Location> list1, List<Location> list2, Location start,
 			Location goal, List<Location> obstacles, List<Location> list3) {
-		int i = 0;
-		while (i < list1.size() - 1) {
-			for (int j = 0; j < list3.size() - 1; j++) {
-
-				State firstRobotsFirstLocation = (State) list1.get(i);
-				State thirdRobotsFirstLocation = (State) list3.get(j);
-				State firstRobotsSecondLocation = (State) list1.get(i + 1);
-				State thirdRobotsSecondLocation = (State) list3.get(j + 1);
-				// checks if the robots are swapping positions anywhere.
-				if (swapped(firstRobotsFirstLocation, firstRobotsSecondLocation, thirdRobotsFirstLocation,
-						thirdRobotsSecondLocation)) {
-					obstacles.add(firstRobotsFirstLocation);
-					list3 = AStar.findPath(start, goal, obstacles);
-					if (list3 == null) {
-						return list3;
-					} else {
-						list3 = resize(list3);
-						i = 0;
-						j = 0;
-						break;
-					}
-				}
-
-			}
-			i++;
-		}
+		int i;
+		list3 = swapCheckForTwoRobots(list1, start, goal, obstacles, list3);
 		
 		i = 0;
 		while (i < list1.size() - 1) {
