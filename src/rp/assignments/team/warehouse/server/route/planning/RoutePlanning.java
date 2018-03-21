@@ -18,9 +18,11 @@ public class RoutePlanning {
         this.warehouse = warehouse;
     }
 
-    public synchronized List<Location> findPath(Location start, Location goal) {
+    public synchronized List<Location> findPath(String robotName, Location start, Location goal) {
         List<Location> obstacles = Data.getObstacles();
         Set<Robot> robots = this.warehouse.getRobots();
+        
+        robots.removeIf(robot -> robot.getName().equals(robotName));
 
         List<List<Location>> currentRoutes = new ArrayList<>();
         robots.forEach(robot -> {

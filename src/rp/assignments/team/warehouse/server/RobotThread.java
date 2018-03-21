@@ -48,14 +48,15 @@ public class RobotThread extends Thread {
 			if (!this.robot.getCurrentPicks().isEmpty() && this.robot.getCurrentRoute().isEmpty()) {
 				List<Location> path;
 
-				if (!this.robot.hasFinishedPickup()) {
-					path = AStar.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentPickLocation());
-				} else if (!this.robot.hasFinishedDropOff()) {
-					path = AStar.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentDropLocation());
-				} else {
-					continue; // should never be reached here but wanted to be
-								// more explicit with if logic
-				}
+
+                if (!this.robot.hasFinishedPickup()) {
+                    path = this.routePlanner.findPath(this.getName(), this.robot.getCurrentLocation(), this.robot.getCurrentPickLocation());
+                } else if (!this.robot.hasFinishedDropOff()) {
+                    path = this.routePlanner.findPath(this.getName(), this.robot.getCurrentLocation(), this.robot.getCurrentDropLocation());
+                } else {
+                    continue; // should never be reached here but wanted to be more explicit with if logic
+                }
+
 
 				// path cannot be found to goal node currently so wait around
 				if (path == null) {
