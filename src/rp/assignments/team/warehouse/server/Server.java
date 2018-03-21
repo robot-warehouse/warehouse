@@ -20,5 +20,4 @@ public class Server {
 
         warehouse.setController(controller);
     }
-
 }
