@@ -1,5 +1,6 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -68,32 +69,30 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         while (this.warehouse.isRunning()) {
-            Set<Job> workingOnJobs = getWorkingOnJobs();
-
-            if (workingOnJobs.size() > 0) {
-                // clear out the completed job
-                workingOnJobs.forEach(job -> {
-                    if (!job.hasAvailablePicks()) {
-                        this.warehouse.completeJob(job);
-                    }
-                });
-            }
-
+        	Iterator<Job> jobIterator = this.getWorkingOnJobs().iterator();
+        	
+        	while (jobIterator.hasNext()) {
+        		Job job = jobIterator.next();
+        		
+        		if (job.isComplete()) {
+        			this.warehouse.completeJob(job);
+        		}
+        	}
+        	
             if (this.jobSelector.hasNext()) { // TODO be smarter (what does this mean I can't remember)
+            	Set<Job> workingOnJobs = getWorkingOnJobs();
                 if (workingOnJobs.size() <= 0 || !jobsHaveAvailablePicks()) {
-                    if (jobSelector.hasNext()) {
-                        Job newJob = this.jobSelector.next();
-                        newJob.setDropLocation(getNextDropLocation());
+                    Job newJob = this.jobSelector.next();
+                    newJob.setDropLocation(getNextDropLocation());
 
-                        pickAssigner.addPicks(newJob.getAvailablePicks());
-                        this.warehouse.addWorkingOnJob(newJob);
-                    } else {
-                        this.warehouse.completedAllJobs();
-                        return;
-                    }
+                    pickAssigner.addPicks(newJob.getAvailablePicks());
+                    this.warehouse.addWorkingOnJob(newJob);
                 }
 
                 pickAssigner.next();
+            } else {
+                this.warehouse.completedAllJobs();
+                return;
             }
 
             Thread.yield();
