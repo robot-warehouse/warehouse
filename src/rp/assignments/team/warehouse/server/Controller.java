@@ -177,7 +177,6 @@ public class Controller {
 
 		if (robot.connect(this.routePlanner)) {
 			this.warehouse.addRobot(robot);
-			this.managementInterface.addRobotToOnlineRobotsTable(robot);
 			return true;
 		}
 

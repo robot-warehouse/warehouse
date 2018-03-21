@@ -90,10 +90,10 @@ public class ManagementInterface {
 		// Table Updater
 		(new Thread(() -> {
 			while (true) {
-				((JobTableModel) this.tblLoadedJobs.getModel()).fireTableDataChanged();
-				((JobTableModel) this.tblCurrentJobs.getModel()).fireTableDataChanged();
-				((JobTableModel) this.tblCompletedJobs.getModel()).fireTableDataChanged();
-				((RobotTableModel) this.tblOnlineRobots.getModel()).fireTableDataChanged();
+				this.tblLoadedJobs.repaint();
+				this.tblCurrentJobs.repaint();
+				this.tblCompletedJobs.repaint();
+				this.tblOnlineRobots.repaint();
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException ignored) {

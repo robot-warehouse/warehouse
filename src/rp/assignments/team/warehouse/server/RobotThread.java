@@ -10,70 +10,75 @@ import rp.assignments.team.warehouse.shared.Instruction;
 
 public class RobotThread extends Thread {
 
-    /** The robot the thread is for. */
-    private Robot robot;
+	/** The robot the thread is for. */
+	private Robot robot;
 
-    /** The communication interface with the robot. */
-    private CommunicationsManager communicationsManager;
+	/** The communication interface with the robot. */
+	private CommunicationsManager communicationsManager;
 
-    /** The instance of the route planning class */
-    private RoutePlanning routePlanner;
+	/** The instance of the route planning class */
+	private RoutePlanning routePlanner;
 
-    /**
-     * @param robot The robot the thread is for.
-     * @param communicationsManager The communication interface with the robot.
-     */
-    public RobotThread(Robot robot, CommunicationsManager communicationsManager, RoutePlanning routePlanner) {
-        this.robot = robot;
-        this.communicationsManager = communicationsManager;
-        this.routePlanner = routePlanner;
-    }
+	/**
+	 * @param robot
+	 *            The robot the thread is for.
+	 * @param communicationsManager
+	 *            The communication interface with the robot.
+	 */
+	public RobotThread(Robot robot, CommunicationsManager communicationsManager, RoutePlanning routePlanner) {
+		this.robot = robot;
+		this.communicationsManager = communicationsManager;
+		this.routePlanner = routePlanner;
+	}
 
-    @Override
-    public void run() {
-        while (this.communicationsManager.isConnected()) {
-            if (this.robot.isJobCancelled()) {
-                this.communicationsManager.sendCancellation();
-                this.robot.clearCurrentPicks();
-            }
+	@Override
+	public void run() {
+		while (this.communicationsManager.isConnected()) {
+			if (this.robot.isJobCancelled()) {
+				this.communicationsManager.sendCancellation();
+				this.robot.clearCurrentPicks();
+			}
 
-            if (this.robot.hasFinishedJob()) {
-                this.robot.setHasFinishedPickup(false);
-                this.robot.setHasFinishedDropOff(false);
-                this.robot.clearCurrentPicks();
-            }
+			if (this.robot.hasFinishedJob()) {
+				this.robot.setHasFinishedPickup(false);
+				this.robot.setHasFinishedDropOff(false);
+				this.robot.clearCurrentPicks();
+			}
 
-            if (!this.robot.getCurrentPicks().isEmpty() && this.robot.getCurrentRoute().isEmpty()) {
-                List<Location> path;
+			if (!this.robot.getCurrentPicks().isEmpty() && this.robot.getCurrentRoute().isEmpty()) {
+				List<Location> path;
 
-                if (!this.robot.hasFinishedPickup()) {
-                    path = this.routePlanner.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentPickLocation());
-                } else if (!this.robot.hasFinishedDropOff()) {
-                    path = this.routePlanner.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentDropLocation());
-                } else {
-                    continue; // should never be reached here but wanted to be more explicit with if logic
-                }
+				if (!this.robot.hasFinishedPickup()) {
+					path = AStar.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentPickLocation());
+				} else if (!this.robot.hasFinishedDropOff()) {
+					path = AStar.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentDropLocation());
+				} else {
+					continue; // should never be reached here but wanted to be
+								// more explicit with if logic
+				}
 
-                // path cannot be found to goal node currently so wait around
-                if (path == null) {
-                    continue;
-                }
+				// path cannot be found to goal node currently so wait around
+				if (path == null) {
+					continue;
+				}
 
-                List<Instruction> instructions = RouteExecution.convertCoordinatesToInstructions(
-                    this.robot.getCurrentFacingDirection(), path);
+				List<Instruction> instructions = RouteExecution
+						.convertCoordinatesToInstructions(this.robot.getCurrentFacingDirection(), path);
 
-                Location lastLocationInPath = path.get(path.size() - 1);
-                if (lastLocationInPath.equals(this.robot.getCurrentPickLocation())) {
-                    instructions.add(Instruction.PICKUP);
-                } else if (lastLocationInPath.equals(this.robot.getCurrentDropLocation())) {
-                    instructions.add(Instruction.DROPOFF);
-                }
+				Location lastLocationInPath = path.get(path.size() - 1);
+				if (lastLocationInPath.equals(this.robot.getCurrentPickLocation())) {
+					instructions.add(Instruction.PICKUP);
+				} else if (lastLocationInPath.equals(this.robot.getCurrentDropLocation())) {
+					instructions.add(Instruction.DROPOFF);
+				}
 
-                this.communicationsManager.sendPostion(this.robot.getCurrentLocation().getX(), this.robot.getCurrentLocation().getY());
-                this.communicationsManager.sendFacing(this.robot.getCurrentFacingDirection());
-                this.communicationsManager.sendOrders(instructions);
-                this.robot.setCurrentRoute(path);
-            }
-        }
-    }
+				this.communicationsManager.sendPostion(this.robot.getCurrentLocation().getX(),
+						this.robot.getCurrentLocation().getY());
+				this.communicationsManager.sendFacing(this.robot.getCurrentFacingDirection());
+				this.communicationsManager.sendNumOfPicks(this.robot.getNumPicksAtLocation(lastLocationInPath));
+				this.communicationsManager.sendOrders(instructions);
+				this.robot.setCurrentRoute(path);
+			}
+		}
+	}
 }
