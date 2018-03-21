@@ -46,9 +46,12 @@ public class AStar {
         while (true) {
             State current;
 
-            if (open.size() == 0) {
+            if (open.size() == 0 && !closed.contains(startState)) {
                 current = startState;
-            } else {
+            }else if(open.size() == 0 && closed.contains(startState)) {
+            	return null;
+            }
+            else {
                 current = findSmallestF(open);
             }
 
