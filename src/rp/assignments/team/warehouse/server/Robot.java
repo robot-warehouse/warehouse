@@ -280,8 +280,10 @@ public class Robot implements Picker, Bidder {
     public void finishedJob() {
         if (!this.hasFinishedPickup() && !this.hasFinishedDropOff()) {
             this.setHasFinishedPickup(true);
+            this.currentRoute.clear();
         } else if (this.hasFinishedPickup() && !this.hasFinishedDropOff()) {
             this.setHasFinishedDropOff(true);
+            this.currentRoute.clear();
         }
 
         // checks this state is never reached

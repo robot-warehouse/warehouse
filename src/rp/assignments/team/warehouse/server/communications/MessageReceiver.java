@@ -48,6 +48,8 @@ public class MessageReceiver extends Thread {
                         break;
                     case FINISHED_JOB:
                         this.robot.finishedJob();
+                        logger.info("Robot has finished the current job");
+                        break;
                     case DISCONNECT:
                         logger.info("Receiver thread ending");
                         break;

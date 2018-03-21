@@ -129,7 +129,7 @@ public class CommunicationsManager {
 
     }
     
-    public void sendPostion(int x, int y) {
+    public void sendPosition(int x, int y) {
     	try {
     		sender.sendLocation(x, y);
     	}catch(IOException e) {

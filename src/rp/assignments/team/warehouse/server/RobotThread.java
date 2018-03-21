@@ -72,7 +72,7 @@ public class RobotThread extends Thread {
 					instructions.add(Instruction.DROPOFF);
 				}
 
-				this.communicationsManager.sendPostion(this.robot.getCurrentLocation().getX(),
+				this.communicationsManager.sendPosition(this.robot.getCurrentLocation().getX(),
 						this.robot.getCurrentLocation().getY());
 				this.communicationsManager.sendFacing(this.robot.getCurrentFacingDirection());
 				this.communicationsManager.sendNumOfPicks(this.robot.getNumPicksAtLocation(lastLocationInPath));
