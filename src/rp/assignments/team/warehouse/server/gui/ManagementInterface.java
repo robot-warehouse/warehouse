@@ -18,7 +18,6 @@ import rp.assignments.team.warehouse.server.Controller;
 import rp.assignments.team.warehouse.server.Location;
 import rp.assignments.team.warehouse.server.Robot;
 import rp.assignments.team.warehouse.server.RobotInfo;
-import rp.assignments.team.warehouse.server.Warehouse;
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.shared.Facing;
 
