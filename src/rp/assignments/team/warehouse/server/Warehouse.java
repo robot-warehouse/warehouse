@@ -53,6 +53,15 @@ public class Warehouse {
     }
 
     /**
+     * Get the jobs currently being worked on.
+     *
+     * @return List of jobs being worked on.
+     */
+    public Set<Job> getWorkingOnJobs() {
+        return this.workingOnJobs;
+    }
+
+    /**
      * Add a job to the list of jobs currently being worked on.
      *
      * @param job The job which is now being worked on.
@@ -60,6 +69,19 @@ public class Warehouse {
     public void addWorkingOnJob(Job job) {
         this.workingOnJobs.add(job);
         this.controller.addJobToCurrentJobsTable(job);
+    }
+
+    /**
+     * Marks the job as completed, removing from the workingOnJobs set and updating the GUI
+     *
+     * @param job The completed job
+     */
+    public void completeJob(Job job) {
+        this.workingOnJobs.remove(job);
+
+        this.controller.removeJobFromCurrentJobsTable(job);
+
+        this.controller.addJobToCompletedJobsTable(job);
     }
 
     /**
@@ -77,15 +99,6 @@ public class Warehouse {
 
         job.setCancelled();
         this.controller.removeJobFromCurrentJobsTable(job);
-    }
-
-    /**
-     * Get the jobs currently being worked on.
-     *
-     * @return List of jobs being worked on.
-     */
-    public Set<Job> getWorkingOnJobs() {
-        return this.workingOnJobs;
     }
 
     /**

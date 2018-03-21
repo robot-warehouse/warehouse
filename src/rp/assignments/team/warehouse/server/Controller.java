@@ -254,6 +254,16 @@ public class Controller {
     }
 
     /**
+     * Add a job to the current jobs table in the GUI. Also removes it from the current jobs table and updates the score
+     * with the score of the completed job added to the total score
+     *
+     * @param job The job to add to the table.
+     */
+    public void addJobToCompletedJobsTable(Job job) {
+        this.managementInterface.addJobToCompletedJobsTable(job);
+    }
+
+    /**
      * Announces to the user that all jobs have been completed
      */
     public void completedAllJobs() {

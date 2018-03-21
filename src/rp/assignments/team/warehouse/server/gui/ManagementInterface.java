@@ -24,53 +24,56 @@ import rp.assignments.team.warehouse.shared.Facing;
 
 public class ManagementInterface {
 
-    /** */
+    /** The height of the window */
     private final int WINDOW_HEIGHT = 510;
 
-    /** */
+    /** The width of the window */
     private final int WINDOW_WIDTH = 800;
 
-    /** */
+    /** The x and y start pos of the window on the screen */
     private final int WINDOW_START_POS = 100;
 
-    /** */
+    /** The height of a button */
     private final int BUTTON_HEIGHT = 25;
 
-    /** */
+    /** The wider width of a button */
     private final int BUTTON_WIDTH_WIDE = 153;
 
-    /** */
+    /** The height of a label */
     private final int LABEL_HEIGHT = 40;
 
-    /** */
+    /** The width of a label */
     private final int LABEL_WIDTH = 155;
 
-    /** */
+    /** The wider width of a label */
     private final int LABEL_WIDTH_WIDE = 400;
 
-    /** */
+    /** The instance of the controller */
     private Controller controller;
 
-    /** */
+    /** The frame itself */
     private JFrame frame;
 
-    /** */
+    /** Table showing online robots */
     private JTable tblOnlineRobots;
 
-    /** */
+    /** Table showing the current jobs */
     private JTable tblCurrentJobs;
 
-    /** */
+    /** Table showing the loaded jobs */
     private JTable tblLoadedJobs;
 
-    /** */
+    /** Table showing the completed jobs */
     private JTable tblCompletedJobs;
 
-    /** */
+    /** Label showing the total score */
     private JLabel lblTotalScore;
 
-    /** */
+    /** The path to the input directory in the repo */
     private File baseDirectory = new File("./input");
+
+    /** The total score accumulated from completed jobs */
+    private float totalScore = 0;
 
     /**
      * Create the application.
@@ -316,7 +319,7 @@ public class ManagementInterface {
         lblTotalScore.setBounds(156, 375, 113, 25);
         frame.getContentPane().add(lblTotalScore);
 
-        this.lblTotalScore = new JLabel("0");
+        this.lblTotalScore = new JLabel(String.valueOf(this.totalScore));
         this.lblTotalScore.setHorizontalAlignment(JLabel.CENTER);
         this.lblTotalScore.setBounds(141, 397, 122, 60);
         frame.getContentPane().add(this.lblTotalScore);
@@ -387,22 +390,26 @@ public class ManagementInterface {
     }
 
     /**
-     * Add a job to the current jobs table in the GUI.
+     * Add a job to the current jobs table in the GUI. Also removes it from the current jobs table and updates the score
+     * with the score of the completed job added to the total score
      *
      * @param job The job to add to the table.
      */
     public void addJobToCompletedJobsTable(Job job) {
         JobTableModel model = (JobTableModel) this.tblCompletedJobs.getModel();
         model.addRow(job);
+
+        removeJobFromCurrentJobsTable(job);
+
+        this.totalScore += job.getReward();
+        updateTotalScore();
     }
 
     /**
      * Updates the total score display on the GUI
-     *
-     * @param score The new total score
      */
-    public void updateTotalScore(int score) {
-        this.lblTotalScore.setText(String.valueOf(score));
+    public void updateTotalScore() {
+        this.lblTotalScore.setText(String.valueOf(this.totalScore));
     }
 
     /**

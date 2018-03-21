@@ -28,6 +28,7 @@ public class ServerThread extends Thread {
      */
     public ServerThread(Warehouse warehouse, IJobSelector jobSelector) {
         assert warehouse != null;
+        assert jobSelector != null;
 
         this.warehouse = warehouse;
         this.jobSelector = jobSelector;
@@ -67,9 +68,19 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         while (this.warehouse.isRunning()) {
-            if (this.jobSelector != null && this.jobSelector.hasNext()) { // TODO be smarter (what does this mean I can't remember)
-                if (getWorkingOnJobs().size() <= 0 || !jobsHaveAvailablePicks()) {
-                    // TODO add another job to working on
+            Set<Job> workingOnJobs = getWorkingOnJobs();
+
+            if (workingOnJobs.size() > 0) {
+                // clear out the completed job
+                workingOnJobs.forEach(job -> {
+                    if (!job.hasAvailablePicks()) {
+                        this.warehouse.completeJob(job);
+                    }
+                });
+            }
+
+            if (this.jobSelector.hasNext()) { // TODO be smarter (what does this mean I can't remember)
+                if (workingOnJobs.size() <= 0 || !jobsHaveAvailablePicks()) {
                     if (jobSelector.hasNext()) {
                         Job newJob = this.jobSelector.next();
                         newJob.setDropLocation(getNextDropLocation());
