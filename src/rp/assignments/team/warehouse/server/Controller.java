@@ -290,9 +290,9 @@ public class Controller {
 	}
 
 	/**
-	 * Announces to the user that all jobs have been completed
+	 * Announces to the user that all jobs have been assigned to robots
 	 */
-	public void completedAllJobs() {
-		this.managementInterface.completedAllJobs();
+	public void assignedAllJobs() {
+		this.managementInterface.assignedAllJobs();
 	}
 }

@@ -91,7 +91,7 @@ public class ServerThread extends Thread {
 
                 pickAssigner.next();
             } else {
-                this.warehouse.completedAllJobs();
+        	    this.warehouse.assignedAllJobs();
                 return;
             }
 

@@ -490,8 +490,8 @@ public class ManagementInterface {
     /**
      * Announces to the user that all jobs have been completed
      */
-    public void completedAllJobs() {
-        JOptionPane.showMessageDialog(this.frame, "All jobs have been completed!");
+    public void assignedAllJobs() {
+        JOptionPane.showMessageDialog(this.frame, "All jobs have been assigned");
     }
 
     // endregion

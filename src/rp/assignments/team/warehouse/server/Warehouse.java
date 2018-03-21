@@ -180,11 +180,11 @@ public class Warehouse {
     }
 
     /**
-     * Announces to the user that all jobs have been completed
+     * Announces to the user that all jobs have been assigned to robots
      */
-    public void completedAllJobs() {
+    public void assignedAllJobs() {
         this.running = false;
-        this.controller.completedAllJobs();
+        this.controller.assignedAllJobs();
     }
 
     /**
