@@ -44,7 +44,7 @@ public class MessageReceiver extends Thread {
                         Location currentLocation = new Location(x, y);
                         this.robot.setCurrentLocation(currentLocation);
 
-                        logger.info("Received " + currentLocation + " from robot.");
+                        logger.info("Received " + currentLocation + " from robot " + robot.getName() + ".");
                         break;
                     case FINISHED_JOB:
                         this.robot.finishedJob();
