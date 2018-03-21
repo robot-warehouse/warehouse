@@ -14,7 +14,7 @@ public class AStar {
     private final static Logger logger = LogManager.getLogger(AStar.class);
 
     public static List<Location> findPath(Location start, Location goal) {
-        return findPath(start, goal, new ArrayList<>());
+        return findPath(start, goal, Data.getObstacles());
     }
 
     /**
