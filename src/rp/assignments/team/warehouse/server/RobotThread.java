@@ -3,6 +3,7 @@ package rp.assignments.team.warehouse.server;
 import java.util.List;
 
 import rp.assignments.team.warehouse.server.communications.CommunicationsManager;
+import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.route.execution.RouteExecution;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
 import rp.assignments.team.warehouse.server.route.planning.RoutePlanning;
@@ -18,6 +19,8 @@ public class RobotThread extends Thread {
 
 	/** The instance of the route planning class */
 	private RoutePlanning routePlanner;
+	private boolean waitForPickup = false;
+	private boolean waitForDropoff = false;
 
 	/**
 	 * @param robot
@@ -40,45 +43,63 @@ public class RobotThread extends Thread {
 			}
 
 			if (this.robot.hasFinishedJob()) {
+				this.robot.getCurrentPicks().forEach(Pick::setCompleted);
 				this.robot.setHasFinishedPickup(false);
 				this.robot.setHasFinishedDropOff(false);
 				this.robot.clearCurrentPicks();
+				this.waitForPickup = false;
+				this.waitForDropoff = false;
 			}
 
-			if (!this.robot.getCurrentPicks().isEmpty() && this.robot.getCurrentRoute().isEmpty()) {
-				List<Location> path;
+			if (!this.robot.getCurrentPicks().isEmpty()) {
+				if (this.robot.getCurrentRoute().isEmpty()) {
+					if(waitForPickup && !robot.hasFinishedPickup()) {
+						continue;
+					}
+					
+					if(waitForDropoff && !robot.hasFinishedDropOff()) {
+						continue;
+					}
+					
+					List<Location> path;
+					
+					if (!this.robot.hasFinishedPickup()) {
+						path = this.routePlanner.findPath(this.getName(), this.robot.getCurrentLocation(),
+								this.robot.getCurrentPickLocation());
+					
+					} else if (!this.robot.hasFinishedDropOff()) {
+						path = this.routePlanner.findPath(this.getName(), this.robot.getCurrentLocation(),
+								this.robot.getCurrentDropLocation());
+						System.out.println("Current route for " + robot.getName() + ": " + path);
+					} else {
+						continue; // should never be reached here but wanted to be more explicit with if logic
+					}
 
+					// path cannot be found to goal node currently so wait around
+					if (path == null) {
+						continue;
+					}
 
-                if (!this.robot.hasFinishedPickup()) {
-                    path = this.routePlanner.findPath(this.getName(), this.robot.getCurrentLocation(), this.robot.getCurrentPickLocation());
-                } else if (!this.robot.hasFinishedDropOff()) {
-                    path = this.routePlanner.findPath(this.getName(), this.robot.getCurrentLocation(), this.robot.getCurrentDropLocation());
-                } else {
-                    continue; // should never be reached here but wanted to be more explicit with if logic
-                }
+					List<Instruction> instructions = RouteExecution
+							.convertCoordinatesToInstructions(this.robot.getCurrentFacingDirection(), path);
+					System.out.println("Instructions for " + robot.getName() + ": " + instructions);
+					Location lastLocationInPath = path.get(path.size() - 1);
+					if (lastLocationInPath.equals(this.robot.getCurrentPickLocation())) {
+						instructions.add(Instruction.PICKUP);
+						waitForPickup = true;
+					} else if (lastLocationInPath.equals(this.robot.getCurrentDropLocation())) {
+						instructions.add(Instruction.DROPOFF);
+						waitForDropoff = true;
+					}
 
+					this.communicationsManager.sendPosition(this.robot.getCurrentLocation().getX(),
+							this.robot.getCurrentLocation().getY());
+					this.communicationsManager.sendFacing(this.robot.getCurrentFacingDirection());
+					this.communicationsManager.sendNumOfPicks(this.robot.getNumPicksAtLocation(lastLocationInPath));
+					this.communicationsManager.sendOrders(instructions);
+					this.robot.setCurrentRoute(path);
 
-				// path cannot be found to goal node currently so wait around
-				if (path == null) {
-					continue;
 				}
-
-				List<Instruction> instructions = RouteExecution
-						.convertCoordinatesToInstructions(this.robot.getCurrentFacingDirection(), path);
-
-				Location lastLocationInPath = path.get(path.size() - 1);
-				if (lastLocationInPath.equals(this.robot.getCurrentPickLocation())) {
-					instructions.add(Instruction.PICKUP);
-				} else if (lastLocationInPath.equals(this.robot.getCurrentDropLocation())) {
-					instructions.add(Instruction.DROPOFF);
-				}
-
-				this.communicationsManager.sendPosition(this.robot.getCurrentLocation().getX(),
-						this.robot.getCurrentLocation().getY());
-				this.communicationsManager.sendFacing(this.robot.getCurrentFacingDirection());
-				this.communicationsManager.sendNumOfPicks(this.robot.getNumPicksAtLocation(lastLocationInPath));
-				this.communicationsManager.sendOrders(instructions);
-				this.robot.setCurrentRoute(path);
 			}
 		}
 	}
