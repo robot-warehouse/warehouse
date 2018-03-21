@@ -8,7 +8,7 @@ import java.util.List;
 import rp.assignments.team.warehouse.server.Location;
 
 public class Main {
-
+ 
 
 	public static void main(String args[]) {
 		
@@ -16,12 +16,14 @@ public class Main {
 		List<Location> l2 = new ArrayList<>();
 		List<Location> l3 = new ArrayList<>();
 
-		Location start1 = new State(2,6);
-		Location goal1 = new State(0,5);
-		Location start2 = new State(0,0);
+		Location start1 = new State(0,0);
+		Location goal1 = new State(2,4);
+		Location start2 = new State(7,0);
 		Location goal2 = new State(0,7);
-		Location start3 = new State(0,5);
-		Location goal3 = new State(0,1);
+		Location start3 = new State(6,3);
+		Location goal3 = new State(11,3);
+		
+//		System.out.println(Windowed.findPath(start1, goal1, Data.getObstacles()));
 		
 		l1 = Windowed.findPath(start1, goal1, Data.getObstacles());
 		System.out.println("l1 ----->" + l1);
@@ -33,22 +35,4 @@ public class Main {
 		
 	}
 
-        Location start1 = new State(2, 6);
-        Location goal1 = new State(0, 5);
-        Location start2 = new State(0, 0);
-        Location goal2 = new State(0, 7);
-        Location start3 = new State(0, 3);
-        Location goal3 = new State(0, 1);
-
-	public static void main(String args[]) {
-		
-		List<Location> l1 = new ArrayList<>();
-		List<Location> l2 = new ArrayList<>();
-		List<Location> l3 = new ArrayList<>();
-
-        System.out.println("l1 ----->" + l1);
-        System.out.println("l2 ----->" + l2);
-        System.out.println("l3------>" + l3);
-    }
->>>>>>> 0dcc01cb4788b17555f4df6aef1f9d71118a99c9
 }

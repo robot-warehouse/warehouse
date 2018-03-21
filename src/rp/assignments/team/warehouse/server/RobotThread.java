@@ -47,9 +47,9 @@ public class RobotThread extends Thread {
                 List<Location> path;
 
                 if (!this.robot.hasFinishedPickup()) {
-                    path = this.routePlanner.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentPickLocation());
+                    path = this.routePlanner.findPath(this.getName(), this.robot.getCurrentLocation(), this.robot.getCurrentPickLocation());
                 } else if (!this.robot.hasFinishedDropOff()) {
-                    path = this.routePlanner.findPath(this.robot.getCurrentLocation(), this.robot.getCurrentDropLocation());
+                    path = this.routePlanner.findPath(this.getName(), this.robot.getCurrentLocation(), this.robot.getCurrentDropLocation());
                 } else {
                     continue; // should never be reached here but wanted to be more explicit with if logic
                 }
