@@ -13,11 +13,10 @@ import rp.assignments.team.warehouse.shared.Facing;
 
 public class Controller {
 
-    /**
-     * Can the application be started? Set to true when all inputs have been
-     * dealt with.
-     */
+    /** Can the application be started? Set to true when all inputs have been dealt with. */
     private boolean startable;
+
+    private boolean alreadyImported;
 
     /** The Warehouse. */
     private Warehouse warehouse;
@@ -55,6 +54,7 @@ public class Controller {
     public Controller(Warehouse warehouse) {
         this.warehouse = warehouse;
         this.startable = false;
+        this.alreadyImported = false;
     }
 
     /**
@@ -120,15 +120,18 @@ public class Controller {
      * Run the importer on the specified input files.
      */
     public void importFiles() {
-        Importer importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
-        importer.parse();
+        if (!alreadyImported) {
+            Importer importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
+            importer.parse();
 
-        this.jobs = importer.getJobs();
-        this.dropLocations = importer.getDrops();
+            this.jobs = importer.getJobs();
+            this.dropLocations = importer.getDrops();
 
-        this.managementInterface.addJobsToLoadedJobsTable(jobs);
+            this.managementInterface.addJobsToLoadedJobsTable(jobs);
 
-        this.startable = true;
+            this.startable = true;
+            this.alreadyImported = true;
+        }
     }
 
     /**
