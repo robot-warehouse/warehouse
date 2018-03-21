@@ -106,7 +106,7 @@ public class State extends Location {
      * @param goal The goal node.
      * @return List of this nodes neighbours.
      */
-    public List<State> getNeighbours(State start, State goal) {
+    public List<State> getNeighbours(Location start, Location goal) {
         List<Location> neighbours = this.getNeighbours();
         List<State> neighbourStates = new ArrayList<>();
 
@@ -117,6 +117,7 @@ public class State extends Location {
         }
 
         return neighbourStates;
+
     }
 
     /**
@@ -162,7 +163,7 @@ public class State extends Location {
      *
      * @param start The start node.
      */
-    private void calculateG(State start) {
+    private void calculateG(Location start) {
         this.distanceFromStart = (float) Math.sqrt((getX() - start.getX() ^ 2) + (getY() - start.getY() ^ 2));
     }
 
@@ -171,7 +172,7 @@ public class State extends Location {
      *
      * @param goal The goal node.
      */
-    private void calculateH(State goal) {
+    private void calculateH(Location goal) {
         this.heuristic = (float) Math.sqrt((getX() - goal.getX() ^ 2) + (getY() - goal.getY() ^ 2));
     }
 
@@ -184,7 +185,7 @@ public class State extends Location {
      * @see #calculateH(State)
      * @see #setTotalWeight()
      */
-    private void calculateTotalWeight(State start, State goal) {
+    private void calculateTotalWeight(Location start, Location goal) {
         calculateG(start);
         calculateH(goal);
         setTotalWeight();

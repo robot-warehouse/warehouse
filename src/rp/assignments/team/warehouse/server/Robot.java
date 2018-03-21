@@ -14,6 +14,7 @@ import rp.assignments.team.warehouse.server.job.Pick;
 import rp.assignments.team.warehouse.server.job.assignment.Bidder;
 import rp.assignments.team.warehouse.server.job.assignment.Picker;
 import rp.assignments.team.warehouse.server.route.planning.AStar;
+import rp.assignments.team.warehouse.server.route.planning.RoutePlanning;
 import rp.assignments.team.warehouse.shared.Facing;
 
 public class Robot implements Picker, Bidder {
@@ -138,7 +139,7 @@ public class Robot implements Picker, Bidder {
      * @return The robot's location.
      */
     public Location getCurrentLocation() {
-        return currentLocation;
+        return this.currentLocation;
     }
 
     /**
@@ -160,7 +161,7 @@ public class Robot implements Picker, Bidder {
      * @return The direction the robot is facing.
      */
     public Facing getCurrentFacingDirection() {
-        return currentFacingDirection;
+        return this.currentFacingDirection;
     }
 
     /**
@@ -198,7 +199,7 @@ public class Robot implements Picker, Bidder {
      * @return The picks the robot is working on.
      */
     public Set<Pick> getCurrentPicks() {
-        return currentPicks;
+        return this.currentPicks;
     }
 
     /**
@@ -292,14 +293,14 @@ public class Robot implements Picker, Bidder {
      *
      * @return True if successfully connected.
      */
-    public boolean connect() {
-        this.communicationsManager = new CommunicationsManager(this);
+    public boolean connect(RoutePlanning routePlanner) {
+    	this.communicationsManager = new CommunicationsManager(this);
         this.communicationsManager.startServer();
 
-        if (this.communicationsManager.isConnected()) {
-            (new RobotThread(this, this.communicationsManager)).start();
-            return true;
-        }
+    	if (this.communicationsManager.isConnected()) {
+    		(new RobotThread(this, this.communicationsManager, routePlanner)).start();
+    		return true;
+    	}
 
         return false;
     }
