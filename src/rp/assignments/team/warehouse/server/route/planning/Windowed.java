@@ -234,7 +234,6 @@ public class Windowed {
 	private static List<Location> swapCheckForThreeRobots(List<Location> list1, List<Location> list2, Location start,
 			Location goal, List<Location> obstacles, List<Location> list3) {
 		int i;
-		list3 = swapCheckForTwoRobots(list1, start, goal, obstacles, list3);
 		
 		i = 0;
 		while (i < list1.size() - 1) {
@@ -247,6 +246,7 @@ public class Windowed {
 				// checks if the robots are swapping positions anywhere.
 				if (swapped(secondRobotsFirstLocation, secondRobotsSecondLocation, thirdRobotsFirstLocation,
 						thirdRobotsSecondLocation)) {
+					
 					obstacles.add(secondRobotsFirstLocation);
 					list3 = AStar.findPath(start, goal, obstacles);
 					if (list3 == null) {
