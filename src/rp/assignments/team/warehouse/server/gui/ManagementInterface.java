@@ -2,6 +2,7 @@ package rp.assignments.team.warehouse.server.gui;
 
 import java.awt.Font;
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -462,7 +463,7 @@ public class ManagementInterface {
 	 * @param jobs
 	 *            The list of jobs
 	 */
-	public void addJobsToLoadedJobsTable(Set<Job> jobs) {
+	public void addJobsToLoadedJobsTable(List<Job> jobs) {
 		JobTableModel model = (JobTableModel) this.tblLoadedJobs.getModel();
 		jobs.forEach(job -> {
 			if (job != null) {

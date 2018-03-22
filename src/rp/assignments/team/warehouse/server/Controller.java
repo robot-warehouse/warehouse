@@ -1,10 +1,14 @@
 package rp.assignments.team.warehouse.server;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import rp.assignments.team.warehouse.server.gui.ManagementInterface;
 import rp.assignments.team.warehouse.server.job.Job;
+import rp.assignments.team.warehouse.server.job.comparators.CompareByRewardComparator;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.CancellationClassifier;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
@@ -165,6 +169,9 @@ public class Controller {
 
             this.jobs = importer.getJobs();
             this.dropLocations = importer.getDrops();
+
+            List<Job> jobs = new ArrayList<Job>(this.jobs);
+            Collections.sort(jobs, new CompareByRewardComparator());
 
             this.managementInterface.addJobsToLoadedJobsTable(jobs);
 
