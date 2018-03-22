@@ -163,7 +163,7 @@ public class Windowed {
 			State secondRobotsSecondLocation;
 
 			State thirdRobotsFirstLocation = (State) list3.get(j);
-
+			
 			if (j + 1 < list1.size()) {
 				firstRobotsFirstLocation = (State) list1.get(j);
 				firstRobotsSecondLocation = (State) list1.get(j + 1);
@@ -186,7 +186,7 @@ public class Windowed {
 				secondRobotsSecondLocation = null;
 			}
 			// reroutes or if not possible returns null
-			if (firstRobotsFirstLocation != null || thirdRobotsFirstLocation != null) {
+			if (firstRobotsFirstLocation != null && thirdRobotsFirstLocation != null) {
 				if (firstRobotsFirstLocation.equals(thirdRobotsFirstLocation)) {
 					obstacles.add(firstRobotsFirstLocation);
 					tempPath = AStar.findPath(start, goal, obstacles);
@@ -218,7 +218,7 @@ public class Windowed {
 					}
 				}
 			}
-			if (firstRobotsSecondLocation != null || thirdRobotsFirstLocation != null) {
+			if (firstRobotsSecondLocation != null && thirdRobotsFirstLocation != null) {
 				if (firstRobotsSecondLocation.equals(thirdRobotsFirstLocation)) {
 					obstacles.add(firstRobotsSecondLocation);
 					tempPath = AStar.findPath(start, goal, obstacles);
@@ -250,7 +250,7 @@ public class Windowed {
 				}
 			}
 
-			if (secondRobotsFirstLocation != null || thirdRobotsFirstLocation != null) {
+			if (secondRobotsFirstLocation != null && thirdRobotsFirstLocation != null) {
 				if (secondRobotsFirstLocation.equals(thirdRobotsFirstLocation)) {
 					obstacles.add(secondRobotsFirstLocation);
 					tempPath = AStar.findPath(start, goal, obstacles);
@@ -281,7 +281,7 @@ public class Windowed {
 					}
 				}
 			}
-			if (secondRobotsSecondLocation != null || thirdRobotsFirstLocation != null) {
+			if (secondRobotsSecondLocation != null && thirdRobotsFirstLocation != null) {
 				if (secondRobotsSecondLocation.equals(thirdRobotsFirstLocation)) {
 					obstacles.add(secondRobotsSecondLocation);
 					tempPath = AStar.findPath(start, goal, obstacles);
