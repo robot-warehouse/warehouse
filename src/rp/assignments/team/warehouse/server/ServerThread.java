@@ -86,8 +86,6 @@ public class ServerThread extends Thread {
                 }
             }
 
-            this.pickAssigner.next();
-
             if (this.jobSelector.hasNext()) { // TODO be smarter (what does this mean I can't remember)
                 if (workingOnJobs.size() <= 0 || !jobsHaveAvailablePicks()) {
                     Job newJob = this.jobSelector.next();
@@ -100,6 +98,8 @@ public class ServerThread extends Thread {
                 this.warehouse.assignedAllJobs();
                 return;
             }
+
+            this.pickAssigner.next();
 
             Thread.yield();
         }
