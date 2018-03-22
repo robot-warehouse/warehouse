@@ -41,8 +41,8 @@ public class CancellationClassifier {
     private AbstractClassifier classifier;
 
     private static final Logger logger = LogManager.getLogger(CancellationClassifier.class);
-    private static final String TRAINING_FILE = "./tmp/training/training.arff";
-    private static final String CLASSIFYING_FILE = "./tmp/training/classifying.arff";
+    private static final String TRAINING_FILE = "./training.arff";
+    private static final String CLASSIFYING_FILE = "./classifying.arff";
 
     private String itemIdsString;
     private String[] itemIdsArray;
@@ -153,7 +153,7 @@ public class CancellationClassifier {
             if (this.jobs.containsKey(jobId)) {
                 if (clsLabel == 1d) {
                     logger.trace("job {} given label {}", jobId, clsLabel);
-                    this.jobs.get(jobId).setCancelled();
+                    this.jobs.get(jobId).setPredictedCancelled();
                 }
             } else {
                 logger.error("Came across job ID {} which was not in the map", jobId);
