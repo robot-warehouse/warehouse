@@ -6,6 +6,7 @@ import java.util.Set;
 import rp.assignments.team.warehouse.server.gui.ManagementInterface;
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.input.Importer;
+import rp.assignments.team.warehouse.server.job.selection.CancellationClassifier;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
 import rp.assignments.team.warehouse.server.route.planning.RoutePlanning;
@@ -135,6 +136,17 @@ public class Controller {
     }
 
     /**
+     * Checks if all the required files have been set and exist.
+     *
+     * @return True if {@link #importFiles} can be called.
+     */
+    public boolean readyForImport() {
+        return this.jobsFile != null && this.cancellationsFile != null && this.trainingFile != null &&
+        this.locationsFile != null && this.itemsFile != null && this.dropsFile != null && this.jobsFile.exists() && this.cancellationsFile.exists() && this.trainingFile.exists() &&
+        this.locationsFile.exists() && this.itemsFile.exists() && this.dropsFile.exists();
+    }
+
+    /**
      * Run the importer on the specified input files.
      */
     public void importFiles() {
@@ -150,6 +162,11 @@ public class Controller {
 
             this.startable = true;
             this.alreadyImported = true;
+        }
+    }
+
+    public void runClassification() {
+        if (this.alreadyImported && !this.alreadyClassified) {
         }
     }
 

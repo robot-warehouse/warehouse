@@ -185,7 +185,10 @@ public class ManagementInterface {
 
 		JLabel lblCurrentFacing = new JLabel("Current Facing");
 		lblCurrentFacing.setBounds(673, 44, 85, 25);
-		frame.getContentPane().add(lblCurrentFacing);
+        frame.getContentPane().add(lblCurrentFacing);
+
+        JButton btnImportFiles = new JButton("Import Files");
+		JButton btnRunClassification = new JButton("Run Classification");
 
 		JButton btnUploadTrainingFile = new JButton("Upload Training");
 		btnUploadTrainingFile.addActionListener(event -> {
@@ -196,7 +199,9 @@ public class ManagementInterface {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				if (!controller.setTrainingFile(fileChooser.getSelectedFile())) {
 					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-				}
+				} else {
+                    btnImportFiles.setEnabled(controller.readyForImport());
+                }
 			}
 		});
 		btnUploadTrainingFile.setBounds(12, 303, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
@@ -211,7 +216,9 @@ public class ManagementInterface {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				if (!controller.setDropsFile(fileChooser.getSelectedFile())) {
 					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-				}
+				} else {
+                    btnImportFiles.setEnabled(controller.readyForImport());
+                }
 			}
 		});
 
@@ -225,7 +232,9 @@ public class ManagementInterface {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				if (!controller.setCancellationsFile(fileChooser.getSelectedFile())) {
 					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-				}
+				} else {
+                    btnImportFiles.setEnabled(controller.readyForImport());
+                }
 			}
 		});
 		btnUploadCancellationsFile.setBounds(12, 264, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
@@ -242,7 +251,9 @@ public class ManagementInterface {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				if (!controller.setItemsFile(fileChooser.getSelectedFile())) {
 					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-				}
+				} else {
+                    btnImportFiles.setEnabled(controller.readyForImport());
+                }
 			}
 		});
 		btnUploadItemsFile.setBounds(12, 188, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
@@ -257,7 +268,9 @@ public class ManagementInterface {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				if (!this.controller.setJobsFile(fileChooser.getSelectedFile())) {
 					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-				}
+				} else {
+                    btnImportFiles.setEnabled(controller.readyForImport());
+                }
 			}
 		});
 		btnUploadJobsFile.setBounds(12, 150, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
@@ -272,16 +285,26 @@ public class ManagementInterface {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				if (!this.controller.setLocationsFile(fileChooser.getSelectedFile())) {
 					JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
-				}
+				} else {
+                    btnImportFiles.setEnabled(controller.readyForImport());
+                }
 			}
 		});
 		btnUploadLocationsFile.setBounds(12, 114, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
 		this.frame.getContentPane().add(btnUploadLocationsFile);
 
-		JButton btnImportFiles = new JButton("Import Files");
-		btnImportFiles.addActionListener(event -> this.controller.importFiles());
-		btnImportFiles.setBounds(12, 338, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT * 2);
-		this.frame.getContentPane().add(btnImportFiles);
+        btnImportFiles.setEnabled(false);
+		btnImportFiles.addActionListener(event -> {
+            this.controller.importFiles();
+            btnRunClassification.setEnabled(true);
+        });
+		btnImportFiles.setBounds(12, 341, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+        this.frame.getContentPane().add(btnImportFiles);
+
+        btnRunClassification.setEnabled(false);
+		btnRunClassification.addActionListener(event -> this.controller.runClassification());
+		btnRunClassification.setBounds(12, 379, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+		this.frame.getContentPane().add(btnRunClassification);
 		// endregion
 
 		// region MiddlePane
