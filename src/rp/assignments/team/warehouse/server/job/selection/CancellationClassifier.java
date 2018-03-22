@@ -1,11 +1,8 @@
 package rp.assignments.team.warehouse.server.job.selection;
 
 import weka.classifiers.AbstractClassifier;
-import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
-import weka.classifiers.functions.SMO;
-import weka.classifiers.trees.J48;
 import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -67,7 +64,7 @@ public class CancellationClassifier {
             this.itemIdsString += "," + id;
         }
         
-        this.classifier = new SMO();
+        this.classifier = new NaiveBayes();
     }
 
     private static void writeToDataSource(List<Job> jobs, List<String> itemIds, String itemIdsString, File outFile) {
