@@ -17,6 +17,7 @@ public class PriorityJobSelector implements IJobSelector {
     public PriorityJobSelector(Set<Job> jobs) {
         Queue<Job> queue = new PriorityQueue<>(new CompareByPriorityComparator(false));
         queue.addAll(jobs);
+        queue.removeIf(j -> j.isCancelled() || j.isPreviouslyCancelled() || j.isPredictedCancelled());
         this.jobs = queue;
     }
 

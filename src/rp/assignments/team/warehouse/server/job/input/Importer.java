@@ -62,7 +62,7 @@ public class Importer {
         this.locationsFile = locationsFile;
         this.itemsFile = itemsFile;
         this.dropsFile = dropsFile;
-       
+
 
         this.doneParsing = false;
     }
@@ -163,7 +163,7 @@ public class Importer {
     }
 
     private void parseJobs(BufferedReader jobsReader, boolean isTraining) throws IOException {
-      
+
 
         // Standard regex: "^([0-9]+)(\\s*,\\s*([a-z]+)\\s*,\\s*([1-9][0-9]*))+$"
         // Use a better one that ensures items aren't referenced twice
@@ -172,8 +172,7 @@ public class Importer {
         String line;
         if(isTraining) {
             this.trainingJobs = new HashMap<>();
-        }
-        else {
+        } else {
         	this.jobs = new HashMap<>();
         }
         while ((line = jobsReader.readLine()) != null) {
@@ -187,7 +186,7 @@ public class Importer {
             String[] parts = line.split(",");
 
             List<JobItem> jobItems = new ArrayList<JobItem>();
-            
+
 
             int i = 1;
             while (i < parts.length - 1) {
@@ -203,7 +202,7 @@ public class Importer {
 
                 i += 2;
             }
-            
+
             if (isTraining) {
                 this.trainingJobs.put(id, new Job(id, jobItems));
             } else {
@@ -280,6 +279,14 @@ public class Importer {
         }
 
         return new HashSet<>(this.jobs.values());
+    }
+
+    public Map<Integer, Job> getJobsMap() throws ImportNotFinishedException {
+        if (!this.doneParsing) {
+            throw new ImportNotFinishedException();
+        }
+
+        return this.jobs;
     }
 
     public Set<Job> getTrainingJobs() throws ImportNotFinishedException {

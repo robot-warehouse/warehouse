@@ -15,7 +15,7 @@ public class JobTableModel extends AbstractTableModel implements TableModel {
     private static Object getColumnValue(Job job, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return job.getId();
+                return job.getId() + (job.isPredictedCancelled() ? " (C)" : "");
             case 1:
                 return job.getPickCount();
             case 2:
