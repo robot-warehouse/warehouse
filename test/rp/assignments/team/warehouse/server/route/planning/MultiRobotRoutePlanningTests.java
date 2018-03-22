@@ -150,25 +150,14 @@ public class MultiRobotRoutePlanningTests {
 		Location start3 = new Location(2,7);
 		Location goal3 = new Location(0,6);
 		
-		System.out.println("Before test " + Data.getObstacles());
-		
 		List<Location> list1 = Windowed.findPath(start1, goal1, Data.getObstacles());
 		
 		Assert.assertNotNull(list1);
 		
 		List<Location> list2 = Windowed.findPath(list1, start2, goal2, Data.getObstacles());
 		
-	//	Assert.assertNotNull(list2);
+		Assert.assertNotNull(list2);
 		
 		List<Location> list3 = Windowed.findPath(list1,list2,start3, goal3, Data.getObstacles());
-		
-		//Assert.assertNotNull(list3);
-		
-		System.out.println(list1);
-		System.out.println(list2);
-		System.out.println(list3);
-	
 	}
-	
-
 }
