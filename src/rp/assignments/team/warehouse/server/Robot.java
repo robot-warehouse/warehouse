@@ -29,6 +29,10 @@ public class Robot implements Picker, Bidder {
 
     /** Synchronised lock guarding the currentRoute */
     private final Object currentRouteLock = true;
+    
+    private final Object currentLocationLock = true;
+    
+    private final Object facingLock = true;
 
     /** The robot's information */
     private RobotInfo robotInfo;
@@ -147,7 +151,10 @@ public class Robot implements Picker, Bidder {
      * @return The robot's location.
      */
     public Location getCurrentLocation() {
-        return this.currentLocation;
+    	synchronized (this.currentLocationLock) {
+    		return this.currentLocation;
+		}
+        
     }
 
     /**
@@ -171,7 +178,9 @@ public class Robot implements Picker, Bidder {
      * @return The direction the robot is facing.
      */
     public Facing getCurrentFacingDirection() {
-        return this.currentFacingDirection;
+    	synchronized (facingLock) {
+    		return this.currentFacingDirection;	
+		}
     }
 
     /**
@@ -181,8 +190,10 @@ public class Robot implements Picker, Bidder {
      */
     public void setCurrentFacingDirection(Facing currentFacingDirection) {
         assert currentFacingDirection != null;
-
-        this.currentFacingDirection = currentFacingDirection;
+        synchronized(facingLock){
+        	this.currentFacingDirection = currentFacingDirection;
+        }
+        
     }
 
     /**

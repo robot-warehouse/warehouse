@@ -7,7 +7,7 @@ import rp.assignments.team.warehouse.server.Location;
 
 public class Windowed {
 
-	private final static int WINDOW = 4;
+	private final static int WINDOW = 2;
 
 	public static List<Location> findPath(Location start, Location goal, List<Location> obstacles) {
 
@@ -43,7 +43,10 @@ public class Windowed {
 
 		for (i = 0; i < list2.size(); i++) {
 			State secondRobotsFirstLocation = (State) list2.get(i);
-			State firstRobotsFirstLocation = (State) list1.get(i);
+			State firstRobotsFirstLocation = null;
+			if(i<list1.size()) {
+			firstRobotsFirstLocation = (State) list1.get(i);
+			}
 			State firstRobotsSecondLocation = null;
 			
 			if(i+1<list1.size()) {
@@ -51,7 +54,8 @@ public class Windowed {
 			}
 
 			// reroutes or if not possible returns null
-			if (firstRobotsFirstLocation.equals(secondRobotsFirstLocation)) {
+			
+			if (firstRobotsSecondLocation != null && firstRobotsFirstLocation.equals(secondRobotsFirstLocation)) {
 				obstacles.add(firstRobotsFirstLocation);
 				list2 = AStar.findPath(start, goal, obstacles);
 				if (list2 == null) {

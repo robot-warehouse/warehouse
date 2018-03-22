@@ -1,6 +1,7 @@
 package rp.assignments.team.warehouse.server.communications;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -36,8 +37,11 @@ public class MessageReceiver extends Thread {
     @Override
     public void run() {
         while (true) {
+        	String robotCommand = "";
             try {
-                Command command = Command.strToCommand((this.fromRobot.readUTF()));
+            	
+            	robotCommand = this.fromRobot.readUTF();
+                Command command = Command.strToCommand(robotCommand);
                 switch (command) {
                     case SEND_POSITION:
                         int x = Integer.valueOf(this.fromRobot.readUTF()); // get x
@@ -73,7 +77,7 @@ public class MessageReceiver extends Thread {
                 e.printStackTrace();
                 break;
             } catch (IllegalArgumentException e) {
-                logger.error("Invalid/unrecognised command sent from robot, waiting for next command.");
+                logger.error("Invalid/unrecognised command sent from robot: ." + robotCommand);
             }
         }
     }
