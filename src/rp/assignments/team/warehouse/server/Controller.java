@@ -25,23 +25,27 @@ public class Controller {
     /** The management interface GUI. */
     private ManagementInterface managementInterface;
 
+    /** Directory for default files (below) - doesn't need to exist, GUI will require valid files to be uploaded */
+    private static final String DEFAULT_INPUT_DIR = "./input/final/";
+
     /** The file to import the jobs from. */
-    private File jobsFile;
+    private File jobsFile = new File(DEFAULT_INPUT_DIR + "jobs.csv");
 
     /** The file to import the cancellation history from. */
-    private File cancellationsFile;
+    private File cancellationsFile = new File(DEFAULT_INPUT_DIR + "cancellations.csv");
 
     /** The file to import the training jobs from. */
-    private File trainingFile;
+    private File trainingFile = new File(DEFAULT_INPUT_DIR + "training_jobs.csv");
 
     /** The file to import the item locations from. */
-    private File locationsFile;
+    private File locationsFile = new File(DEFAULT_INPUT_DIR + "locations.csv");
 
     /** The file to import the items from. */
-    private File itemsFile;
+    private File itemsFile = new File(DEFAULT_INPUT_DIR + "items.csv");
 
     /** The file to import the drop locations from. */
-    private File dropsFile;
+    private File dropsFile = new File(DEFAULT_INPUT_DIR + "drops.csv");
+
 
     /** Set of all imported jobs. */
     private Set<Job> jobs;
