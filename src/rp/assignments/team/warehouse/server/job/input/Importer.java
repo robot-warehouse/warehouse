@@ -62,6 +62,7 @@ public class Importer {
         this.locationsFile = locationsFile;
         this.itemsFile = itemsFile;
         this.dropsFile = dropsFile;
+       
 
         this.doneParsing = false;
     }
@@ -162,13 +163,19 @@ public class Importer {
     }
 
     private void parseJobs(BufferedReader jobsReader, boolean isTraining) throws IOException {
-        this.jobs = new HashMap<>();
+      
 
         // Standard regex: "^([0-9]+)(\\s*,\\s*([a-z]+)\\s*,\\s*([1-9][0-9]*))+$"
         // Use a better one that ensures items aren't referenced twice
         Pattern jobPattern = Pattern.compile("^([0-9]+)(\\s*,\\s*([a-z]+)(?!.+\\3)\\s*,\\s*([1-9][0-9]*))+$");
 
         String line;
+        if(isTraining) {
+            this.trainingJobs = new HashMap<>();
+        }
+        else {
+        	this.jobs = new HashMap<>();
+        }
         while ((line = jobsReader.readLine()) != null) {
             Matcher m = jobPattern.matcher(line);
 
@@ -180,6 +187,7 @@ public class Importer {
             String[] parts = line.split(",");
 
             List<JobItem> jobItems = new ArrayList<JobItem>();
+            
 
             int i = 1;
             while (i < parts.length - 1) {
@@ -195,7 +203,7 @@ public class Importer {
 
                 i += 2;
             }
-
+            
             if (isTraining) {
                 this.trainingJobs.put(id, new Job(id, jobItems));
             } else {
