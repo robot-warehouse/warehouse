@@ -314,7 +314,6 @@ public class Robot implements Picker, Bidder {
      */
     public boolean connect(RoutePlanning routePlanner) {
         this.communicationsManager = new CommunicationsManager(this);
-        this.communicationsManager.startServer();
 
         if (this.communicationsManager.isConnected()) {
             (new RobotThread(this, this.communicationsManager, routePlanner)).start();
