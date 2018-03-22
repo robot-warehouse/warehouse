@@ -12,6 +12,7 @@ public class Windowed {
 	public static List<Location> findPath(Location start, Location goal, List<Location> obstacles) {
 
 		List<Location> list1 = AStar.findPath(start, goal, obstacles);
+		System.out.println(list1);
 
 		list1 = resize(list1);
 
@@ -375,7 +376,9 @@ public class Windowed {
 	}
 
 	private static List<Location> resize(List<Location> list) {
-		if (list.size() > WINDOW) {
+		if(list == null)
+			return null;
+		else if (list.size() > WINDOW) {
 			list = list.subList(0, WINDOW);
 		}
 		return list;
