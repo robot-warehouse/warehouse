@@ -12,8 +12,6 @@ public class Windowed {
 	public static List<Location> findPath(Location start, Location goal, List<Location> obstacles) {
 
 		List<Location> list1 = AStar.findPath(start, goal, obstacles);
-		System.out.println(list1);
-
 		list1 = resize(list1);
 
 		return list1;
@@ -382,10 +380,8 @@ public class Windowed {
 
 	private static List<Location> attemptToFindAPartialPath(List<Location> list, Location start, Location goal,
 			List<Location> obstacles) {
-		System.out.println(list);
 		List<Location> tempPath = AStar.findPath(start, goal, obstacles);
-		System.out.println(goal);
-
+		
 		for (int k = 0; tempPath == null && k < list.size() - 1; k++) {
 			tempPath = AStar.findPath(start, list.get(list.size() - 1 - k), obstacles);
 		}
