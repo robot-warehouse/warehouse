@@ -145,16 +145,20 @@ public class Controller {
      * @return True if {@link #importFiles} can be called.
      */
     public boolean readyForImport() {
-        return this.jobsFile != null && this.cancellationsFile != null && this.trainingFile != null &&
+        return !this.alreadyImported && this.jobsFile != null && this.cancellationsFile != null && this.trainingFile != null &&
         this.locationsFile != null && this.itemsFile != null && this.dropsFile != null && this.jobsFile.exists() && this.cancellationsFile.exists() && this.trainingFile.exists() &&
         this.locationsFile.exists() && this.itemsFile.exists() && this.dropsFile.exists();
+    }
+
+    public boolean readyForClassification() {
+        return this.alreadyImported;
     }
 
     /**
      * Run the importer on the specified input files.
      */
     public void importFiles() {
-        if (!this.alreadyImported) {
+        if (this.readyForImport()) {
             Importer importer = new Importer(this.jobsFile, this.cancellationsFile, this.trainingFile,
                     this.locationsFile, this.itemsFile, this.dropsFile);
             importer.parse();
@@ -170,7 +174,7 @@ public class Controller {
     }
 
     public void runClassification() {
-        if (this.alreadyImported && !this.alreadyClassified) {
+        if (this.readyForClassification()) {
         }
     }
 
