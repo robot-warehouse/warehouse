@@ -53,7 +53,7 @@ public class RoutePlanningTest {
         // check if an obstacle is rejected as starting position
         Location start5 = new Location(1, 2);
         Location goal5 = new Location(0, 5);
-        List<Location> result5 = AStar.findPath(start5, goal5);
+        List<Location> result5 = AStar.findPath(start5, goal5, Data.getObstacles());
         Assert.assertNull(result5);
     }
 
@@ -62,7 +62,7 @@ public class RoutePlanningTest {
         // check if an obstacle is rejected as goal position
         Location start6 = new Location(0, 0);
         Location goal6 = new Location(1, 2);
-        List<Location> result6 = AStar.findPath(start6, goal6);
+        List<Location> result6 = AStar.findPath(start6, goal6,Data.getObstacles());
         Assert.assertNull(result6);
     }
 }

@@ -17,9 +17,9 @@ public class Main {
 
 
 		Location start1 = new State(0,0);
-		Location goal1 = new State(2,4);
-		Location start2 = new State(7,0);
-		Location goal2 = new State(0,7);
+		Location goal1 = new State(4,5);
+		Location start2 = new State(0,0);
+		Location goal2 = new State(0,2);
 		Location start3 = new State(6,3);
 		Location goal3 = new State(11,3);
 		
