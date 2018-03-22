@@ -20,6 +20,9 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     /** The reward for completing the job */
     private final float reward;
 
+    /** The total weight of all items in the job */
+    private final float weight;
+
     /** Also apparently the reward idk */
     private final float priority;
 
@@ -28,6 +31,9 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 
     /** Whether the job has been previously cancelled */
     private boolean previouslyCancelled;
+
+    /** Whether the job is predicted to be cancelled */
+    private boolean predictedCancelled;
 
     /** The list of picks still to pickup */
     private List<Pick> availablePicks;
@@ -50,8 +56,10 @@ public class Job implements IIDed, IPrioritised, IRewardable {
         this.jobItems = jobItems;
         this.cancelled = false;
         this.previouslyCancelled = false;
+        this.predictedCancelled = false;
         this.pickCount = calcPickCount(this);
         this.reward = calcReward(this);
+        this.weight = calcWeight(this);
         this.priority = calcPriority(this);
         this.availablePicks = generatePicks();
         this.completedPickCount = 0;
@@ -63,6 +71,10 @@ public class Job implements IIDed, IPrioritised, IRewardable {
 
     private static float calcReward(Job j) {
         return (float) j.jobItems.stream().mapToDouble(x -> (double) x.getReward()).sum();
+    }
+
+    private static float calcWeight(Job j) {
+        return (float) j.jobItems.stream().mapToDouble(x -> (double) x.getWeight()).sum();
     }
 
     /**
@@ -117,6 +129,20 @@ public class Job implements IIDed, IPrioritised, IRewardable {
      */
     public void setPreviouslyCancelled() {
         this.previouslyCancelled = true;
+    }
+
+    /**
+     * @return True if the job has been predicted cancelled.
+     */
+    public boolean isPredictedCancelled() {
+        return this.predictedCancelled;
+    }
+
+    /**
+     * Mark the job as having been predicted that it will be cancelled. Note that once called this action cannot be undone.
+     */
+    public void setPredictedCancelled() {
+        this.predictedCancelled = true;
     }
 
     /**
@@ -193,6 +219,15 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     @Override
     public float getReward() {
         return this.reward;
+    }
+
+    /**
+     * Get the total weight of all the items in the job.
+     *
+     * @return The total weight
+     */
+    public float getWeight() {
+        return this.weight;
     }
 
     /**

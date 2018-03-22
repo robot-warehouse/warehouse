@@ -135,6 +135,13 @@ public class Item implements IIDed, IRewardable {
     }
 
     /**
+     * @return the id as a string
+     */
+    public String getIdString() {
+        return Item.numericIdToString(this.id);
+    }
+
+    /**
      * Get the reward for dropping of one of this item.
      *
      * @return the reward

@@ -41,6 +41,14 @@ public class JobItem {
         return this.item.getReward() * this.count;
     }
 
+    /**
+     * @return the weight of a single item times the how many to pick
+     * @see Item#getWeight()
+     */
+    public float getWeight() {
+        return this.item.getWeight() * this.count;
+    }
+
     @Override
     public String toString() {
         return String.format("%d*<%s>", this.count, this.item);

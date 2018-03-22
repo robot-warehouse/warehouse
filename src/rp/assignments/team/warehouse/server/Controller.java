@@ -3,9 +3,13 @@ package rp.assignments.team.warehouse.server;
 import java.io.File;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import rp.assignments.team.warehouse.server.gui.ManagementInterface;
 import rp.assignments.team.warehouse.server.job.Job;
 import rp.assignments.team.warehouse.server.job.input.Importer;
+import rp.assignments.team.warehouse.server.job.selection.CancellationClassifier;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
 import rp.assignments.team.warehouse.server.job.selection.PriorityJobSelector;
 import rp.assignments.team.warehouse.server.route.planning.RoutePlanning;
@@ -19,6 +23,11 @@ public class Controller {
     /** Stops anything from happening once you've imported the files once */
     private boolean alreadyImported;
 
+    /** Stops classification happening more than once */
+    private boolean alreadyClassified;
+
+    private Importer importer;
+
     /** The Warehouse. */
     private Warehouse warehouse;
 
@@ -30,6 +39,9 @@ public class Controller {
 
     /** The file to import the cancellation history from. */
     private File cancellationsFile;
+
+    /** The file to import the training jobs from. */
+    private File trainingFile;
 
     /** The file to import the item locations from. */
     private File locationsFile;
@@ -51,6 +63,8 @@ public class Controller {
 
     /** The instance of the route planner passed to every robot */
     private RoutePlanning routePlanner;
+
+    private static final Logger logger = LogManager.getLogger(Controller.class);
 
     /**
      * @param warehouse The Warehouse.
@@ -92,6 +106,16 @@ public class Controller {
     }
 
     /**
+     * Set the file to import the training jobs from.
+     *
+     * @param trainingFile The file to import the training jobs from.
+     * @return True if successfully set.
+     */
+    public boolean setTrainingFile(File trainingFile) {
+        return trainingFile.exists() && (this.trainingFile = trainingFile).exists();
+    }
+
+    /**
      * Set the file to import the item locations from.
      *
      * @param locationsFile The file to import the item locations from.
@@ -122,12 +146,23 @@ public class Controller {
     }
 
     /**
+     * Checks if all the required files have been set and exist.
+     *
+     * @return True if {@link #importFiles} can be called.
+     */
+    public boolean readyForImport() {
+        return this.jobsFile != null && this.cancellationsFile != null && this.trainingFile != null &&
+        this.locationsFile != null && this.itemsFile != null && this.dropsFile != null && this.jobsFile.exists() && this.cancellationsFile.exists() && this.trainingFile.exists() &&
+        this.locationsFile.exists() && this.itemsFile.exists() && this.dropsFile.exists();
+    }
+
+    /**
      * Run the importer on the specified input files.
      */
     public void importFiles() {
-        if (!this.alreadyImported) {
-            Importer importer = new Importer(this.jobsFile, this.cancellationsFile, this.locationsFile, this.itemsFile,
-                                             this.dropsFile);
+        if (!this.alreadyImported && this.readyForImport()) {
+            importer = new Importer(this.jobsFile, this.cancellationsFile, this.trainingFile,
+                    this.locationsFile, this.itemsFile, this.dropsFile);
             importer.parse();
 
             this.jobs = importer.getJobs();
@@ -137,6 +172,21 @@ public class Controller {
 
             this.startable = true;
             this.alreadyImported = true;
+        }
+    }
+
+    public void runClassification() {
+        if (this.alreadyImported && !this.alreadyClassified) {
+            CancellationClassifier classifier = new CancellationClassifier(importer);
+            try {
+                classifier.train();
+                classifier.classify();
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.fatal("Exception thrown during cancellation classification thus aborting.", e);
+            }
+
+            this.alreadyClassified = true;
         }
     }
 

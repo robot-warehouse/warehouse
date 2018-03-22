@@ -13,8 +13,8 @@ import rp.assignments.team.warehouse.shared.Instruction;
 
 public class BluetoothTest {
 
-
-    public static void main(String[] args) {
+	public static void main(String[] args) {
+    	Robot r =  new Robot(RobotInfo.NAMELESS, new Location(0, 0), Facing.NORTH);
         //		CommunicationsManager manager = new CommunicationsManager(
         //				new Robot(RobotInfo.JOHNCENA, new Location(0, 0), Facing.EAST));
         		CommunicationsManager manager = new CommunicationsManager(
@@ -31,14 +31,14 @@ public class BluetoothTest {
         System.out.println(testOrders);
         if (manager.isConnected()) {
             System.out.println("Enter orders");
-            manager.sendPosition(6, 3);
+            manager.sendPosition(0, 0);
             manager.sendNumOfPicks(2);
             manager.sendFacing(Facing.EAST);
             manager.sendOrders(testOrders);
             System.out.println("Orders sent");
         }
 
-    }
 
+    }
 
 }
