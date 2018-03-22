@@ -31,6 +31,9 @@ public class Controller {
     /** The file to import the cancellation history from. */
     private File cancellationsFile;
 
+    /** The file to import the training jobs from. */
+    private File trainingFile;
+
     /** The file to import the item locations from. */
     private File locationsFile;
 
@@ -92,6 +95,16 @@ public class Controller {
     }
 
     /**
+     * Set the file to import the training jobs from.
+     *
+     * @param trainingFile The file to import the training jobs from.
+     * @return True if successfully set.
+     */
+    public boolean setTrainingFile(File trainingFile) {
+        return trainingFile.exists() && (this.trainingFile = trainingFile).exists();
+    }
+
+    /**
      * Set the file to import the item locations from.
      *
      * @param locationsFile The file to import the item locations from.
@@ -126,8 +139,8 @@ public class Controller {
      */
     public void importFiles() {
         if (!this.alreadyImported) {
-            Importer importer = new Importer(this.jobsFile, this.cancellationsFile, this.locationsFile, this.itemsFile,
-                                             this.dropsFile);
+            Importer importer = new Importer(this.jobsFile, this.cancellationsFile, this.trainingFile,
+                    this.locationsFile, this.itemsFile, this.dropsFile);
             importer.parse();
 
             this.jobs = importer.getJobs();

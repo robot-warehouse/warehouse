@@ -26,11 +26,13 @@ public class Importer {
 
     private File jobsFile;
     private File cancellationsFile;
+    private File trainingFile;
     private File locationsFile;
     private File itemsFile;
     private File dropsFile;
 
     private Map<Integer, Job> jobs;
+    private Map<Integer, Job> trainingJobs;
     private Map<Integer, Location> locations;
     private Map<Integer, Item> items;
     private Set<Location> drops;
@@ -46,15 +48,17 @@ public class Importer {
      * @param itemsFile The file to import the items from.
      * @param dropsFile The file to import the drop locations from.
      */
-    public Importer(File jobsFile, File cancellationsFile, File locationsFile, File itemsFile, File dropsFile) {
+    public Importer(File jobsFile, File cancellationsFile, File trainingFile, File locationsFile, File itemsFile, File dropsFile) {
         assert jobsFile.exists() : "jobs file must exist";
         assert cancellationsFile.exists() : "cancellations file must exist";
+        assert trainingFile.exists() : "training file must exist";
         assert locationsFile.exists() : "locations file must exist";
         assert itemsFile.exists() : "items file must exist";
         assert dropsFile.exists() : "drops file must exist";
 
         this.jobsFile = jobsFile;
         this.cancellationsFile = cancellationsFile;
+        this.trainingFile = trainingFile;
         this.locationsFile = locationsFile;
         this.itemsFile = itemsFile;
         this.dropsFile = dropsFile;
@@ -70,6 +74,7 @@ public class Importer {
     public boolean parse() {
         try (BufferedReader jobsReader = new BufferedReader(new FileReader(jobsFile));
                 BufferedReader cancellationsReader = new BufferedReader(new FileReader(cancellationsFile));
+                BufferedReader trainingReader = new BufferedReader(new FileReader(trainingFile));
                 BufferedReader locationsReader = new BufferedReader(new FileReader(locationsFile));
                 BufferedReader itemsReader = new BufferedReader(new FileReader(itemsFile));
                 BufferedReader dropsReader = new BufferedReader(new FileReader(dropsFile))) {
@@ -78,7 +83,9 @@ public class Importer {
             logger.info("Parsing items");
             this.parseItems(itemsReader);
             logger.info("Parsing jobs");
-            this.parseJobs(jobsReader);
+            this.parseJobs(jobsReader, false);
+            logger.info("Parsing training");
+            this.parseJobs(trainingReader, true);
             logger.info("Parsing cancellations");
             this.parseCancellations(cancellationsReader);
             logger.info("Parsing drops");
@@ -154,7 +161,7 @@ public class Importer {
         }
     }
 
-    private void parseJobs(BufferedReader jobsReader) throws IOException {
+    private void parseJobs(BufferedReader jobsReader, boolean isTraining) throws IOException {
         this.jobs = new HashMap<>();
 
         // Standard regex: "^([0-9]+)(\\s*,\\s*([a-z]+)\\s*,\\s*([1-9][0-9]*))+$"
@@ -183,13 +190,17 @@ public class Importer {
                 if (this.items.containsKey(itemId)) {
                     jobItems.add(new JobItem(this.items.get(itemId), count));
                 } else {
-                    logger.info("jobs file referenced unknown item id {} in job {}", itemIdString, id);
+                    logger.info("{} file referenced unknown item id {} in job {}", (isTraining ? "training" : "jobs"), itemIdString, id);
                 }
 
                 i += 2;
             }
 
-            this.jobs.put(id, new Job(id, jobItems));
+            if (isTraining) {
+                this.trainingJobs.put(id, new Job(id, jobItems));
+            } else {
+                this.jobs.put(id, new Job(id, jobItems));
+            }
         }
     }
 
@@ -205,11 +216,14 @@ public class Importer {
 
             int id = Integer.parseInt(m.group(1));
             boolean cancelled = Integer.parseInt(m.group(2)) == 1;
-            Job job = this.jobs.get(id);
 
-            if (job != null) {
+            if (this.trainingJobs.containsKey(id)) {
                 if (cancelled) {
-                    job.setPreviouslyCancelled();
+                    this.trainingJobs.get(id).setPreviouslyCancelled();
+                }
+            } else if(this.jobs.containsKey(id)) {
+                if (cancelled) {
+                    this.jobs.get(id).setCancelled();
                 }
             } else {
                 logger.info("cancellations file referenced unknown job id {}", id);
@@ -258,6 +272,14 @@ public class Importer {
         }
 
         return new HashSet<>(this.jobs.values());
+    }
+
+    public Set<Job> getTrainingJobs() throws ImportNotFinishedException {
+        if (!this.doneParsing) {
+            throw new ImportNotFinishedException();
+        }
+
+        return new HashSet<>(this.trainingJobs.values());
     }
 
     public Set<Item> getItems() throws ImportNotFinishedException {

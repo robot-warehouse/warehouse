@@ -194,6 +194,21 @@ public class ManagementInterface {
         btnUploadCancellationsFile.setBounds(12, 264, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
         this.frame.getContentPane().add(btnUploadCancellationsFile);
 
+        JButton btnUploadTrainingFile = new JButton("Upload Training");
+        btnUploadTrainingFile.addActionListener(event -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(this.baseDirectory);
+            int returnVal = fileChooser.showOpenDialog(this.frame);
+
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                if (!controller.setTrainingFile(fileChooser.getSelectedFile())) {
+                    JOptionPane.showMessageDialog(this.frame, "That file does not exist!");
+                }
+            }
+        });
+        btnUploadTrainingFile.setBounds(12, 264, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
+        this.frame.getContentPane().add(btnUploadTrainingFile);
+
         JButton btnUploadDropsFile = new JButton("Upload Drops");
         btnUploadDropsFile.addActionListener(event -> {
             JFileChooser fileChooser = new JFileChooser();
