@@ -3,18 +3,12 @@ package rp.assignments.team.warehouse.server.job.selection;
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
-import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
-import weka.core.OptionHandler;
-import weka.core.Utils;
 import weka.core.converters.ConverterUtils.DataSource;
-import weka.filters.Filter;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.util.ArrayList;
@@ -24,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-import java.util.Vector;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
