@@ -68,7 +68,7 @@ public class ServerThread extends Thread {
     }
 
     @Override
-    public void run() {
+    public void run() {    	
         while (this.warehouse.isRunning()) {
             Set<Job> workingOnJobs = getWorkingOnJobs();
 
@@ -96,10 +96,13 @@ public class ServerThread extends Thread {
                 }
             } else {
                 this.warehouse.assignedAllJobs();
-                return;
             }
 
             this.pickAssigner.next();
+            
+            if (!this.jobSelector.hasNext() && !jobsHaveAvailablePicks()) {
+            	return;
+            }
 
             Thread.yield();
         }
