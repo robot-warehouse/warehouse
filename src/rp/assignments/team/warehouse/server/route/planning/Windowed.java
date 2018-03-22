@@ -21,7 +21,7 @@ public class Windowed {
 
 	public static List<Location> findPath(List<Location> list1, Location start, Location goal,
 			List<Location> obstacles) {
-		assert (list1.size() < WINDOW);
+		assert (list1.size() <= WINDOW);
 		
 		if(start.equals(list1.get(0))) {
 			return null;
@@ -115,8 +115,8 @@ public class Windowed {
 
 	public static List<Location> findPath(List<Location> list1, List<Location> list2, Location start, Location goal,
 			List<Location> obstacles) {
-		assert (list1.size() < WINDOW);
-		assert (list2.size() < WINDOW);
+		assert (list1.size() <= WINDOW);
+		assert (list2.size() <= WINDOW);
 		
 		if(list1==null || list2==null) {
 			return null;
