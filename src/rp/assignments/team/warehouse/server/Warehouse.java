@@ -76,8 +76,6 @@ public class Warehouse {
      * @param job The completed job
      */
     public void completeJob(Job job) {
-        this.workingOnJobs.remove(job);
-
         this.controller.removeJobFromCurrentJobsTable(job);
 
         this.controller.addJobToCompletedJobsTable(job);

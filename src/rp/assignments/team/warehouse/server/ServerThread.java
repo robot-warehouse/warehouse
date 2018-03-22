@@ -51,6 +51,7 @@ public class ServerThread extends Thread {
      * @return True if any job has picks available.
      */
     public boolean jobsHaveAvailablePicks() {
+        // these two methods do basically the same thing I think
         return this.pickAssigner.hasNext();
         // return getWorkingOnJobs().stream()
         //     .anyMatch(j -> j.hasAvailablePicks());
@@ -69,18 +70,25 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         while (this.warehouse.isRunning()) {
-            Iterator<Job> jobIterator = this.getWorkingOnJobs().iterator();
+            Set<Job> workingOnJobs = getWorkingOnJobs();
 
-            while (jobIterator.hasNext()) {
-                Job job = jobIterator.next();
+            // Removing completed jobs from workingOnJobs list and updating GUI
+            if (workingOnJobs.size() > 0) {
+                Iterator<Job> jobIterator = workingOnJobs.iterator();
 
-                if (job.isComplete()) {
-                    this.warehouse.completeJob(job);
+                while (jobIterator.hasNext()) {
+                    Job job = jobIterator.next();
+
+                    if (job.isComplete()) {
+                        jobIterator.remove();
+                        this.warehouse.completeJob(job);
+                    }
                 }
             }
 
+            this.pickAssigner.next();
+
             if (this.jobSelector.hasNext()) { // TODO be smarter (what does this mean I can't remember)
-                Set<Job> workingOnJobs = getWorkingOnJobs();
                 if (workingOnJobs.size() <= 0 || !jobsHaveAvailablePicks()) {
                     Job newJob = this.jobSelector.next();
                     newJob.setDropLocation(getNextDropLocation());
@@ -88,8 +96,6 @@ public class ServerThread extends Thread {
                     this.pickAssigner.addPicks(newJob.getAvailablePicks());
                     this.warehouse.addWorkingOnJob(newJob);
                 }
-
-                this.pickAssigner.next();
             } else {
                 this.warehouse.assignedAllJobs();
                 return;
