@@ -89,7 +89,7 @@ public class Warehouse {
     public void cancelJob(Job job) {
         if (this.workingOnJobs.contains(job)) {
             // Uh-oh! Better find any affected robots...
-            this.robots.forEach(r -> r.jobCancelled(job));
+            // this.robots.forEach(r -> r.jobCancelled(job));
 
             this.workingOnJobs.remove(job);
         }

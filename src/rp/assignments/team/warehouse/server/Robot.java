@@ -55,9 +55,6 @@ public class Robot implements Picker, Bidder {
     /** The location to drop the items at */
     private Location currentDropLocation;
 
-    /** Whether the current job has been cancelled */
-    private boolean isJobCancelled;
-
     /** Whether the robot has finished picking up the assigned items */
     private boolean hasFinishedPickup;
 
@@ -252,7 +249,8 @@ public class Robot implements Picker, Bidder {
      * @return true/false
      */
     public boolean isJobCancelled() {
-        return this.isJobCancelled;
+        return this.currentPicks.stream()
+            .anyMatch(p -> p.getJob().isCancelled());
     }
 
     /**
