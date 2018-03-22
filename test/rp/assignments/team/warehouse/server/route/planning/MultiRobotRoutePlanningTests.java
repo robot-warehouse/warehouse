@@ -142,7 +142,7 @@ public class MultiRobotRoutePlanningTests {
 	}
 	
 	@Test
-	public void routeToNearestPossibleLocationTest1() {
+	public void routingTest4() {
 		Location start1 = new Location(0,7);
 		Location goal1 = new Location(3,6);
 		Location start2 = new Location(0,5);
@@ -151,13 +151,8 @@ public class MultiRobotRoutePlanningTests {
 		Location goal3 = new Location(0,6);
 		
 		List<Location> list1 = Windowed.findPath(start1, goal1, Data.getObstacles());
-		
-		Assert.assertNotNull(list1);
-		
 		List<Location> list2 = Windowed.findPath(list1, start2, goal2, Data.getObstacles());
-		
-		Assert.assertNotNull(list2);
-		
 		List<Location> list3 = Windowed.findPath(list1,list2,start3, goal3, Data.getObstacles());
+		Assert.assertNull(list3);
 	}
 }
