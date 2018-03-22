@@ -46,11 +46,12 @@ public class ImportValidDatasetTest {
         String datasetPath = ImporterInputPath.INPUT_PATH + "/valid/";
         File jobsFile = new File(datasetPath + "/jobs.csv");
         File cancellationsFile = new File(datasetPath + "/cancellations.csv");
+        File trainingFile = new File(datasetPath + "/training.csv");
         File locationsFile = new File(datasetPath + "/locations.csv");
         File itemsFile = new File(datasetPath + "/items.csv");
         File dropsFile = new File(datasetPath + "/drops.csv");
 
-        importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
+        importer = new Importer(jobsFile, cancellationsFile, trainingFile, locationsFile, itemsFile, dropsFile);
     }
 
     @Test
