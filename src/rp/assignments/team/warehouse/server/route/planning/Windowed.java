@@ -186,7 +186,7 @@ public class Windowed {
 					secondRobotsSecondLocation = null;
 				}
 				// reroutes or if not possible returns null
-
+				if(firstRobotsFirstLocation!= null || thirdRobotsFirstLocation!=null) {
 				if (firstRobotsFirstLocation.equals(thirdRobotsFirstLocation)) {
 					obstacles.add(firstRobotsFirstLocation);
 					tempPath = AStar.findPath(start, goal, obstacles);
@@ -213,7 +213,8 @@ public class Windowed {
 
 					}
 				}
-
+				}
+				if(firstRobotsSecondLocation!= null || thirdRobotsFirstLocation!=null) {
 				if (firstRobotsSecondLocation.equals(thirdRobotsFirstLocation)) {
 					obstacles.add(firstRobotsSecondLocation);
 					tempPath = AStar.findPath(start, goal, obstacles);
@@ -239,7 +240,9 @@ public class Windowed {
 						}
 					}
 				}
-
+				}
+				
+				if(secondRobotsFirstLocation!= null || thirdRobotsFirstLocation!=null) {
 				if (secondRobotsFirstLocation.equals(thirdRobotsFirstLocation)) {
 					obstacles.add(secondRobotsFirstLocation);
 					tempPath = AStar.findPath(start, goal, obstacles);
@@ -265,7 +268,8 @@ public class Windowed {
 
 					}
 				}
-
+				}
+				if(secondRobotsSecondLocation!= null || thirdRobotsFirstLocation!=null) {
 				if (secondRobotsSecondLocation.equals(thirdRobotsFirstLocation)) {
 					obstacles.add(secondRobotsSecondLocation);
 					tempPath = AStar.findPath(start, goal, obstacles);
@@ -289,6 +293,7 @@ public class Windowed {
 							break;
 						}
 					}
+				}
 				}
 
 			}
