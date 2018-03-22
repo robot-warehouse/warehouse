@@ -82,7 +82,6 @@ public class Robot implements Picker, Bidder {
         this.currentRoute = new ArrayList<>();
         this.hasFinishedDropOff = false;
         this.hasFinishedPickup = false;
-        this.isJobCancelled = false;
     }
 
     /**
@@ -381,7 +380,7 @@ public class Robot implements Picker, Bidder {
         boolean hadPicks = this.dropPicksForJob(job);
 
         if (hadPicks) {
-            this.isJobCancelled = true;
+            
         }
     }
 
