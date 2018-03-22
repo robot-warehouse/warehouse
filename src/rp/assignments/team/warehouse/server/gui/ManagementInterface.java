@@ -2,6 +2,7 @@ package rp.assignments.team.warehouse.server.gui;
 
 import java.awt.Font;
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -10,6 +11,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
@@ -61,6 +63,7 @@ public class ManagementInterface {
 
 	/** Table showing the loaded jobs */
 	private JTable tblLoadedJobs;
+	private JScrollPane tblLoadedJobsScrollPane;
 
 	/** Table showing the completed jobs */
 	private JTable tblCompletedJobs;
@@ -158,18 +161,6 @@ public class ManagementInterface {
 		JSeparator separator_3 = new JSeparator();
 		separator_3.setBounds(126, 431, 140, 2);
 		frame.getContentPane().add(separator_3);
-
-		JLabel label_3 = new JLabel("Job ID");
-		label_3.setBounds(173, 96, 56, 16);
-		frame.getContentPane().add(label_3);
-
-		JLabel label_4 = new JLabel("Pick Count");
-		label_4.setBounds(239, 96, 72, 16);
-		frame.getContentPane().add(label_4);
-
-		JLabel label_5 = new JLabel("Reward");
-		label_5.setBounds(323, 96, 56, 16);
-		frame.getContentPane().add(label_5);
 
 		JSeparator separator_4 = new JSeparator();
 		separator_4.setBounds(204, 81, 107, 2);
@@ -293,10 +284,17 @@ public class ManagementInterface {
 		btnUploadLocationsFile.setBounds(12, 114, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
 		this.frame.getContentPane().add(btnUploadLocationsFile);
 
-        btnImportFiles.setEnabled(false);
+		btnImportFiles.setEnabled(controller.readyForImport());
 		btnImportFiles.addActionListener(event -> {
             this.controller.importFiles();
             btnRunClassification.setEnabled(true);
+            btnImportFiles.setEnabled(false);
+            btnUploadCancellationsFile.setEnabled(false);
+            btnUploadDropsFile.setEnabled(false);
+            btnUploadItemsFile.setEnabled(false);
+            btnUploadJobsFile.setEnabled(false);
+            btnUploadLocationsFile.setEnabled(false);
+            btnUploadTrainingFile.setEnabled(false);
         });
 		btnImportFiles.setBounds(12, 341, BUTTON_WIDTH_WIDE, BUTTON_HEIGHT);
         this.frame.getContentPane().add(btnImportFiles);
@@ -313,8 +311,10 @@ public class ManagementInterface {
 		this.frame.getContentPane().add(lblLoadedJobs);
 
 		this.tblLoadedJobs = new JTable(new JobTableModel());
-		this.tblLoadedJobs.setBounds(173, 115, 201, 213);
-		this.frame.getContentPane().add(this.tblLoadedJobs);
+		this.tblLoadedJobs.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		this.tblLoadedJobsScrollPane = new JScrollPane(this.tblLoadedJobs);
+		this.tblLoadedJobsScrollPane.setBounds(173, 90, 245, 240);
+		this.frame.getContentPane().add(tblLoadedJobsScrollPane);
 		// endregion
 
 		// region RightPane
@@ -463,13 +463,14 @@ public class ManagementInterface {
 	 * @param jobs
 	 *            The list of jobs
 	 */
-	public void addJobsToLoadedJobsTable(Set<Job> jobs) {
+	public void addJobsToLoadedJobsTable(List<Job> jobs) {
 		JobTableModel model = (JobTableModel) this.tblLoadedJobs.getModel();
 		jobs.forEach(job -> {
 			if (job != null) {
 				model.addRow(job);
 			}
 		});
+		this.tblLoadedJobs.revalidate();
 	}
 
 	/**

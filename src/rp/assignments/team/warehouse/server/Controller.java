@@ -1,6 +1,9 @@
 package rp.assignments.team.warehouse.server;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import rp.assignments.team.warehouse.server.gui.ManagementInterface;
 import rp.assignments.team.warehouse.server.job.Job;
+import rp.assignments.team.warehouse.server.job.comparators.CompareByRewardComparator;
 import rp.assignments.team.warehouse.server.job.input.Importer;
 import rp.assignments.team.warehouse.server.job.selection.CancellationClassifier;
 import rp.assignments.team.warehouse.server.job.selection.IJobSelector;
@@ -34,23 +38,27 @@ public class Controller {
     /** The management interface GUI. */
     private ManagementInterface managementInterface;
 
+    /** Directory for default files (below) - doesn't need to exist, GUI will require valid files to be uploaded */
+    private static final String DEFAULT_INPUT_DIR = "./input/final/";
+
     /** The file to import the jobs from. */
-    private File jobsFile;
+    private File jobsFile = new File(DEFAULT_INPUT_DIR + "jobs.csv");
 
     /** The file to import the cancellation history from. */
-    private File cancellationsFile;
+    private File cancellationsFile = new File(DEFAULT_INPUT_DIR + "cancellations.csv");
 
     /** The file to import the training jobs from. */
-    private File trainingFile;
+    private File trainingFile = new File(DEFAULT_INPUT_DIR + "training_jobs.csv");
 
     /** The file to import the item locations from. */
-    private File locationsFile;
+    private File locationsFile = new File(DEFAULT_INPUT_DIR + "locations.csv");
 
     /** The file to import the items from. */
-    private File itemsFile;
+    private File itemsFile = new File(DEFAULT_INPUT_DIR + "items.csv");
 
     /** The file to import the drop locations from. */
-    private File dropsFile;
+    private File dropsFile = new File(DEFAULT_INPUT_DIR + "drops.csv");
+
 
     /** Set of all imported jobs. */
     private Set<Job> jobs;
@@ -151,22 +159,29 @@ public class Controller {
      * @return True if {@link #importFiles} can be called.
      */
     public boolean readyForImport() {
-        return this.jobsFile != null && this.cancellationsFile != null && this.trainingFile != null &&
+        return !this.alreadyImported && this.jobsFile != null && this.cancellationsFile != null && this.trainingFile != null &&
         this.locationsFile != null && this.itemsFile != null && this.dropsFile != null && this.jobsFile.exists() && this.cancellationsFile.exists() && this.trainingFile.exists() &&
         this.locationsFile.exists() && this.itemsFile.exists() && this.dropsFile.exists();
+    }
+
+    public boolean readyForClassification() {
+        return this.alreadyImported && !this.alreadyClassified;
     }
 
     /**
      * Run the importer on the specified input files.
      */
     public void importFiles() {
-        if (!this.alreadyImported && this.readyForImport()) {
+        if (this.readyForImport()) {
             importer = new Importer(this.jobsFile, this.cancellationsFile, this.trainingFile,
                     this.locationsFile, this.itemsFile, this.dropsFile);
             importer.parse();
 
             this.jobs = importer.getJobs();
             this.dropLocations = importer.getDrops();
+
+            List<Job> jobs = new ArrayList<Job>(this.jobs);
+            Collections.sort(jobs, new CompareByRewardComparator());
 
             this.managementInterface.addJobsToLoadedJobsTable(jobs);
 
@@ -176,7 +191,7 @@ public class Controller {
     }
 
     public void runClassification() {
-        if (this.alreadyImported && !this.alreadyClassified) {
+        if (this.readyForClassification()) {
             CancellationClassifier classifier = new CancellationClassifier(importer);
             try {
                 classifier.train();
