@@ -22,6 +22,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,11 @@ public class CancellationClassifier {
     private AbstractClassifier classifier;
 
     private static final Logger logger = LogManager.getLogger(CancellationClassifier.class);
+    
+    private static final int SPLIT_NUMBER = 1;
+    private static final float TRAINING_RATIO = 0.8f;
     private static final String TRAINING_FILE = "./training.arff";
+    private static final String TESTING_FILE = "./testing.arff";
     private static final String CLASSIFYING_FILE = "./classifying.arff";
 
     private String itemIdsString;
@@ -61,7 +66,8 @@ public class CancellationClassifier {
         for (String id : this.itemIdsArray) {
             this.itemIdsString += "," + id;
         }
-        writeToDataSource(this.allData, Arrays.asList(this.itemIdsArray), this.itemIdsString, new File(TRAINING_FILE));
+        
+        this.classifier = new SMO();
     }
 
     private static void writeToDataSource(List<Job> jobs, List<String> itemIds, String itemIdsString, File outFile) {
@@ -119,8 +125,7 @@ public class CancellationClassifier {
 
     public void train() throws Exception {
         logger.info("Training");
-        Instances newData = getData(TRAINING_FILE);
-
+        
         /*String[] options = new String[1];
         options[0] = "-U"; // unpruned tree
         classifier = new J48(); // new instance of tree
@@ -128,11 +133,25 @@ public class CancellationClassifier {
         classifier.buildClassifier(newData); // build classifier
 */
 
-        classifier = new SMO();
-        classifier.buildClassifier(newData);
-        logger.info("Evaluate training model");
-        Evaluation eval = new Evaluation(newData);
-        eval.crossValidateModel(classifier, newData, 10, new Random(1));
+        for (int split = 0; split < SPLIT_NUMBER; split++) {
+            Collections.shuffle(this.allData);
+            int splitIndex = (int) Math.floor(TRAINING_RATIO * this.allData.size());
+            List<Job> trainData = new ArrayList<Job>(this.allData.subList(0, splitIndex));
+            List<Job> testData = new ArrayList<Job>(this.allData.subList(splitIndex, allData.size()));
+
+            logger.trace("Perform split into training and test.");
+            writeToDataSource(trainData, Arrays.asList(this.itemIdsArray), this.itemIdsString, new File(TRAINING_FILE));
+            writeToDataSource(testData, Arrays.asList(this.itemIdsArray), this.itemIdsString, new File(TESTING_FILE));
+    
+            Instances training = getData(TRAINING_FILE);
+            Instances testing = getData(TESTING_FILE);
+            
+            logger.info("Evaluate training model");
+            classifier.buildClassifier(training);
+            Evaluation eval = new Evaluation(training);
+            eval.crossValidateModel(classifier, testing, 10, new Random(1));
+            logger.trace("Cross validation result: {}", eval.toSummaryString());
+        }
     }
 
     public void classify() throws Exception {
