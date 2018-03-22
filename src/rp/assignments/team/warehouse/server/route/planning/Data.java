@@ -7,7 +7,7 @@ import rp.assignments.team.warehouse.server.Location;
 
 public class Data {
 
-    private static List<Location> obstacles = new ArrayList<Location>() {{
+    private final static List<Location> obstacles = new ArrayList<Location>() {{
         add(new State(1, 1));
         add(new State(1, 2));
         add(new State(1, 3));
@@ -30,7 +30,7 @@ public class Data {
         add(new State(10, 5));
     }};
 
-    private static List<Location> singleRow = new ArrayList<Location>() {{
+    private final static List<Location> singleRow = new ArrayList<Location>() {{
     	add(new State(0,0));
     	add(new State(0,1));
     	add(new State(0,2));
@@ -54,6 +54,6 @@ public class Data {
     }
 
     public static List<Location> getObstacles() {
-        return obstacles;
+        return new ArrayList<Location>(obstacles);
     }
 }

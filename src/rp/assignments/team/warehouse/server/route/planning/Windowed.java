@@ -20,6 +20,8 @@ public class Windowed {
 
 	public static List<Location> findPath(List<Location> list1, Location start, Location goal,
 			List<Location> obstacles) {
+//		System.out.println(start);
+//		System.out.println(list1.get(0));
 		if (start.equals(list1.get(0))) {
 			return null;
 		}
