@@ -21,12 +21,12 @@ public class Windowed {
 
 	public static List<Location> findPath(List<Location> list1, Location start, Location goal,
 			List<Location> obstacles) {
-		assert (list1.size() <= WINDOW);
-		
 		if(start.equals(list1.get(0))) {
 			return null;
 		}
 
+		assert (list1.size() <= WINDOW);
+		
 		List<Location> list2 = AStar.findPath(start, goal, obstacles);
 		if (list2 != null)
 			list2 = resize(list2);
@@ -115,9 +115,6 @@ public class Windowed {
 
 	public static List<Location> findPath(List<Location> list1, List<Location> list2, Location start, Location goal,
 			List<Location> obstacles) {
-		assert (list1.size() <= WINDOW);
-		assert (list2.size() <= WINDOW);
-		
 		if(list1==null || list2==null) {
 			return null;
 		}
@@ -125,7 +122,10 @@ public class Windowed {
 		if(start.equals(list1.get(0)) || start.equals(list2.get(0))) {
 			return null;
 		}
-
+		
+		assert (list1.size() <= WINDOW);
+		assert (list2.size() <= WINDOW);
+	
 		List<Location> tempPath = AStar.findPath(start, goal, obstacles);
 		List<Location> list3 = new ArrayList<Location>();
 		
