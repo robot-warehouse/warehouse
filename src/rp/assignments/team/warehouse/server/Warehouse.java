@@ -91,7 +91,7 @@ public class Warehouse {
     public void cancelJob(Job job) {
         if (this.workingOnJobs.contains(job)) {
             // Uh-oh! Better find any affected robots...
-            robots.forEach(r -> r.jobCancelled(job));
+            this.robots.forEach(r -> r.jobCancelled(job));
 
             this.workingOnJobs.remove(job);
         }
@@ -154,7 +154,7 @@ public class Warehouse {
      * @return Map of robot names to locations
      */
     public Map<String, Location> getRobotLocations() {
-        return robots.stream().collect(Collectors.toMap(Robot::getName, Robot::getCurrentLocation));
+        return this.robots.stream().collect(Collectors.toMap(Robot::getName, Robot::getCurrentLocation));
     }
 
     /**

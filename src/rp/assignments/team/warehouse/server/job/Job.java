@@ -8,16 +8,34 @@ import rp.assignments.team.warehouse.server.Location;
 
 public class Job implements IIDed, IPrioritised, IRewardable {
 
+    /** The ID of the job */
     private final int id;
+
+    /** The list of items to pickup during the job */
     private final List<JobItem> jobItems;
+
+    /** The amount of items to pickup during the job */
     private final int pickCount;
+
+    /** The reward for completing the job */
     private final float reward;
-    private final float averageReward;
+
+    /** Also apparently the reward idk */
     private final float priority;
+
+    /** Whether the job has been cancelled */
     private boolean cancelled;
+
+    /** Whether the job has been previously cancelled */
     private boolean previouslyCancelled;
+
+    /** The list of picks still to pickup */
     private List<Pick> availablePicks;
+
+    /** The number of pickups completed */
     private int completedPickCount;
+
+    /** The location to drop the items at */
     private Location dropLocation;
 
     /**
@@ -34,7 +52,6 @@ public class Job implements IIDed, IPrioritised, IRewardable {
         this.previouslyCancelled = false;
         this.pickCount = calcPickCount(this);
         this.reward = calcReward(this);
-        this.averageReward = calcAverageReward(this);
         this.priority = calcPriority(this);
         this.availablePicks = generatePicks();
         this.completedPickCount = 0;
@@ -56,16 +73,6 @@ public class Job implements IIDed, IPrioritised, IRewardable {
      */
     private static float calcPriority(Job job) {
         return job.getReward();
-    }
-
-    /**
-     * Calculate the average reward of a job.
-     *
-     * @param job The job to calculate the average reward for.
-     * @return The average reward of the given job.
-     */
-    private static float calcAverageReward(Job job) {
-        return job.reward / job.pickCount;
     }
 
     /**
@@ -91,8 +98,8 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     }
 
     /**
-     * Mark the job as now cancelled. Any progress made towards the job is now worthless
-     * and execution of the job should be terminated ASAP.
+     * Mark the job as now cancelled. Any progress made towards the job is now worthless and execution of the job should
+     * be terminated ASAP.
      */
     public void setCancelled() {
         this.cancelled = true;
@@ -106,8 +113,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     }
 
     /**
-     * Mark the job as having been previously cancelled. Note that once called this
-     * action cannot be undone.
+     * Mark the job as having been previously cancelled. Note that once called this action cannot be undone.
      */
     public void setPreviouslyCancelled() {
         this.previouslyCancelled = true;
@@ -171,8 +177,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     }
 
     /**
-     * Get the number of individual picks to complete the job. This sums the count
-     * for each job item.
+     * Get the number of individual picks to complete the job. This sums the count for each job item.
      *
      * @return The number of picks.
      */
@@ -198,15 +203,6 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     @Override
     public float getPriority() {
         return this.priority;
-    }
-
-    /**
-     * Get the average reward per item.
-     *
-     * @return The average reward per item.
-     */
-    private float getAverageReward() {
-        return this.averageReward;
     }
 
     /**
@@ -247,7 +243,7 @@ public class Job implements IIDed, IPrioritised, IRewardable {
     @Override
     public String toString() {
         return String.format("%d %b %d{[%s]}", this.id, this.previouslyCancelled, this.jobItems.size(),
-                this.jobItems.stream().map(JobItem::toString).collect(Collectors.joining("],[")));
+                             this.jobItems.stream().map(JobItem::toString).collect(Collectors.joining("],[")));
     }
 
 }

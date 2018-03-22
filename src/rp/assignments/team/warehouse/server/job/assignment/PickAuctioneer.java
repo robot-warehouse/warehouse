@@ -6,7 +6,10 @@ import rp.assignments.team.warehouse.server.job.Pick;
 
 public class PickAuctioneer {
 
+    /** The pick to auction off to the bidders */
     private final Pick pick;
+
+    /** The robots that are bidding on the pick */
     private final List<Bidder> bidders;
 
     /**
@@ -39,5 +42,4 @@ public class PickAuctioneer {
 
         return winner;
     }
-
 }

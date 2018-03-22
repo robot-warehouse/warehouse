@@ -28,7 +28,7 @@ public enum RobotInfo {
 
     /**
      * Get the name of the robot.
-     * 
+     *
      * @return The name of the robot.
      */
     public String getName() {
@@ -37,7 +37,7 @@ public enum RobotInfo {
 
     /**
      * Get the address of the robot for bluetooth communications.
-     * 
+     *
      * @return The bluetooth address of the robot.
      */
     public String getAddress() {

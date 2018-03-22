@@ -283,5 +283,4 @@ public class Importer {
                 this.locations.values().stream().map(Location::toString).collect(Collectors.joining(", ")),
                 this.items.values().stream().map(Item::toString).collect(Collectors.joining(", ")));
     }
-
 }

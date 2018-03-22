@@ -25,5 +25,4 @@ public interface Picker {
      * @param pick The pick to assign.
      */
     public void assignPick(Pick pick);
-
 }

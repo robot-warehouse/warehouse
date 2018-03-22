@@ -2,7 +2,10 @@ package rp.assignments.team.warehouse.server.job;
 
 public class JobItem {
 
+    /** The item */
     private final Item item;
+
+    /** The number of items */
     private final int count;
 
     /**
@@ -42,5 +45,4 @@ public class JobItem {
     public String toString() {
         return String.format("%d*<%s>", this.count, this.item);
     }
-
 }

@@ -39,5 +39,4 @@ public class PriorityJobSelector implements IJobSelector {
     public boolean remove(Job job) {
         return this.jobs.remove(job);
     }
-
 }

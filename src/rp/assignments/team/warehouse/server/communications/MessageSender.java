@@ -21,8 +21,13 @@ public class MessageSender extends Thread {
 
     private final static Logger logger = LogManager.getLogger(MessageSender.class);
 
+    /** Data stream to the robot */
     private DataOutputStream toRobot;
+
+    /** References to queue of commands to send to robot */
     private BlockingQueue<Command> commands;
+
+    /** Movement instructions for the robot */
     private List<Instruction> orders;
 
     /**
@@ -36,14 +41,11 @@ public class MessageSender extends Thread {
         this.orders = new ArrayList<>();
     }
 
-    private String orderString() {
-        String strOrders = "";
-        for (Instruction in : this.orders) {
-            strOrders += in.toString() + ", ";
-        }
-        return strOrders;
-    }
-
+    /**
+     * Sets the instructions to send to the robot
+     *
+     * @param orders The instructions to send to the robot
+     */
     public void setOrders(List<Instruction> orders) {
         this.orders = new ArrayList<>(orders);
         logger.info("Received orders: " + orderString());
@@ -77,7 +79,6 @@ public class MessageSender extends Thread {
                 break;
             }
         }
-
     }
 
     /**
@@ -122,19 +123,32 @@ public class MessageSender extends Thread {
         toRobot.writeUTF(Integer.toString(picks));
         toRobot.flush();
     }
-    
+
+    /**
+     * Sends SEND_POSITION command to robot along with x and y coordinates
+     *
+     * @param x The x coordinate of the robot
+     * @param y The y coordinate of the robot
+     * @throws IOException In case of error with connection
+     */
     public void sendLocation(int x, int y) throws IOException {
-    	toRobot.writeUTF(Command.SEND_POSITION.toString());
-    	toRobot.writeUTF(Integer.toString(x));
-    	toRobot.writeUTF(Integer.toString(y));
-    	toRobot.flush();
+        toRobot.writeUTF(Command.SEND_POSITION.toString());
+        toRobot.writeUTF(Integer.toString(x));
+        toRobot.writeUTF(Integer.toString(y));
+        toRobot.flush();
     }
-    
-    public void sendFacing(Facing facing) throws IOException{
-    	toRobot.writeUTF(Command.SEND_FACING.toString());
-    	toRobot.writeUTF(facing.toString());
-    	System.out.println("Sent " + facing.toString());
-    	toRobot.flush();
+
+    /**
+     * Sends SEND_FACING command to robot along with the robot facing
+     *
+     * @param facing The direction the robot is facing
+     * @throws IOException In case of error with connection
+     */
+    public void sendFacing(Facing facing) throws IOException {
+        toRobot.writeUTF(Command.SEND_FACING.toString());
+        toRobot.writeUTF(facing.toString());
+        System.out.println("Sent " + facing.toString());
+        toRobot.flush();
     }
 
     /**
@@ -147,4 +161,16 @@ public class MessageSender extends Thread {
         toRobot.flush();
     }
 
+    /**
+     * Collects all orders into comma-separated list (also adds a command at end)
+     *
+     * @return String of orders
+     */
+    private String orderString() {
+        String strOrders = "";
+        for (Instruction in : this.orders) {
+            strOrders += in.toString() + ", ";
+        }
+        return strOrders;
+    }
 }
