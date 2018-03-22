@@ -2,7 +2,6 @@ package rp.assignments.team.warehouse.server.gui;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
@@ -10,11 +9,34 @@ import javax.swing.table.TableModel;
 import rp.assignments.team.warehouse.server.Robot;
 
 public class RobotTableModel extends AbstractTableModel implements TableModel {
+
     private List<Robot> robots = new LinkedList<>();
 
-    @Override
-    public void addTableModelListener(TableModelListener l) {
+    private static Object getColumnValue(Robot robot, int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+                return robot.getName();
+            case 1:
+                return robot.getCurrentLocation();
+            case 2:
+                return robot.getCurrentFacingDirection().toString();
+            default:
+                return null;
+        }
+    }
 
+    @Override
+    public String getColumnName(int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+                return "Robot Name";
+            case 1:
+                return "Current Location";
+            case 2:
+                return "Current Facing";
+            default:
+                return null;
+        }
     }
 
     @Override
@@ -32,36 +54,18 @@ public class RobotTableModel extends AbstractTableModel implements TableModel {
     }
 
     @Override
-    public int getColumnCount() {
-        return 3;
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return false;
     }
 
     @Override
-    public String getColumnName(int columnIndex) {
-        switch (columnIndex) {
-            case 0:
-                return "Robot Name";
-            case 1:
-                return "Current Location";
-            case 2:
-                return "Current Facing";
-            default:
-                return null;
-        }
-    }
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
 
-    private static Object getColumnValue(Robot robot, int columnIndex) {
-        switch (columnIndex) {
-            case 0:
-                return robot.getName();
-            case 1:
-                return robot.getCurrentLocation();
-            case 2:
-                return robot.getCurrentFacingDirection();
-            default:
-                return null;
-        }
-    }
+    @Override
+    public void addTableModelListener(TableModelListener l) {}
+
+    @Override
+    public void removeTableModelListener(TableModelListener l) {}
 
     @Override
     public int getRowCount() {
@@ -69,23 +73,13 @@ public class RobotTableModel extends AbstractTableModel implements TableModel {
     }
 
     @Override
+    public int getColumnCount() {
+        return 3;
+    }
+
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         return getColumnValue(this.robots.get(rowIndex), columnIndex);
-    }
-
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false;
-    }
-
-    @Override
-    public void removeTableModelListener(TableModelListener l) {
-
-    }
-
-    @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-
     }
 
     public void addRow(Robot robot) {

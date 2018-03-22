@@ -52,7 +52,8 @@ public class AuctionPickAssigner implements IPickAssigner {
         if (hasNext()) {
             Pick pick = this.picks.peek();
 
-            // Get bidders which either don't have any picks or have picks which are for the same job & item as the next pick
+            // Get bidders which either don't have any picks or have picks which are for the same job & item as the
+            // next pick
             // Sort bidders so that we give more picks of the same job & item to the same one
             List<Bidder> availableBidders = this.robots.stream()
                 .filter(x -> x.isAvailable(pick))
@@ -70,8 +71,8 @@ public class AuctionPickAssigner implements IPickAssigner {
                 if (picker != null) {
                     this.picks.remove();
                     picker.assignPick(pick);
-                    logger.trace("Assigning pick for item {} in job {} to picker {}.", pick.getItem().getId(),
-                            pick.getJob().getId(), picker.getName());
+                    logger.trace("Assigning pick for item <{}> in job {} to picker {}.", pick.getItem().toString(),
+                        pick.getJob().getId(), picker.getName());
                     return pick;
                 } else {
                     logger.error("PickAuctioneer auctioned pick to null picker.");

@@ -2,19 +2,41 @@ package rp.assignments.team.warehouse.server.gui;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.table.AbstractTableModel;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 import rp.assignments.team.warehouse.server.job.Job;
 
 public class JobTableModel extends AbstractTableModel implements TableModel {
+
     private List<Job> jobs = new LinkedList<>();
 
-    @Override
-    public void addTableModelListener(TableModelListener l) {
+    private static Object getColumnValue(Job job, int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+                return job.getId();
+            case 1:
+                return job.getPickCount();
+            case 2:
+                return job.getReward();
+            default:
+                return null;
+        }
+    }
 
+    @Override
+    public String getColumnName(int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+                return "Job ID";
+            case 1:
+                return "Pick Count";
+            case 2:
+                return "Reward";
+            default:
+                return null;
+        }
     }
 
     @Override
@@ -32,36 +54,18 @@ public class JobTableModel extends AbstractTableModel implements TableModel {
     }
 
     @Override
-    public int getColumnCount() {
-        return 3;
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return false;
     }
 
     @Override
-    public String getColumnName(int columnIndex) {
-        switch (columnIndex) {
-            case 0:
-                return "Job ID";
-            case 1:
-                return "Pick Count";
-            case 2:
-                return "Reward";
-            default:
-                return null;
-        }
-    }
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
 
-    private static Object getColumnValue(Job job, int columnIndex) {
-        switch (columnIndex) {
-            case 0:
-                return job.getId();
-            case 1:
-                return job.getPickCount();
-            case 2:
-                return job.getReward();
-            default:
-                return null;
-        }
-    }
+    @Override
+    public void addTableModelListener(TableModelListener l) {}
+
+    @Override
+    public void removeTableModelListener(TableModelListener l) {}
 
     @Override
     public int getRowCount() {
@@ -69,23 +73,13 @@ public class JobTableModel extends AbstractTableModel implements TableModel {
     }
 
     @Override
+    public int getColumnCount() {
+        return 3;
+    }
+
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         return getColumnValue(this.jobs.get(rowIndex), columnIndex);
-    }
-
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false;
-    }
-
-    @Override
-    public void removeTableModelListener(TableModelListener l) {
-
-    }
-
-    @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-
     }
 
     public void addRow(Job job) {

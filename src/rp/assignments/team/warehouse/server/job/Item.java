@@ -11,9 +11,16 @@ public class Item implements IIDed, IRewardable {
     /** The number of places {@link #numericIdToString(int)} should output */
     public static final int PAD_TO = 2;
 
+    /** The ID of the item */
     private final int id;
+
+    /** The reward given by delivering the item */
     private final float reward;
+
+    /** The weight of the item */
     private final float weight;
+
+    /** The location of the item */
     private final Location location;
 
     /**
@@ -90,8 +97,7 @@ public class Item implements IIDed, IRewardable {
      * Convert a numeric id to a string.
      *
      * @param id The numeric id
-     * @param padTo The minimum length of the output string (will be front-padded
-     *            with "a"s)
+     * @param padTo The minimum length of the output string (will be front-padded with "a"s)
      * @return The string equivalent.
      */
     public static String numericIdToString(int id, int padTo) {
@@ -108,15 +114,14 @@ public class Item implements IIDed, IRewardable {
 
     /**
      * Get the string representation of n in radix 26.
-     * 
+     *
      * @param n The integer to be converted.
      * @return Base 26 equivalent of n.
      */
     private static String toStringRadix26(int n) {
         final String conv = "abcdefghijklmnopqrstuvwxyz";
 
-        if (n < 26)
-            return String.valueOf(conv.charAt(n));
+        if (n < 26) { return String.valueOf(conv.charAt(n)); }
 
         return toStringRadix26((int) n / 26) + String.valueOf(conv.charAt(n % 26));
     }

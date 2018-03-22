@@ -11,5 +11,4 @@ public interface Bidder extends Picker {
      * @return The bid for the pick.
      */
     public int getBid(Pick pick);
-
 }

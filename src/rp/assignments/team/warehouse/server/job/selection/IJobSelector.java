@@ -32,5 +32,4 @@ public interface IJobSelector {
      * @return True if a job was removed as a result of this call.
      */
     public boolean remove(Job job);
-
 }

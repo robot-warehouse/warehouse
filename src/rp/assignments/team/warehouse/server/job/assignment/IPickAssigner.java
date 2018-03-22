@@ -24,5 +24,4 @@ public interface IPickAssigner {
      * @param picks The picks to be available for assignment.
      */
     public void addPicks(List<Pick> picks);
-
 }

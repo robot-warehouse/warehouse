@@ -1,7 +1,6 @@
 package rp.assignments.team.warehouse.server;
 
 import java.io.File;
-import java.util.Map;
 import java.util.Set;
 
 import rp.assignments.team.warehouse.server.gui.ManagementInterface;
@@ -14,11 +13,11 @@ import rp.assignments.team.warehouse.shared.Facing;
 
 public class Controller {
 
-    /**
-     * Can the application be started? Set to true when all inputs have been
-     * dealt with.
-     */
+    /** Can the application be started? Set to true when all inputs have been dealt with. */
     private boolean startable;
+
+    /** Stops anything from happening once you've imported the files once */
+    private boolean alreadyImported;
 
     /** The Warehouse. */
     private Warehouse warehouse;
@@ -50,6 +49,7 @@ public class Controller {
     /** The job selector */
     private IJobSelector jobSelector;
 
+    /** The instance of the route planner passed to every robot */
     private RoutePlanning routePlanner;
 
     /**
@@ -58,6 +58,7 @@ public class Controller {
     public Controller(Warehouse warehouse) {
         this.warehouse = warehouse;
         this.startable = false;
+        this.alreadyImported = false;
         this.routePlanner = new RoutePlanning(warehouse);
     }
 
@@ -124,15 +125,19 @@ public class Controller {
      * Run the importer on the specified input files.
      */
     public void importFiles() {
-        Importer importer = new Importer(jobsFile, cancellationsFile, locationsFile, itemsFile, dropsFile);
-        importer.parse();
+        if (!this.alreadyImported) {
+            Importer importer = new Importer(this.jobsFile, this.cancellationsFile, this.locationsFile, this.itemsFile,
+                                             this.dropsFile);
+            importer.parse();
 
-        this.jobs = importer.getJobs();
-        this.dropLocations = importer.getDrops();
+            this.jobs = importer.getJobs();
+            this.dropLocations = importer.getDrops();
 
-        this.managementInterface.addJobsToLoadedJobsTable(jobs);
+            this.managementInterface.addJobsToLoadedJobsTable(jobs);
 
-        this.startable = true;
+            this.startable = true;
+            this.alreadyImported = true;
+        }
     }
 
     /**
@@ -161,7 +166,6 @@ public class Controller {
 
         if (robot.connect(this.routePlanner)) {
             this.warehouse.addRobot(robot);
-            this.managementInterface.addRobotToOnlineRobotsTable(robot);
             return true;
         }
 
@@ -175,7 +179,7 @@ public class Controller {
      */
     public void removeRobot(Robot robot) {
         robot.removeFromWarehouse();
-        warehouse.removeRobot(robot);
+        this.warehouse.removeRobot(robot);
 
         if (!robot.isConnected()) {
             this.managementInterface.removeRobotFromOnlineRobotsTable(robot);
@@ -188,21 +192,11 @@ public class Controller {
      * @param job The job to be cancelled.
      */
     public void cancelJob(Job job) {
-        // Remove job from the selector (may not do anything if we've already
-        // started the job)
+        // Remove job from the selector (may not do anything if we've already started the job)
         this.jobSelector.remove(job);
 
         // Notify the warehouse of the job cancellation
         this.warehouse.cancelJob(job);
-    }
-
-    /**
-     * Get a map of robot names mapped to their location in the warehouse.
-     *
-     * @return Map of robot names to locations
-     */
-    public Map<String, Location> getRobotLocations() {
-        return this.warehouse.getRobotLocations();
     }
 
     /**
@@ -258,9 +252,19 @@ public class Controller {
     }
 
     /**
-     * Announces to the user that all jobs have been completed
+     * Add a job to the current jobs table in the GUI. Also removes it from the current jobs table and updates the score
+     * with the score of the completed job added to the total score
+     *
+     * @param job The job to add to the table.
      */
-    public void completedAllJobs() {
-        this.managementInterface.completedAllJobs();
+    public void addJobToCompletedJobsTable(Job job) {
+        this.managementInterface.addJobToCompletedJobsTable(job);
+    }
+
+    /**
+     * Announces to the user that all jobs have been assigned to robots
+     */
+    public void assignedAllJobs() {
+        this.managementInterface.assignedAllJobs();
     }
 }

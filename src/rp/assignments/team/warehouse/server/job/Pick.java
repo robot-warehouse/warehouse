@@ -4,9 +4,16 @@ import rp.assignments.team.warehouse.server.Location;
 
 public class Pick implements IRewardable {
 
+    /** The job the pick is for */
     private final Job job;
+
+    /** The item to pickup */
     private final Item item;
+
+    /** Whether the pick has been picked */
     private boolean picked;
+
+    /** Whether the pick has been completed */
     private boolean completed;
 
     /**
@@ -113,7 +120,7 @@ public class Pick implements IRewardable {
      * @return True if the item has been dropped off.
      */
     public boolean isCompleted() {
-        return completed;
+        return this.completed;
     }
 
     /**

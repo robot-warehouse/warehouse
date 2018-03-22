@@ -24,6 +24,12 @@ public class Robot implements Picker, Bidder {
 
     private static Logger logger = LogManager.getLogger(Robot.class);
 
+    /** Synchronised lock guarding the currentPicks */
+    private final Object currentPicksLock = true;
+
+    /** Synchronised lock guarding the currentRoute */
+    private final Object currentRouteLock = true;
+
     /** The robot's information */
     private RobotInfo robotInfo;
 
@@ -90,20 +96,22 @@ public class Robot implements Picker, Bidder {
 
     @Override
     public boolean isAvailable(Pick pick) {
-        return (this.currentPicks.size() == 0 || this.currentPicks.stream().anyMatch(p -> p.isSameJobAndItem(pick)))
-                && this.getCurrentWeight() < MAX_WEIGHT;
+        synchronized (this.currentPicksLock) {
+            return (this.currentPicks.size() == 0 || this.currentPicks.stream().anyMatch(
+                p -> p.isSameJobAndItem(pick))) && this.getCurrentWeight() < MAX_WEIGHT;
+        }
     }
 
     @Override
     public void assignPick(Pick pick) {
-        assert this.currentPicks != null;
+        synchronized (this.currentPicksLock) {
+            assert this.currentPicks != null;
 
-        this.currentPicks.add(pick);
-        this.currentPickLocation = pick.getPickLocation();
-        this.currentDropLocation = pick.getDropLocation();
-        logger.trace("Adding pick to robot %s.", this.getName());
-
-        // TODO this needs updating for having a set of picks
+            this.currentPicks.add(pick);
+            this.currentPickLocation = pick.getPickLocation();
+            this.currentDropLocation = pick.getDropLocation();
+            logger.trace("Adding pick to robot %s.", this.getName());
+        }
     }
 
     @Override
@@ -150,7 +158,9 @@ public class Robot implements Picker, Bidder {
     public void setCurrentLocation(Location currentLocation) {
         assert currentLocation != null;
 
-        this.currentRoute.removeIf(l -> l.equals(currentLocation));
+        synchronized (this.currentRouteLock) {
+            this.currentRoute.removeIf(l -> l.equals(currentLocation));
+        }
 
         this.currentLocation = currentLocation;
     }
@@ -181,7 +191,10 @@ public class Robot implements Picker, Bidder {
      * @return The current route of the robot
      */
     public List<Location> getCurrentRoute() {
-        return currentRoute;
+        synchronized (this.currentRouteLock) {
+            return this.currentRoute;
+        }
+
     }
 
     /**
@@ -199,7 +212,9 @@ public class Robot implements Picker, Bidder {
      * @return The picks the robot is working on.
      */
     public Set<Pick> getCurrentPicks() {
-        return this.currentPicks;
+        synchronized (this.currentPicksLock) {
+            return this.currentPicks;
+        }
     }
 
     /**
@@ -278,10 +293,14 @@ public class Robot implements Picker, Bidder {
      * Advances the robot's state to the next stage
      */
     public void finishedJob() {
-        if (!this.hasFinishedPickup() && !this.hasFinishedDropOff()) {
-            this.setHasFinishedPickup(true);
-        } else if (this.hasFinishedPickup() && !this.hasFinishedDropOff()) {
-            this.setHasFinishedDropOff(true);
+        synchronized (this.currentRouteLock) {
+            if (!this.hasFinishedPickup() && !this.hasFinishedDropOff()) {
+                this.setHasFinishedPickup(true);
+                this.currentRoute.clear();
+            } else if (this.hasFinishedPickup() && !this.hasFinishedDropOff()) {
+                this.setHasFinishedDropOff(true);
+                this.currentRoute.clear();
+            }
         }
 
         // checks this state is never reached
@@ -294,13 +313,12 @@ public class Robot implements Picker, Bidder {
      * @return True if successfully connected.
      */
     public boolean connect(RoutePlanning routePlanner) {
-    	this.communicationsManager = new CommunicationsManager(this);
-        this.communicationsManager.startServer();
+        this.communicationsManager = new CommunicationsManager(this);
 
-    	if (this.communicationsManager.isConnected()) {
-    		(new RobotThread(this, this.communicationsManager, routePlanner)).start();
-    		return true;
-    	}
+        if (this.communicationsManager.isConnected()) {
+            (new RobotThread(this, this.communicationsManager, routePlanner)).start();
+            return true;
+        }
 
         return false;
     }
@@ -327,7 +345,9 @@ public class Robot implements Picker, Bidder {
      * @return The weight the robot is carrying.
      */
     public float getCurrentWeight() {
-        return (float) this.currentPicks.stream().filter(Pick::isPicked).mapToDouble(Pick::getWeight).sum();
+        synchronized (this.currentPicksLock) {
+            return (float) this.currentPicks.stream().filter(Pick::isPicked).mapToDouble(Pick::getWeight).sum();
+        }
     }
 
     /**
@@ -337,7 +357,9 @@ public class Robot implements Picker, Bidder {
      * @return The number of items to take at this location.
      */
     public int getNumPicksAtLocation(Location location) {
-        return (int) this.currentPicks.stream().filter(p -> location.equals(p.getPickLocation())).count();
+        synchronized (this.currentPicksLock) {
+            return (int) this.currentPicks.stream().filter(p -> location.equals(p.getPickLocation())).count();
+        }
     }
 
     /**
@@ -347,7 +369,7 @@ public class Robot implements Picker, Bidder {
      */
     public void jobCancelled(Job job) {
         // Drop any picks for the cancelled job
-        boolean hadPicks = this.dropPicksForJob(job);;
+        boolean hadPicks = this.dropPicksForJob(job);
 
         if (hadPicks) {
             this.isJobCancelled = true;
@@ -358,7 +380,9 @@ public class Robot implements Picker, Bidder {
      * Clears the current pick so that a new one can be picked up
      */
     public void clearCurrentPicks() {
-        this.currentPicks.removeIf(p -> true);
+        synchronized (this.currentPicksLock) {
+            this.currentPicks.removeIf(p -> true);
+        }
     }
 
     /**
@@ -367,10 +391,10 @@ public class Robot implements Picker, Bidder {
      * @return True if any pick was unassigned.
      */
     public boolean dropPicks() {
-        this.currentPicks.stream()
-            .filter(p -> p.isPicked())
-            .forEach(p -> p.setDropped());
-        return this.currentPicks.removeIf(p -> true);
+        synchronized (this.currentPicksLock) {
+            this.currentPicks.stream().filter(Pick::isPicked).forEach(Pick::setDropped);
+            return this.currentPicks.removeIf(p -> true);
+        }
     }
 
     /**
@@ -380,10 +404,10 @@ public class Robot implements Picker, Bidder {
      * @return True if any pick was unassigned.
      */
     public boolean dropPicksForJob(Job job) {
-        this.currentPicks.stream()
-            .filter(p -> p.isPicked() && p.getJob().equals(job))
-            .forEach(p -> p.setDropped());
-        return this.currentPicks.removeIf(p -> p.getJob().equals(job));
+        synchronized (this.currentPicksLock) {
+            this.currentPicks.stream().filter(p -> p.isPicked() && p.getJob().equals(job)).forEach(Pick::setDropped);
+            return this.currentPicks.removeIf(p -> p.getJob().equals(job));
+        }
     }
 
     /**
@@ -393,5 +417,4 @@ public class Robot implements Picker, Bidder {
         this.dropPicks();
         this.disconnect();
     }
-
 }

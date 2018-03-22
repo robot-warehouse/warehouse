@@ -1,5 +1,6 @@
 package rp.assignments.team.warehouse.server;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +29,7 @@ public class ServerThread extends Thread {
      */
     public ServerThread(Warehouse warehouse, IJobSelector jobSelector) {
         assert warehouse != null;
+        assert jobSelector != null;
 
         this.warehouse = warehouse;
         this.jobSelector = jobSelector;
@@ -36,7 +38,7 @@ public class ServerThread extends Thread {
 
     /**
      * Get the jobs currently being worked on.
-     * 
+     *
      * @return List of jobs being worked on.
      */
     public Set<Job> getWorkingOnJobs() {
@@ -45,10 +47,11 @@ public class ServerThread extends Thread {
 
     /**
      * Check if the jobs being worked on have any picks available.
-     * 
+     *
      * @return True if any job has picks available.
      */
     public boolean jobsHaveAvailablePicks() {
+        // these two methods do basically the same thing I think
         return this.pickAssigner.hasNext();
         // return getWorkingOnJobs().stream()
         //     .anyMatch(j -> j.hasAvailablePicks());
@@ -67,23 +70,36 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         while (this.warehouse.isRunning()) {
-            if (this.jobSelector != null && this.jobSelector.hasNext()) { // TODO be smarter (what does this mean I can't remember)
-                if (getWorkingOnJobs().size() <= 0 || !jobsHaveAvailablePicks()) {
-                    // TODO add another job to working on
-                    if (jobSelector.hasNext()) {
-                        Job newJob = this.jobSelector.next();
-                        newJob.setDropLocation(getNextDropLocation());
+            Set<Job> workingOnJobs = getWorkingOnJobs();
 
-                        pickAssigner.addPicks(newJob.getAvailablePicks());
-                        this.warehouse.addWorkingOnJob(newJob);
-                    } else {
-                        this.warehouse.completedAllJobs();
-                        return;
+            // Removing completed jobs from workingOnJobs list and updating GUI
+            if (workingOnJobs.size() > 0) {
+                Iterator<Job> jobIterator = workingOnJobs.iterator();
+
+                while (jobIterator.hasNext()) {
+                    Job job = jobIterator.next();
+
+                    if (job.isComplete()) {
+                        jobIterator.remove();
+                        this.warehouse.completeJob(job);
                     }
                 }
-
-                pickAssigner.next();
             }
+
+            if (this.jobSelector.hasNext()) { // TODO be smarter (what does this mean I can't remember)
+                if (workingOnJobs.size() <= 0 || !jobsHaveAvailablePicks()) {
+                    Job newJob = this.jobSelector.next();
+                    newJob.setDropLocation(getNextDropLocation());
+
+                    this.pickAssigner.addPicks(newJob.getAvailablePicks());
+                    this.warehouse.addWorkingOnJob(newJob);
+                }
+            } else {
+                this.warehouse.assignedAllJobs();
+                return;
+            }
+
+            this.pickAssigner.next();
 
             Thread.yield();
         }

@@ -16,8 +16,10 @@ public class MessageReceiver extends Thread {
 
     private final static Logger logger = LogManager.getLogger(MessageReceiver.class);
 
+    /** Reference to the robot to update attributes */
     private Robot robot;
 
+    /** Data stream from the robot */
     private DataInputStream fromRobot;
 
     /**
@@ -44,10 +46,12 @@ public class MessageReceiver extends Thread {
                         Location currentLocation = new Location(x, y);
                         this.robot.setCurrentLocation(currentLocation);
 
-                        logger.info("Received " + currentLocation + " from robot.");
+                        logger.info("Received " + currentLocation + " from robot " + this.robot.getName() + ".");
                         break;
                     case FINISHED_JOB:
                         this.robot.finishedJob();
+                        logger.info("Robot has finished the current job");
+                        break;
                     case DISCONNECT:
                         logger.info("Receiver thread ending");
                         break;
