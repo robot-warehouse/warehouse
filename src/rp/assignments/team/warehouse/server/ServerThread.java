@@ -57,7 +57,7 @@ public class ServerThread extends Thread {
         //     .anyMatch(j -> j.hasAvailablePicks());
     }
 
-    private Location getNextDropLocation() {
+    protected Location getNextDropLocation() {
         List<Location> dropLocations = this.warehouse.getDropLocations();
 
         if (this.dropIndex >= dropLocations.size()) {

@@ -55,6 +55,11 @@ public class ImportNotFinishedTest {
     }
 
     @Test(expected=ImportNotFinishedException.class)
+    public void cannotGetJobsMapBeforeImport() {
+        importer.getJobsMap();
+    }
+
+    @Test(expected=ImportNotFinishedException.class)
     public void cannotGetTrainingJobsBeforeImport() {
         importer.getTrainingJobs();
     }

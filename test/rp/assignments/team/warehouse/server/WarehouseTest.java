@@ -5,11 +5,16 @@ import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 import rp.assignments.team.warehouse.server.job.Job;
 
 public class WarehouseTest {
+
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     Job job0;
     Robot robot0;
@@ -37,7 +42,8 @@ public class WarehouseTest {
     }
 
     @Test
-    public void shutdownShouldMakeRunningFalse() {
+    public void shutdownShouldExitApplication() {
+        exit.expectSystemExit();
         Assert.assertTrue(warehouse.isRunning());
         warehouse.shutdown();
         Assert.assertFalse(warehouse.isRunning());
@@ -64,7 +70,6 @@ public class WarehouseTest {
         warehouse.cancelJob(job0);
         
         verify(job0, times(1)).setCancelled();
-        verify(robot0, times(1)).jobCancelled(job0);
         Assert.assertFalse(warehouse.getWorkingOnJobs().contains(job0));
     }
 
